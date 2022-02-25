@@ -1,0 +1,124 @@
+<%- include("partials/header"); -%>
+
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="row">
+                <div class="col-lg-9 main-chart">
+
+                    <div class="border-head">
+                        <h3>Bienvenue Username</h3>
+                    </div>
+
+                    <div class="row mt">
+                        <div class="col-md-4 col-sm-4 mb">
+                            <div class="grey-panel pn donut-chart">
+                                <div class="grey-header">
+                                    <h5>Données Non Envoyer</h5>
+                                </div>
+                                <canvas id="serverstatus01" height="120" width="120"></canvas>
+
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 goleft">
+                                        <p><br><a href="#">Verifier</a></p>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6">
+                                        <h2>21%</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-4 col-sm-4 mb">
+                            <div class="darkblue-panel pn">
+                                <div class="darkblue-header">
+                                    <h5>Données Envoyer</h5>
+                                </div>
+                                <p>April 17, 2022</p>
+
+                                <canvas id="serverstatus02" height="120" width="120"></canvas>
+
+                                <footer>
+
+                                    <div class="pull-right">
+                                        <h5>60% </h5>
+                                    </div>
+
+                                </footer>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4 col-sm-4 mb">
+                            <div class="weather pn">
+                                <i class="fa fa-cloud fa-4x"></i>
+                                <h2>
+                                    <%= temp%>º C</h2>
+                                <h4><a href="#" style="text-decoration:none; color: white;">Tunis</a></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-lg-3 ds">
+                    <div class="evenement">
+                        <a href="#" style="color: #797979;">
+                            <div class="panel green-panel no-margin">
+                                <div class="panel-body">
+                                    <div class="container-fluid">
+                                        <span style="font-size:medium">Les Notifications</span>
+                                        <br>
+                                        <i id="icon" class="fa fa-angle-double-up"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <br>
+                    <div id="flexdiv"></div>
+
+
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+
+
+
+    <script>
+        var a = document.querySelector('.evenement').addEventListener('click', function() {
+            var icon = document.getElementById('icon');
+            if (icon.classList.value === 'fa fa-angle-double-up') {
+                icon.classList.value = 'fa fa-angle-double-down';
+                var flexdiv = document.getElementById('flexdiv');
+                const a = 0
+                flexdiv.innerHTML = "<div class='panel terques-chart'><div class='panel-body'><div class='chart'><div class='centered'><span>Nombre Total Des Notifications :" + a + "</span><strong> </div><div class='sparkline' data-type='line' data-resize='true' data-height='75' data-width='90%' data-line-width='1' data-line-color='#fff' data-spot-color='#fff' data-fill-color='' data-highlight-line-color='#fff' data-spot-radius='4' data-data='[200,135,667,333,526,996,564,123,890,564,455]'></div></div></div></div><div class='donut-main'><h4 id='dropdown01' data-bs-toggle='dropdown' aria-expanded='false'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><span style='color: brown;'>Filtrer <i class='fa fa-angle-down'></i></span></a></h4>"
+
+                if (a === 0) {
+                    flexdiv.innerHTML = flexdiv.innerHTML + "<div class='donut-main'><h4 id='dropdown01' data-bs-toggle='dropdown' aria-expanded='false'>Aucune Notifications</h4><br>"
+                } else {
+                    for (let i = 0; i < 3; i++) {
+                        flexdiv.innerHTML = flexdiv.innerHTML + "<div class='desc'><div class='thumb'><span class='badge bg-theme'><i class='fa fa-bell'></i></span></div><div class='details'><p><muted>Notification 1</muted><br/>Date<br/></p></div></div>"
+                    }
+                }
+
+            } else {
+                icon.classList.value = 'fa fa-angle-double-up'
+                var flexdiv = document.getElementById('flexdiv');
+                flexdiv.innerHTML = ""
+            }
+        });
+    </script>
+
+
+
+
+
+
+    <%- include("partials/footer"); -%>

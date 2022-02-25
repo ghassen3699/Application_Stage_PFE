@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VMD solutions</title>
+
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootsrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <link rel="shortcut icon" type="image/png" href="/vmdicon.png" />
+
+
+    <!-- Custom styles for this template -->
+    <link href="/css/navbar.css" rel="stylesheet">
+    <style>
+        #map {
+            height: 800px;
+        }
+    </style>
+    <link rel="stylesheet" href="/leaflet/leaflet.css">
+    <script src="/leaflet/leaflet.js"></script>
+
+</head>
+
+<body>
+    <section id="container">
+        <header class="header black-bg">
+            <div class="sidebar-toggle-box">
+                <div class="fa fa-bars tooltips" data-placement="right"></div>
+            </div>
+            <a href="/home" class="logo"><img style="height: 25px;" src="/vmd.png"></a>
+            <div class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+                    <li id="header_notification_bar" class="dropdown">
+                        <a class="dropdown-toggle" href="/home">
+                            BMS
+                            <span id = "clignot" class="badge bg-warning"><i class="fa fa-warning"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="top-menu">
+                <ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="#">Logout <i class="fa fa-sign-out"></i></a></li>
+                </ul>
+            </div>
+        </header>
+
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+                <ul class="sidebar-menu" id="nav-accordion">
+                    <p class="centered">
+                        <a href="#"><img src="img/download.png" class="img-circle" width="80"></a>
+                    </p>
+                    <h5 class="centered">Username</h5>
+
+
+                    <li>
+                        <a href="/home">
+                            <i class="fa fa-desktop"></i>
+                            <span>Aujourd'hui </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/map">
+                            <i class="fa fa-map-marker"></i>
+                            <span>Map </span>
+                        </a>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="#">
+                            <i class="fa fa-anchor"></i>
+                            <span>Navires</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="/navire/navires">Tous Les Navires</a></li>
+                            <li><a href="/navire/ajouter">Ajouter Navire</a></li>
+                            <li><a href="/navire">Modifier Navire</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="sub-menu">
+                        <a href="/meteo">
+                            <i class="fa fa-cloud"></i>
+                            <span>Méteo</span>
+                        </a>
+                    </li>
+
+
+                    <li class="sub-menu">
+                        <a href="#">
+                            <i class="fa fa-gears"></i>
+                            <span>Paramétres</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="/configuration">Parametre du map</a></li>
+                            <li><a href="/configuration">Parametre du compte</a></li>
+                            <li><a href="/configuration">Parametre 3</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </aside>
+    </section>
+
+    <script>
+        var timer = setInterval(function() {
+            const clignotte = document.getElementById('clignot');
+            clignotte.classList.toggle('hidden')
+        }, 800)
+    </script>

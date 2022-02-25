@@ -1,0 +1,70 @@
+<%- include("partials/header"); -%>
+    <section id="main-content">
+        <section class="wrapper">
+            <br>
+            <h3>Tous Les Navires</h3>
+            <br>
+            <div class="row mb">
+                <!-- page start-->
+                <div class="content-panel">
+                    <div class="adv-table">
+                        <table cellpadding="10" cellspacing="10" class="display table table-bordered" id="hidden-table-info">
+                            <thead>
+                                <tr>
+                                    <th>NA</th>
+                                    <th>ID_VMS 2</th>
+                                    <th class="hidden-phone">REG_ID </th>
+                                    <th class="hidden-phone">IMEI </th>
+                                    <th class="hidden-phone">ICCID </th>
+                                    <th class="hidden-phone">RC </th>
+                                    <th class="hidden-phone">KEY_AES </th>
+                                    <th class="hidden-phone">DABEG </th>
+                                    <th class="hidden-phone">DAEND </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <% navires.forEach(function(navire){%>
+                                    <tr class="gradeX">
+                                        <td class="center hidden-phone">
+                                            <%= navire.NA %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.ID_VMS %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.REG_ID %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.IMEI %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.ICCID %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.RC %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.KEY_AES %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.DA_BEG %>
+                                        </td>
+                                        <td class="center hidden-phone">
+                                            <%= navire.DA_END %>
+                                        </td>
+                                    </tr>
+                                    <%})%>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- page end-->
+            </div>
+            <!-- /row -->
+        </section>
+        <!-- /wrapper -->
+    </section>
+
+    <%- include("partials/footer"); -%>

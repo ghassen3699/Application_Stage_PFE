@@ -1,0 +1,109 @@
+<%- include("partials/header"); -%>
+
+
+    <section id="main-content">
+        <section class="wrapper">
+
+
+
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <h3>Ajouter Une Navire</h3>
+                    <br>
+                    <div class="form-panel">
+                        <div class=" form">
+                            <form class="cmxform form-horizontal style-form" id="commentForm" method="post" action="/navire/ajouter">
+
+                                <div class="form-group ">
+                                    <label for="cname" class="control-label col-lg-2">ID </label>
+                                    <div class="col-lg-10">
+                                        <input class=" form-control" name="id_nav" minlength="2" type="text" required />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group ">
+                                    <label for="cemail" class="control-label col-lg-2">NA </label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control " id="cemail" type="text" name="NA" required />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">ID_VMS </label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control " id="curl" type="text" name="ID_VMS" />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">REG_ID </label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control " id="curl" type="text" name="REG_ID" />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">IMEI </label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control " id="curl" type="text" name="IMEI" />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">ICCID </label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control " id="curl" type="text" name="ICCID" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">RC </label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control " id="curl" type="text" name="RC" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">KEY_AES</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control " id="curl" type="text" name="KEY_AES" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">DABEG</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control " id="curl" type="text" name="DABEG" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2">DAEND</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control " id="curl" type="text" name="DAEND" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-lg-offset-2 col-lg-10">
+                                        <button class="btn btn-theme" type="submit">Enregistrer</button>
+                                        <a href="/home" class="btn btn-theme04" type="button">Annuler</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </section>
+
+    <%- include("partials/footer"); -%>
