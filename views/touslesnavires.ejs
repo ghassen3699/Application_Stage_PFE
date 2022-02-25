@@ -1,60 +1,108 @@
 <%- include("partials/header"); -%>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/lib/advanced-datatable/css/DT_bootstrap.css" />
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/style-responsive.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+
     <section id="main-content">
         <section class="wrapper">
-            <br>
-            <h3>Tous Les Navires</h3>
-            <br>
+            <h3> Tous Les Navires</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
                     <div class="adv-table">
-                        <table cellpadding="10" cellspacing="10" class="display table table-bordered" id="hidden-table-info">
+
+
+                        <div class="dataTables_wrapper form-inline" id="hidden-table-info_wrapper">
+                            <div class="row-fluid" id="">
+                                <div class="span6" id="">
+                                    <div class="dataTables_length" id="hidden-table-info_length">
+                                        <label>
+                                            <select size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
+                                                <option value="10" selected="selected" >10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                             record per page 
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <div class="dataTables_filter" id="hidden-table-info_filter">
+                                        <label>
+                                             Search: 
+                                            <input type="text" aria-controls="hidden-table-info">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
                             <thead>
                                 <tr>
-                                    <th>NA</th>
-                                    <th>ID_VMS 2</th>
-                                    <th class="hidden-phone">REG_ID </th>
-                                    <th class="hidden-phone">IMEI </th>
-                                    <th class="hidden-phone">ICCID </th>
-                                    <th class="hidden-phone">RC </th>
-                                    <th class="hidden-phone">KEY_AES </th>
-                                    <th class="hidden-phone">DABEG </th>
-                                    <th class="hidden-phone">DAEND </th>
+                                    <th style="text-align: center;">ID</th>
+                                    <th style="text-align: center;">NA</th>
+                                    <th style="text-align: center;">ID_VMS</th>
+                                    <th class="hidden-phone" style="text-align: center;">REG_ID</th>
+                                    <th class="hidden-phone" style="text-align: center;">IMEI</th>
+                                    <th class="hidden-phone" style="text-align: center;">ICCID</th>
+                                    <th class="hidden-phone style=" text-align: center; "">RC</th>
+                                    <th class="hidden-phone" style="text-align: center;">KEY_AES</th>
+                                    <th class="hidden-phone" style="text-align: center;">DABEG</th>
+                                    <th class="hidden-phone" style="text-align: center;">DAEND</th>
+                                    <th class="hidden-phone" style="text-align: center;">Modifier</th>
+                                    <th class="hidden-phone" style="text-align: center;">Supprmer</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <% navires.forEach(function(navire){%>
+                                <% navires.forEach(function(navire) { %>
                                     <tr class="gradeX">
-                                        <td class="center hidden-phone">
+                                        <td style="text-align: center;">
+                                            <%= navire.ID %>
+                                        </td>
+                                        <td style="text-align: center;">
                                             <%= navire.NA %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="hidden-phone" style="text-align: center;">
                                             <%= navire.ID_VMS %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="center hidden-phone" style="text-align: center;">
                                             <%= navire.REG_ID %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="center hidden-phone" style="text-align: center;">
                                             <%= navire.IMEI %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="center hidden-phone" style="text-align: center;">
                                             <%= navire.ICCID %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="center hidden-phone" style="text-align: center;">
                                             <%= navire.RC %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="center hidden-phone" style="text-align: center;">
                                             <%= navire.KEY_AES %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="center hidden-phone" style="text-align: center;">
                                             <%= navire.DA_BEG %>
                                         </td>
-                                        <td class="center hidden-phone">
+                                        <td class="center hidden-phone" style="text-align: center;">
                                             <%= navire.DA_END %>
                                         </td>
+                                        <td class="center hidden-phone" style="text-align: center;">
+                                            <a href="/navire/modifier/<%= navire.ID%>" style="color: goldenrod;" class="fa fa-refresh" aria-hidden="true"></a>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center;">
+                                            <a href="/navire/supprimer/<%= navire.ID%>" style="color: red;" class="icon-remove"></a>
+                                        </td>
                                     </tr>
-                                    <%})%>
+
+                                    <% }); %>
 
                             </tbody>
                         </table>
@@ -63,8 +111,11 @@
                 <!-- page end-->
             </div>
             <!-- /row -->
+            <!-- /wrapper -->
         </section>
-        <!-- /wrapper -->
-    </section>
 
-    <%- include("partials/footer"); -%>
+        <script src="/lib/jquery.scrollTo.min.js"></script>
+        <script src="/lib/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+        <%- include("partials/footer"); -%>

@@ -9,7 +9,6 @@ const navireRouter = express.Router();
 
 //------------------------------- La connexion entre NodeJs et Mysql -------------------------------------//
 
-// creation d'une connexion entre le server et Mysql
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -18,19 +17,29 @@ const db = mysql.createConnection({
 });
 
 
-// connecter au SGBD
 db.connect((err) => {
     if (err) {
         throw err;
     }
     console.log('Mysql')
 });
+
 //----------------------------------------------------------------------------------------------------------//
 
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////// LES CRUD DE LA TABLE TOPINFO ///////////////////////////////////////////////////////////////////////
 
 //---------------------- Ajouter navire --------------------------//
 // GET method
 navireRouter.get('/ajouter', function(req, res) {
+
     res.render('ajouterNavire')
 });
 
@@ -44,7 +53,7 @@ navireRouter.post('/ajouter', function(req, res) {
             throw err;
         }
     });
-    res.redirect('/home')
+    res.redirect('/navire/navires')
 });
 //-----------------------------------------------------------------//
 
@@ -66,7 +75,7 @@ navireRouter.get('/navires', function(req, res) {
 
 
 //------------------- afficher une navire specifique ---------------------//
-
+//
 navireRouter.get('/navire/:id', function(req, res) {
     const sql = "select * from tobInfo where ID = ?"
     db.query(sql, (req.params.id), (err, result) => {
@@ -83,38 +92,56 @@ navireRouter.get('/navire/:id', function(req, res) {
 // GET method
 navireRouter.get('/modifier/:id', function(req, res) {
     const sql = "select * from tobInfo where ID = ?"
-    db.query(sql, (req.params.id), (err, result) => {
+    db.query(sql, [req.params.id], (err, result) => {
         if (err) {
             throw err
         }
-        res.render('modifier', { navire: result })
+        var x;
+        result.forEach(r => {
+            nomNavire = r.NA
+        });
+        res.render('modifierNavire', { navire: result, name: nomNavire })
     })
+
 });
 
 
 // POST method
 navireRouter.post('/modifier/:id', function(req, res) {
     const sql = "select * from tobInfo where ID = ?"
-    db.query(sql, (req.params.id), (err, result) => {
+    db.query(sql, [req.params.id, ], (err, result) => {
         if (err) {
             throw err
         }
         const sqlUpdate = "UPDATE tobInfo SET NA = ?, ID_VMS = ?, REG_ID = ?, IMEI = ?, ICCID = ?, RC = ?, KEY_AES = ?, DA_BEG = ?, DA_END = ? WHERE ID = ?"
-        db.query(sqlUpdate, (req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, req.body.DABEG, req.body.DAEND, req.params.id), (err, result) => {
+        db.query(sqlUpdate, [req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, req.body.DABEG, req.body.DAEND, req.params.id, ], (err, result) => {
             if (err) {
                 throw err
             }
         })
     })
-    res.redirect('/navires')
+    res.redirect('/navire/navires')
 });
 //------------------------------------------------------------------------//
 
 
-
-
 //------------------- supprimer navire ------------------------------------//
+
+// GET method
 navireRouter.get('/supprimer/:id', function(req, res) {
+    const sql = "select * from tobInfo where ID = ?"
+    db.query(sql, [req.params.id], (err, result) => {
+        if (err) {
+            throw err
+        }
+        console.log(result)
+        res.render('validSupprission', { navire: result })
+    })
+
+});
+
+// POST method
+navireRouter.post('/supprimer/:id', function(req, res) {
     const sql = "select * from tobInfo where ID = ?"
     db.query(sql, (req.params.id), (err, result) => {
         if (err) {
@@ -127,9 +154,11 @@ navireRouter.get('/supprimer/:id', function(req, res) {
             }
         })
     })
-    res.redirect('/navires')
+    res.redirect('/navire/navires')
 });
 //------------------------------------------------------------------------//
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
