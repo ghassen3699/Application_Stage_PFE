@@ -1,0 +1,221 @@
+<%- include("partials/header"); -%>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+    <section id="main-content">
+        <% navire.forEach(function(n) { %>
+            <section class="wrapper site-min-height">
+                <div class="row mt">
+                    <div class="col-lg-12">
+                        <div class="row content-panel">
+                            <div class="col-md-4 profile-text mt mb centered">
+                                <div class="right-divider hidden-sm hidden-xs">
+                                    <h4>Debut d'abonnement</h4>
+                                    <h5>
+                                        <%= n.DAEnd[6]%>
+                                            <%= n.DAEnd[7]%> /
+                                                <%= n.DAEnd[4]%>
+                                                    <%= n.DAEnd[5]%> /
+                                                        <%= n.DAEnd[0]%>
+                                                            <%= n.DAEnd[1]%>
+                                                                <%= n.DAEnd[2]%>
+                                                                    <%= n.DAEnd[3]%>
+                                    </h5>
+                                    <h4>Fin d'abonnement</h4>
+                                    <h5>
+                                        <%= n.DAEnd[6]%>
+                                            <%= n.DAEnd[7]%> /
+                                                <%= n.DAEnd[4]%>
+                                                    <%= n.DAEnd[5]%> /
+                                                        <%= n.DAEnd[0]%>
+                                                            <%= n.DAEnd[1]%>
+                                                                <%= n.DAEnd[2]%>
+                                                                    <%= n.DAEnd[3]%>
+                                    </h5>
+                                </div>
+                            </div>
+                            <!-- /col-md-4 -->
+                            <div class="col-md-4 profile-text">
+                                <br><br>
+                                <h3>
+                                    <%= name%>
+                                </h3>
+                                <h5>
+                                    <%= n.ID_VMS%>
+                                </h5>
+                                <br>
+                            </div>
+                            <!-- /col-md-4 -->
+                            <div class="col-md-4 centered">
+                                <div class="profile-pic">
+                                    <p><img src="/images.png" class="img-circle"></p>
+
+                                </div>
+                            </div>
+                            <!-- /col-md-4 -->
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <!-- /col-lg-12 -->
+                    <div class="col-lg-12 mt">
+                        <div class="row content-panel">
+                            <div class="panel-heading">
+                                <ul class="nav nav-tabs nav-justified">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#overview">
+                                            <h3>Informations</h3>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a data-toggle="tab" href="#edit">
+                                            <h3>Plus d'informations</h3>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /panel-heading -->
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div id="overview" class="tab-pane active">
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="detailed mt">
+                                                    <h4>Les dernieres informations</h4>
+                                                    <div class="recent-activity">
+                                                        <div class="activity-icon bg-theme"><i class="fa fa-check"></i></div>
+                                                        <div class="activity-panel">
+                                                            <h5>1 HOUR AGO</h5>
+                                                            <p style="font-size: medium;">Dernière meteo</p>
+                                                        </div>
+                                                        <div class="activity-icon bg-theme02"><i class="fa fa-map-marker"></i></div>
+                                                        <div class="activity-panel">
+                                                            <h5>5 HOURS AGO</h5>
+                                                            <h5>LT : 36.851 | LG : 10.196</h5>
+                                                            <p style="font-size: medium;">Dernière position</p>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <!-- /recent-activity -->
+                                                </div>
+                                                <!-- /detailed -->
+                                            </div>
+                                            <!-- /col-md-6 -->
+                                            <div class="col-md-6 detailed">
+                                                <div class="row centered mt mb">
+                                                    <div class="col-sm-4">
+                                                        <h3 style="color: blueviolet;">50</h3>
+                                                        <h5 style="color: blueviolet;">Nombre total des positions envoyée</h5>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <h3 style="color: red;">37</h3>
+                                                        <h5 style="color: red;">Nombre total des SOS</h5>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <h3 style="color: green;">80</h3>
+                                                        <h5 style="color: green;">Nombre total des Bultins</h5>
+                                                    </div>
+                                                </div>
+                                                <!-- /row -->
+
+                                                <!-- /row -->
+
+                                                <h4>Courbe des informations</h4>
+                                                <div class="row centered">
+                                                    <div class="col-md-8 col-md-offset-2">
+                                                        <div id="myfirstchart" style="height: 250px;"></div>
+                                                    </div>
+                                                    <!-- /col-md-8 -->
+                                                </div>
+                                                <!-- /row -->
+                                            </div>
+                                            <!-- /col-md-6 -->
+                                        </div>
+                                        <!-- /OVERVIEW -->
+                                    </div>
+
+                                    <div id="edit" class="tab-pane">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-lg-offset-2 detailed">
+                                                <form role="form" class="form-horizontal">
+
+                                                    <div class="form-group">
+                                                        <label class="col-lg-2 control-label">Company</label>
+                                                        <div class="col-lg-6">
+                                                            <p id="c-name" class="form-control">
+                                                                <%= n.DABeg %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-2 control-label">Lives In</label>
+                                                        <div class="col-lg-6">
+                                                            <input type="text" placeholder=" " id="lives-in" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-2 control-label">Country</label>
+                                                        <div class="col-lg-6">
+                                                            <input type="text" placeholder=" " id="country" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-2 control-label">Description</label>
+                                                        <div class="col-lg-10">
+                                                            <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <!-- /col-lg-8 -->
+                                        </div>
+                                        <!-- /row -->
+                                    </div>
+                                    <!-- /tab-pane -->
+                                </div>
+                                <!-- /tab-content -->
+                            </div>
+                            <!-- /panel-body -->
+                        </div>
+                        <!-- /col-lg-12 -->
+                    </div>
+                </div>
+
+            </section>
+            <% }); %>
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script>
+        new Morris.Donut({
+            // ID of the element in which to draw the chart.
+            element: 'myfirstchart',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: [{
+                label: 'Position',
+                value: 50,
+
+            }, {
+                label: 'SOS',
+                value: 37,
+                color: 'red'
+            }, {
+                label: 'Bultins',
+                value: 80,
+                color: 'green'
+            }],
+        });
+    </script>
+
+
+
+
+
+
+
+
+    <%- include("partials/footer"); -%>

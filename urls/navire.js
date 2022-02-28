@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'Ghassen1234@',
-    database: 'testdb'
+    database: 'VMS'
 });
 
 
@@ -62,13 +62,34 @@ navireRouter.post('/ajouter', function(req, res) {
 //------------------------ afficher tous les navires --------------//
 navireRouter.get('/navires', function(req, res) {
 
-    db.query("SELECT * FROM tobInfo", (err, result) => {
+    db.query("SELECT * FROM tobInfo order by ID limit 10;", (err, result) => {
         if (err) {
             throw err;
         }
         res.render('touslesnavires', { navires: result });
         console.log(result);
     });
+
+});
+
+
+navireRouter.get('/recherche', function(req, res) {
+
+    const sql = "SELECT * FROM tobInfo WHERE ID = ?";
+    db.query(sql, [req.query.search], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        if (result.length === 0) {
+            const sql = "SELECT * FROM tobInfo WHERE NA LIKE ?";
+            db.query(sql, ['%' + req.query.search + '%'], (err, result) => {
+                if (err) {
+                    throw err
+                }
+                return res.render('touslesnavires', { navires: result })
+            })
+        }
+    })
 
 });
 //------------------------------------------------------------------------//
@@ -78,11 +99,15 @@ navireRouter.get('/navires', function(req, res) {
 //
 navireRouter.get('/navire/:id', function(req, res) {
     const sql = "select * from tobInfo where ID = ?"
-    db.query(sql, (req.params.id), (err, result) => {
+    db.query(sql, [req.params.id], (err, result) => {
         if (err) {
-            throw err;
+            throw err
         }
-        res.render('touslesnavires', { navire: result })
+        var x;
+        result.forEach(r => {
+            nomNavire = r.NA
+        });
+        res.render('singleNavire', { navire: result, name: nomNavire })
     })
 });
 //------------------------------------------------------------------------//
