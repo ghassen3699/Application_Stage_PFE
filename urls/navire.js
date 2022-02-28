@@ -40,7 +40,7 @@ db.connect((err) => {
 // GET method
 navireRouter.get('/ajouter', function(req, res) {
 
-    res.render('ajouterNavire')
+    res.render('navire/ajouterNavire')
 });
 
 // POST method
@@ -66,7 +66,7 @@ navireRouter.get('/navires', function(req, res) {
         if (err) {
             throw err;
         }
-        res.render('touslesnavires', { navires: result });
+        res.render('navire/touslesnavires', { navires: result });
         console.log(result);
     });
 
@@ -86,7 +86,7 @@ navireRouter.get('/recherche', function(req, res) {
                 if (err) {
                     throw err
                 }
-                return res.render('touslesnavires', { navires: result })
+                return res.render('navire/touslesnavires', { navires: result })
             })
         }
     })
@@ -107,7 +107,7 @@ navireRouter.get('/navire/:id', function(req, res) {
         result.forEach(r => {
             nomNavire = r.NA
         });
-        res.render('singleNavire', { navire: result, name: nomNavire })
+        res.render('navire/singleNavire', { navire: result, name: nomNavire })
     })
 });
 //------------------------------------------------------------------------//
@@ -125,7 +125,7 @@ navireRouter.get('/modifier/:id', function(req, res) {
         result.forEach(r => {
             nomNavire = r.NA
         });
-        res.render('modifierNavire', { navire: result, name: nomNavire })
+        res.render('navire/modifierNavire', { navire: result, name: nomNavire })
     })
 
 });
@@ -160,7 +160,7 @@ navireRouter.get('/supprimer/:id', function(req, res) {
             throw err
         }
         console.log(result)
-        res.render('validSupprission', { navire: result })
+        res.render('navire/validSupprission', { navire: result })
     })
 
 });

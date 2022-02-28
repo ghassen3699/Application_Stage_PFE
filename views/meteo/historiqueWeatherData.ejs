@@ -1,4 +1,4 @@
-<%- include("partials/header"); -%>
+<%- include("../partials/header"); -%>
     <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
     <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -11,7 +11,7 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3> Tous Les Navires</h3>
+            <h3> L'historique de la méteo</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
@@ -52,73 +52,53 @@
                                 <tr>
                                     <th style="text-align: center;">NA</th>
                                     <th style="text-align: center;">ID_VMS</th>
-                                    <th class="hidden-phone" style="text-align: center;">REG_ID</th>
-                                    <th class="hidden-phone" style="text-align: center;">IMEI</th>
-                                    <th class="hidden-phone" style="text-align: center;">ICCID</th>
-                                    <th class="hidden-phone" style="text-align: center;">RC</th>
-                                    <th class="hidden-phone" style="text-align: center;">KEY_AES</th>
-                                    <th class="hidden-phone" style="text-align: center;">DABEG</th>
-                                    <th class="hidden-phone" style="text-align: center;">DAEND</th>
-                                    <th class="hidden-phone" style="text-align: center;">Modifier</th>
-                                    <th class="hidden-phone" style="text-align: center;">Supprmer</th>
+                                    <th class="hidden-phone" style="text-align: center;">DA</th>
+                                    <th class="hidden-phone" style="text-align: center;">TI</th>
+                                    <th class="hidden-phone" style="text-align: center;">TM</th>
+                                    <th class="hidden-phone" style="text-align: center;">CRC</th>
+                                    <th class="hidden-phone" style="text-align: center;">IP_ADDRESS</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% navires.forEach(function(navire) { %>
+                                <% weatherData.forEach(function(wt) { %>
 
                                     <tr class="gradeX">
 
                                         <td style="text-align: center;font-size: medium;">
-                                            <a href="/navire/navire/<%= navire.ID%>" style="color:gray;">
-                                                <%= navire.NA %>
-                                            </a>
+                                            <%= wt.NA %>
                                         </td>
+
                                         <td class="hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.ID_VMS %>
+                                            <%= wt.ID_VMS %>
                                         </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.REG_ID %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.IMEI %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.ICCID %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.RC %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.KEY_AES %>
-                                        </td>
+
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
 
-                                            <%= navire.DABeg[6]%>
-                                                <%= navire.DABeg[7]%> /
-                                                    <%= navire.DABeg[4]%>
-                                                        <%= navire.DABeg[5]%> /
-                                                            <%= navire.DABeg[0]%>
-                                                                <%= navire.DABeg[1]%>
-                                                                    <%= navire.DABeg[2]%>
-                                                                        <%= navire.DABeg[3]%>
+                                            <%= wt.DA[6]%>
+                                                <%= wt.DA[7]%> /
+                                                    <%= wt.DA[4]%>
+                                                        <%= wt.DA[5]%> /
+                                                            <%= wt.DA[0]%>
+                                                                <%= wt.DA[1]%>
+                                                                    <%= wt.DA[2]%>
+                                                                        <%= wt.DA[3]%>
 
                                         </td>
+
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.DAEnd[6]%>
-                                                <%= navire.DAEnd[7]%> /
-                                                    <%= navire.DAEnd[4]%>
-                                                        <%= navire.DAEnd[5]%> /
-                                                            <%= navire.DAEnd[0]%>
-                                                                <%= navire.DAEnd[1]%>
-                                                                    <%= navire.DAEnd[2]%>
-                                                                        <%= navire.DAEnd[3]%>
+                                            <%= wt.TI %>
                                         </td>
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/modifier/<%= navire.ID%>" style="color: goldenrod;" class="fa fa-refresh" aria-hidden="true"></a>
+                                            <%= wt.TM %>
                                         </td>
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/supprimer/<%= navire.ID%>" style="color: red;" class="icon-remove"></a>
+                                            <%= wt.CRC %>
                                         </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= wt.IPADDRESS %>
+                                        </td>
+
+
                                     </tr>
 
                                     <% }); %>
@@ -137,4 +117,4 @@
         <script src="/lib/jquery.nicescroll.js" type="text/javascript"></script>
 
 
-        <%- include("partials/footer"); -%>
+        <%- include("../partials/footer"); -%>
