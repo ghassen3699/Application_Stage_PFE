@@ -24,7 +24,7 @@ db.connect((err) => {
 //----------------------------------------------------------------------------------------------------------//
 
 
-
+// historique meteo envoyer et recue
 meteoRouter.get('/historique', function(req, res) {
     db.query("SELECT * FROM weatherCRCData ORDER BY ID DESC LIMIT 15", (err, result) => {
         if (err) {
@@ -35,13 +35,24 @@ meteoRouter.get('/historique', function(req, res) {
 })
 
 
-
+// afficher ma meteo d'aujourd'hui
 meteoRouter.get('/meteo', function(req, res) {
     res.render('meteo/meteoAujourdhui')
 });
 
 
+// bar de recherche 
+meteoRouter.get('/recherche', function(req, res) {
+    const x = req.query.search;
 
+    const sql = "SELECT * FROM weatherCRCData WHERE NA LIKE '%" + x + "%' OR ID_VMS LIKE '%" + x + "%' OR DA LIKE '%" + x + "%' OR TI LIKE '%" + x + "%' OR TM LIKE '%" + x + "%' OR CRC LIKE '%" + x + "%' OR IPADDRESS LIKE '%" + x + "%' ;"
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.render("meteo/historiqueWeatherData", { weatherData: result })
+    })
+})
 
 
 
