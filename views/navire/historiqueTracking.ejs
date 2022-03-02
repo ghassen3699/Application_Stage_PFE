@@ -1,0 +1,135 @@
+<%- include("../partials/header"); -%>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/lib/advanced-datatable/css/DT_bootstrap.css" />
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/style-responsive.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+
+    <section id="main-content">
+        <section class="wrapper">
+            <h3>L'historique du tracking</h3>
+            <div class="row mb">
+                <!-- page start-->
+                <div class="content-panel">
+                    <div class="adv-table">
+
+
+                        <div class="dataTables_wrapper form-inline" id="hidden-table-info_wrapper">
+                            <div class="row-fluid" id="">
+                                <div class="span6" id="">
+                                    <div class="dataTables_length" id="hidden-table-info_length">
+                                        <label>
+                                            <select size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
+                                                <option value="10" selected="selected" >10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                            &nbsp;
+                                            record per page 
+                                        </label>
+                                    </div>
+                                </div>
+                                <form action="/navire/recherche" method="get">
+                                    <div class="span6">
+                                        <div class="dataTables_filter" id="hidden-table-info_filter">
+                                            <label>
+                                                Recherche &nbsp;
+                                                <input type="text" aria-controls="hidden-table-info" name="search">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;">NA</th>
+                                    <th style="text-align: center;">ID_VMS</th>
+                                    <th class="hidden-phone" style="text-align: center;">RC</th>
+                                    <th class="hidden-phone" style="text-align: center;">DA</th>
+                                    <th class="hidden-phone" style="text-align: center;">TI</th>
+                                    <th class="hidden-phone" style="text-align: center;">LT</th>
+                                    <th class="hidden-phone" style="text-align: center;">LG</th>
+                                    <th class="hidden-phone" style="text-align: center;">CO</th>
+                                    <th class="hidden-phone" style="text-align: center;">SP</th>
+                                    <th class="hidden-phone" style="text-align: center;">COM</th>
+                                    <th class="hidden-phone" style="text-align: center;">TM</th>
+                                    <th class="hidden-phone" style="text-align: center;">IPADDRESS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% navire.forEach(function(n) { %>
+
+                                    <tr class="gradeX">
+
+                                        <td style="text-align: center;font-size: medium;">
+                                            <%= n.NA %>
+                                        </td>
+                                        <td class="hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.ID_VMS %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.RC %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+
+                                            <%= n.DA[6]%>
+                                                <%= n.DA[7]%> /
+                                                    <%= n.DA[4]%>
+                                                        <%= n.DA[5]%> /
+                                                            <%= n.DA[0]%>
+                                                                <%= n.DA[1]%>
+                                                                    <%= n.DA[2]%>
+                                                                        <%= n.DA[3]%>
+
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.TI %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.LT %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.LG %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.CO %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.SP %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.COM %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.TM %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= n.IPADDRESS %>
+                                        </td>
+                                    </tr>
+
+                                    <% }); %>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- page end-->
+            </div>
+            <!-- /row -->
+            <!-- /wrapper -->
+        </section>
+
+        <script src="/lib/jquery.scrollTo.min.js"></script>
+        <script src="/lib/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+        <%- include("../partials/footer"); -%>

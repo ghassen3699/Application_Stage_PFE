@@ -36,6 +36,12 @@ meteoRouter.get('/historique', function(req, res) {
 
 
 
+meteoRouter.get('/meteo', function(req, res) {
+    res.render('meteo/meteoAujourdhui')
+});
+
+
+
 
 
 

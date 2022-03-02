@@ -183,6 +183,17 @@ navireRouter.post('/supprimer/:id', function(req, res) {
 });
 //------------------------------------------------------------------------//
 
+// afficher l'historique du tracking de la navire
+navireRouter.get('/historique/:name', function(req, res) {
+    const sql = "select * from trackingData where NA LIKE ? LIMIT 20"
+    db.query(sql, ('%' + req.params.name + "%"), (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.render('navire/historiqueTracking', { navire: result })
+    })
+});
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
