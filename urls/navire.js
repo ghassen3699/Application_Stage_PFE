@@ -63,6 +63,11 @@ navireRouter.post('/ajouter', function(req, res) {
 
 
 
+
+
+
+
+
 //------------------------ afficher tous les navires --------------//
 navireRouter.get('/navires', function(req, res) {
 
@@ -75,22 +80,45 @@ navireRouter.get('/navires', function(req, res) {
     });
 
 });
+//-------------------------------------------------------------------//
+
 
 //------------------------- le fonctionement de la bar de recherche -----------------------//
 
 navireRouter.get('/recherche', function(req, res) {
-    const recherche = req.query.search
 
-    const sql = "SELECT * FROM tobInfo WHERE NA LIKE '%" + recherche + "%' OR ID_VMS LIKE '%" + recherche + "%' OR REG_ID LIKE '%" + recherche + "%' OR IMEI LIKE '%" + recherche + "%' OR RC LIKE '%" + recherche + "%' OR KEY_AES LIKE '%" + recherche + "%' OR DAEnd LIKE '%" + recherche + "%';"
+    if (req.query.recherche1) {
+        const search = req.query.recherche1
 
-    db.query(sql, (err, result) => {
-        if (err) {
-            throw err
-        }
-        res.render('navire/touslesnavires', { navires: result })
-    })
+        const sql = "SELECT * FROM tobInfo WHERE NA LIKE '%" + search + "%' OR ID_VMS LIKE '%" + search + "%' OR REG_ID LIKE '%" + search + "%' OR IMEI LIKE '%" + search + "%' OR RC LIKE '%" + search + "%' OR KEY_AES LIKE '%" + search + "%' OR DAEnd LIKE '%" + search + "%';"
+
+        db.query(sql, (err, result) => {
+            if (err) {
+                throw err
+            }
+            res.render('navire/touslesnavires', { navires: result })
+        })
+    } else if (req.query.recherche2) {
+        const search = req.query.recherche2
+
+        const sql = "SELECT * FROM trackingData WHERE DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%' LIMIT 20 ;"
+
+        db.query(sql, (err, result) => {
+            if (err) {
+                throw err
+            }
+            res.render('navire/totalposition', { navirePositions: result })
+        })
+    } else {
+        res.send(req.url)
+    }
+
 });
 //------------------------------------------------------------------------//
+
+
+
+
 
 
 //------------------- afficher le compte de la navire  ---------------------//
@@ -146,6 +174,10 @@ navireRouter.get('/navire/:id', function(req, res) {
     });
 
 });
+//----------------------------------------------------------------------------------------------//
+
+
+
 
 
 //------------------- modifier navire ------------------------------------//
@@ -185,6 +217,11 @@ navireRouter.post('/modifier/:id', function(req, res) {
 //------------------------------------------------------------------------//
 
 
+
+
+
+
+
 //------------------- supprimer navire ------------------------------------//
 
 // GET method
@@ -220,6 +257,10 @@ navireRouter.post('/supprimer/:id', function(req, res) {
 
 
 
+
+
+
+
 // afficher l'historique du tracking de la navire
 //---------------------------------------------------------------------------//
 navireRouter.get('/historique/:name', function(req, res) {
@@ -232,6 +273,9 @@ navireRouter.get('/historique/:name', function(req, res) {
     })
 });
 //---------------------------------------------------------------------------//
+
+
+
 
 
 
@@ -279,6 +323,11 @@ navireRouter.get('/totalBulletins/:name', function(req, res) {
 //--------------------------------------------------------------------------------------------------------//
 
 
+
+
+
+
+
 //---------------------------------- Supprimer les positions de la navire -------------------------------------//
 // GET method
 navireRouter.get('/supprimerPosition/:id', function(req, res) {
@@ -305,6 +354,14 @@ navireRouter.post('/supprimerPosition/:id', function(req, res) {
 //----------------------------------------------------------------------------------------------------------------//
 
 
+
+
+
+
+
+
+
+//---------------------------------- Supprimer les SOS de la navire -------------------------------------------------//
 // GET method
 navireRouter.get('/supprimerSOS/:id', function(req, res) {
     res.render('navire/validSupprission')
@@ -327,6 +384,8 @@ navireRouter.post('/supprimerSOS/:id', function(req, res) {
     res.redirect('/navire/navires')
 
 });
+//-------------------------------------------------------------------------------------------------------------------//
+
 
 
 
