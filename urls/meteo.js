@@ -24,7 +24,19 @@ db.connect((err) => {
 //----------------------------------------------------------------------------------------------------------//
 
 
-// historique meteo envoyer et recue
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////// LES SCHEMINS DE LA METEO /////////////////////////////////
+
+//-------------------------------- historique meteo envoyer et reçue ------------------------------//
+// GET method
 meteoRouter.get('/historique', function(req, res) {
     db.query("SELECT * FROM weatherCRCData ORDER BY ID DESC LIMIT 15", (err, result) => {
         if (err) {
@@ -32,28 +44,37 @@ meteoRouter.get('/historique', function(req, res) {
         }
         res.render("meteo/historiqueWeatherData", { weatherData: result });
     })
-})
+});
+//-------------------------------------------------------------------------------------------------//
 
 
-// afficher ma meteo d'aujourd'hui
+
+//-------------------------------- afficher ma meteo d'aujourd'hui ---------------------------------//
+// GET method
 meteoRouter.get('/meteo', function(req, res) {
     res.render('meteo/meteoAujourdhui')
 });
+//---------------------------------------------------------------------------------------------------//
 
 
-// bar de recherche 
+
+//--------------------------------- bar de recherche ------------------------------------------------//
+// GET method 
 meteoRouter.get('/recherche', function(req, res) {
-    const x = req.query.search;
+    const recherche = req.query.search
 
-    const sql = "SELECT * FROM weatherCRCData WHERE NA LIKE '%" + x + "%' OR ID_VMS LIKE '%" + x + "%' OR DA LIKE '%" + x + "%' OR TI LIKE '%" + x + "%' OR TM LIKE '%" + x + "%' OR CRC LIKE '%" + x + "%' OR IPADDRESS LIKE '%" + x + "%' ;"
+    const sql = "SELECT * FROM weatherCRCData WHERE NA LIKE '%" + recherche + "%' OR ID_VMS LIKE '%" + recherche + "%' OR DA LIKE '%" + recherche + "%' OR TI LIKE '%" + recherche + "%' OR TM LIKE '%" + recherche + "%' OR CRC LIKE '%" + recherche + "%' OR IPADDRESS LIKE '%" + recherche + "%' ;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
         res.render("meteo/historiqueWeatherData", { weatherData: result })
     })
-})
+});
+//----------------------------------------------------------------------------------------------------//
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

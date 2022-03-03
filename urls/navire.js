@@ -13,7 +13,8 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'Ghassen1234@',
-    database: 'VMS'
+    database: 'VMS',
+    multipleStatements: true
 });
 
 
@@ -67,51 +68,67 @@ navireRouter.get('/navires', function(req, res) {
             throw err;
         }
         res.render('navire/touslesnavires', { navires: result });
-        console.log(result);
     });
 
 });
 
+//------------------------- le bar de recherche -----------------------//
 
 navireRouter.get('/recherche', function(req, res) {
+    const recherche = req.query.search
 
-    const sql = "SELECT * FROM tobInfo WHERE ID = ?";
-    db.query(sql, [req.query.search], (err, result) => {
+    const sql = "SELECT * FROM tobInfo WHERE NA LIKE '%" + recherche + "%' OR ID_VMS LIKE '%" + recherche + "%' OR REG_ID LIKE '%" + recherche + "%' OR IMEI LIKE '%" + recherche + "%' OR RC LIKE '%" + recherche + "%' OR KEY_AES LIKE '%" + recherche + "%' OR DAEnd LIKE '%" + recherche + "%';"
+    console.log(sql)
+    db.query(sql, (err, result) => {
         if (err) {
-            throw err;
+            throw err
         }
-        if (result.length === 0) {
-            const sql = "SELECT * FROM tobInfo WHERE NA LIKE ?";
-            db.query(sql, ['%' + req.query.search + '%'], (err, result) => {
-                if (err) {
-                    throw err
-                }
-                return res.render('navire/touslesnavires', { navires: result })
-            })
-        }
+        res.render('navire/touslesnavires', { navires: result })
     })
-
 });
 //------------------------------------------------------------------------//
 
 
 //------------------- afficher une navire specifique ---------------------//
-//
+
+
+//-----------------Notre Test------------------//
+// navireRouter.get('/navire/:id', function(req, res) {
+//     const sql = "select * from tobInfo where ID = ?"
+//     let myResult
+
+//     db.query(sql, [req.params.id], (err, result) => {
+//         if (err) {
+//             throw err
+//         }
+//         myResult = result
+//         result.forEach(r => {
+//             nomNavire = r.NA
+//         });
+//         res.render('navire/singleNavire', { navire: result, name: nomNavire, myResult: myResult })
+//     });
+// });
+//-----------------------------------------------//
+
 navireRouter.get('/navire/:id', function(req, res) {
-    const sql = "select * from tobInfo where ID = ?"
-    db.query(sql, [req.params.id], (err, result) => {
+
+    const id = req.params.id
+    db.query("select * from tobInfo where NA like '%" + id + "%'; select count(*) from trackingData where NA like '%" + id + "%'", (err, result) => {
         if (err) {
             throw err
         }
-        var x;
-        result.forEach(r => {
-            nomNavire = r.NA
-        });
-        res.render('navire/singleNavire', { navire: result, name: nomNavire })
-    })
+        console.log(result[0])
+        console.log(result[1])
+    });
+    res.send('test')
+
 });
 //------------------------------------------------------------------------//
 
+// navireRouter.get('/navire/:id', function(req, res) {
+//     console.log('test')
+//     res.render('navire/singleNavire')
+// });
 
 //------------------- modifier navire ------------------------------------//
 // GET method
@@ -129,6 +146,7 @@ navireRouter.get('/modifier/:id', function(req, res) {
     })
 
 });
+//----------------------------------------------------------------------------//
 
 
 // POST method
@@ -159,7 +177,6 @@ navireRouter.get('/supprimer/:id', function(req, res) {
         if (err) {
             throw err
         }
-        console.log(result)
         res.render('navire/validSupprission', { navire: result })
     })
 
