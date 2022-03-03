@@ -97,16 +97,16 @@ navireRouter.get('/recherche', function(req, res) {
 
 navireRouter.get('/navire/:id', function(req, res) {
 
-    const id = req.params.id
+    const id = "'" + req.params.id + "'"
 
     //les requetes SQL de la page
     //---------------------------------------------------------------------------------------------------------//
-    sql1 = "SELECT * FROM tobInfo WHERE NA LIKE '%" + id + "%';";
-    sql2 = "SELECT * FROM trackingData WHERE NA LIKE '%" + id + "%';";
-    sql3 = "SELECT * FROM trackingData WHERE NA LIKE '%" + id + "%' AND TM LIKE '%DIS%';"
-    sql4 = "SELECT * FROM weatherCRCData WHERE NA LIKE '%" + id + "%' AND TM LIKE '%ACKp%' OR TM LIKE '%ACKb%' ;"
-    sql5 = "SELECT * FROM trackingData WHERE NA LIKE '%" + id + "%' order by ID desc LIMIT 1;";
-    sql6 = "SELECT * FROM weatherCRCData WHERE NA LIKE '%" + id + "%' AND TM LIKE '%ACKp%' ORDER BY ID DESC LIMIT 1;"
+    sql1 = "SELECT * FROM tobInfo WHERE NA = " + id + ";";
+    sql2 = "SELECT * FROM trackingData WHERE NA = " + id + ";";
+    sql3 = "SELECT * FROM trackingData WHERE NA = " + id + " AND TM LIKE '%DIS%';"
+    sql4 = "SELECT * FROM weatherCRCData WHERE (NA = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%');"
+    sql5 = "SELECT * FROM trackingData WHERE NA = " + id + " order by ID desc LIMIT 1;";
+    sql6 = "SELECT * FROM weatherCRCData WHERE NA = " + id + " AND TM LIKE '%ACKp%' ORDER BY ID DESC LIMIT 1;"
 
     //---------------------------------------------------------------------------------------------------------//
 
@@ -168,7 +168,7 @@ navireRouter.get('/modifier/:id', function(req, res) {
 
 // POST method
 navireRouter.post('/modifier/:id', function(req, res) {
-    const sql = "select * from tobInfo where ID = ?"
+    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
     db.query(sql, [req.params.id, ], (err, result) => {
         if (err) {
             throw err
@@ -189,7 +189,7 @@ navireRouter.post('/modifier/:id', function(req, res) {
 
 // GET method
 navireRouter.get('/supprimer/:id', function(req, res) {
-    const sql = "select * from tobInfo where ID = ?"
+    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
     db.query(sql, [req.params.id], (err, result) => {
         if (err) {
             throw err
@@ -201,7 +201,7 @@ navireRouter.get('/supprimer/:id', function(req, res) {
 
 // POST method
 navireRouter.post('/supprimer/:id', function(req, res) {
-    const sql = "select * from tobInfo where ID = ?"
+    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
     db.query(sql, (req.params.id), (err, result) => {
         if (err) {
             throw err
@@ -223,8 +223,8 @@ navireRouter.post('/supprimer/:id', function(req, res) {
 // afficher l'historique du tracking de la navire
 //---------------------------------------------------------------------------//
 navireRouter.get('/historique/:name', function(req, res) {
-    const sql = "SELECT * FROM trackingData WHERE NA LIKE ? LIMIT 20"
-    db.query(sql, ('%' + req.params.name + "%"), (err, result) => {
+    const sql = "SELECT * FROM trackingData WHERE NA = ? LIMIT 20"
+    db.query(sql, (req.params.name), (err, result) => {
         if (err) {
             throw err
         }
@@ -240,8 +240,8 @@ navireRouter.get('/historique/:name', function(req, res) {
 
 // Afficher les positions
 navireRouter.get('/totalposition/:name', function(req, res) {
-    id = req.params.name
-    sql = "SELECT * FROM trackingData WHERE NA LIKE '%" + id + "%' LIMIT 20;";
+    const id = "'" + req.params.name + "'"
+    sql = "SELECT * FROM trackingData WHERE NA = " + id + " LIMIT 20;";
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -253,8 +253,8 @@ navireRouter.get('/totalposition/:name', function(req, res) {
 
 // afficher les SOS
 navireRouter.get('/totalSOS/:name', function(req, res) {
-    id = req.params.name
-    sql = "SELECT * FROM trackingData WHERE NA LIKE '%" + id + "%' AND TM LIKE '%DIS%';"
+    const id = "'" + req.params.name + "'"
+    sql = "SELECT * FROM trackingData WHERE NA = " + id + " AND TM LIKE '%DIS%';"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -266,8 +266,8 @@ navireRouter.get('/totalSOS/:name', function(req, res) {
 
 // afficher les bulletins
 navireRouter.get('/totalBulletins/:name', function(req, res) {
-    id = req.params.name
-    sql = "SELECT * FROM weatherCRCData WHERE NA LIKE '%" + id + "%' AND TM LIKE '%ACKp%' OR TM LIKE '%ACKb%' ;"
+    const id = "'" + req.params.name + "'"
+    sql = "SELECT * FROM weatherCRCData WHERE NA = " + id + " AND TM LIKE '%ACKp%' OR TM LIKE '%ACKb%' ;"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -282,17 +282,17 @@ navireRouter.get('/totalBulletins/:name', function(req, res) {
 //---------------------------------- Supprimer les positions de la navire -------------------------------------//
 // GET method
 navireRouter.get('/supprimerPosition/:id', function(req, res) {
-    res.render('navire/validSupprission', { navire: result })
+    res.render('navire/validSupprission')
 });
 
 // POST method
 navireRouter.post('/supprimerPosition/:id', function(req, res) {
-    const sql = "select * from trackingData where ID = ?"
-    db.query(sql, (req.params.id), (err, result) => {
+    const sql = "SELECT * FROM trackingData WHERE ID = ?"
+    db.query(sql, [req.params.id], (err, result) => {
         if (err) {
             throw err
         }
-        const sqlDelete = "DELETE FROM trackingData where id = ?"
+        const sqlDelete = "DELETE FROM trackingData WHERE ID = ?"
         db.query(sqlDelete, (req.params.id), (err, result) => {
             if (err) {
                 throw err
@@ -312,7 +312,7 @@ navireRouter.get('/supprimerSOS/:id', function(req, res) {
 
 // POST method
 navireRouter.post('/supprimerSOS/:id', function(req, res) {
-    const sql = "select * from trackingData where ID = ?"
+    const sql = "SELECT * FROM trackingData WHERE ID = ?"
     db.query(sql, (req.params.id), (err, result) => {
         if (err) {
             throw err
