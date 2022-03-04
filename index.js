@@ -31,6 +31,7 @@ const homeRouter = require('./urls/home');
 const parametreRouter = require('./urls/parametre');
 const meteoRouter = require('./urls/meteo');
 const navireRouter = require('./urls/navire');
+const statistiqueRouter = require('./urls/statistique');
 //------------------------------------------------------------------------//
 
 
@@ -41,6 +42,7 @@ app.use('/home', homeRouter); // le route home
 app.use('/parametre', parametreRouter); // le route des parametres
 app.use('/meteo', meteoRouter); // le route des meteo
 app.use('/navire', navireRouter); //le route des navires
+app.use('/statistique', statistiqueRouter); //le route des navires
 
 var port = 3000
 app.listen(port, function() {
