@@ -118,20 +118,32 @@
                                                     <div class="col-sm-4">
                                                         <h3 style="color: blueviolet;">
                                                             <%= nombrePositionEnvoyer%>
+                                                                <% if (nombrePositionEnvoyer !== 0){%>
+                                                                    <h5 style="color: blueviolet;"><a href="/navire/totalposition/<%= nav.NA %>" style="color: blueviolet;">Nombre total des positions envoyée</a></h5>
+                                                                    <%} else {%>
+                                                                        <h5 style="color: blueviolet;">Nombre total des positions envoyée</h5>
+                                                                        <%}%>
                                                         </h3>
-                                                        <h5 style="color: blueviolet;"><a href="/navire/totalposition/<%= nav.NA %>" style="color: blueviolet;">Nombre total des positions envoyée</a></h5>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <h3 style="color: red;">
                                                             <%= nombreSOS %>
+                                                                <% if(nombreSOS !== 0){ %>
+                                                                    <h5 style="color: red;"><a href="/navire/totalSOS/<%= nav.NA %>" style="color: red;">Nombre total des SOS</a></h5>
+                                                                    <%} else{%>
+                                                                        <h5 style="color: red;">Nombre total des SOS</h5>
+                                                                        <%}%>
                                                         </h3>
-                                                        <h5 style="color: red;"><a href="/navire/totalSOS/<%= nav.NA %>" style="color: red;">Nombre total des SOS</a></h5>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <h3 style="color: green;">
                                                             <%= nombreBulletins %>
+                                                                <% if(nombreBulletins !== 0){%>
+                                                                    <h5 style="color: green;"><a href="/navire/totalBulletins/<%= nav.NA %>" style="color: green;">Nombre total des Bulletins</a></h5>
+                                                                    <%} else{%>
+                                                                        <h5 style="color: green;">Nombre total des Bulletins</h5>
+                                                                        <%}%>
                                                         </h3>
-                                                        <h5 style="color: green;"><a href="/navire/totalBulletins/<%= nav.NA %>" style="color: green;">Nombre total des Bulletins</a></h5>
                                                     </div>
                                                 </div>
                                                 <!-- /row -->
