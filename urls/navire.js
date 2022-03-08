@@ -12,6 +12,7 @@ const navireRouter = express.Router();
 
 const db = mysql.createConnection({
     host: 'localhost',
+    //host: '193.95.21.63',
     user: 'root',
     password: 'Ghassen1234@',
     database: 'VMS',
