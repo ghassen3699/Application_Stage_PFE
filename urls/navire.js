@@ -191,7 +191,21 @@ navireRouter.get('/navire/:id', function(req, res) {
 
         result[5].forEach(element => {
             dateDernierMeteo = moment(element.DA).fromNow()
-        })
+        });
+
+        // l'affichage de msg si l'abonnement expire
+        const date = new Date().toLocaleDateString('sv').replace('-', '');
+        //const date = "20221203"
+        var msg = ''
+        if ((result[0][0]['DAEnd'] - parseInt(date)) > 100) {
+            msg = ''
+        } else if ((result[0][0]['DAEnd'] - parseInt(date)) === 0) {
+            msg = "L'abonnement est expiré"
+
+        } else {
+            msg = "L'abonnement s'expire bientôt"
+        }
+
 
 
         res.render('navire/singleNavire', {
@@ -201,7 +215,8 @@ navireRouter.get('/navire/:id', function(req, res) {
             nombreBulletins: result[3].length,
             dateDernierPosition: dateDernierPosition,
             position: { LT: LT, LG: LG },
-            dateDernierMeteo: dateDernierMeteo
+            dateDernierMeteo: dateDernierMeteo,
+            msg: msg
         })
     });
 

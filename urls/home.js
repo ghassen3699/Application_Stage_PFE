@@ -1,6 +1,29 @@
 const express = require('express');
 const https = require('https');
+const mysql = require('mysql');
 const homeRouter = express.Router();
+
+
+//------------------------------- La connexion entre NodeJs et Mysql -------------------------------------//
+
+const db = mysql.createConnection({
+    host: 'localhost',
+    //host: '193.95.21.63',
+    user: 'root',
+    password: 'Ghassen1234@',
+    database: 'VMS',
+    multipleStatements: true
+});
+
+
+db.connect((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Mysql')
+});
+
+//----------------------------------------------------------------------------------------------------------//
 
 
 
@@ -17,7 +40,19 @@ homeRouter.get('/', function(req, res) {
     //        res.render("home", { temp: temp })
     //    })
     //});
-    res.render("home", { temp: 13 })
+
+    const sql = "SELECT COUNT(*) AS TOTALPrev FROM weatherCRCData WHERE (TM='ACKp') AND (DA = CURDATE()+0); "
+    const sql2 = "SELECT COUNT(*) AS TOTALPos FROM trackingData WHERE (TM='POS') AND (DA = CURDATE()+0);"
+    db.query(sql + sql2, (err, result) => {
+        if (err) {
+            throw err; // remplacer par 404 NOT FOUND
+        }
+
+        const pourcentageDesPREV = result[0][0]['TOTALPrev'] / 3;
+        const pourcentageDesPOS = result[1][0]['TOTALPos'] / 24;
+        res.render("home", { temp: 13, pourcentageDesPREV: pourcentageDesPREV, pourcentageDesPOS: pourcentageDesPOS })
+    });
+
 });
 
 

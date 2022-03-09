@@ -20,16 +20,18 @@
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="grey-panel pn donut-chart">
                                 <div class="grey-header">
-                                    <h5>Données Non Envoyer</h5>
+                                    <h5> PREV Envoyer Pour Aujourd'hui</h5>
                                 </div>
                                 <canvas id="serverstatus01" height="120" width="120"></canvas>
 
                                 <div class="row">
                                     <div class="col-sm-6 col-xs-6 goleft">
-                                        <p><br><a href="#">Verifier</a></p>
+                                        <p><br><a href="/meteo/historiqueMeteoEnvoyer">Verifier</a></p>
                                     </div>
                                     <div class="col-sm-6 col-xs-6">
-                                        <h2>21%</h2>
+                                        <h2>
+                                            <%=pourcentageDesPREV%>%
+                                        </h2>
                                     </div>
                                 </div>
                             </div>
@@ -40,16 +42,18 @@
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="darkblue-panel pn">
                                 <div class="darkblue-header">
-                                    <h5>Données Envoyer</h5>
+                                    <h5>Position reçue Pour Aujourd'hui</h5>
                                 </div>
-                                <p>April 17, 2022</p>
+                                <p id="dateAujourdhui"></p>
 
                                 <canvas id="serverstatus02" height="120" width="120"></canvas>
 
                                 <footer>
 
                                     <div class="pull-right">
-                                        <h5>60% </h5>
+                                        <h5>
+                                            <%=pourcentageDesPOS%>%
+                                        </h5>
                                     </div>
 
                                 </footer>
@@ -125,29 +129,44 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 
     <script>
+        // ---------------------------------- Afficher la date ---------------------------------//
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        const d = new Date();
+        document.getElementById('dateAujourdhui').innerHTML = d.getDay() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
+        //---------------------------------------------------------------------------------------//
+
+
+
+        //----------------------------------- l'affichage de la courbe --------------------------//
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'Nombre des positions reçue pour cette semaine',
+                    data: [12, 19, 3, 5, 2, 3, 25],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(255, 100, 150, 0.5)',
+                        'rgba(255, 100, 150, 0.5)',
+                        'rgba(255, 100, 150, 0.5)',
+                        'rgba(255, 100, 150, 0.5)',
+                        'rgba(255, 100, 150, 0.5)',
+                        'rgba(255, 100, 150, 0.5)',
+                        'rgba(255, 100, 150, 0.5)',
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+
                     ],
                     borderWidth: 0.5
                 }]

@@ -45,6 +45,18 @@ meteoRouter.get('/historique', function(req, res) {
         res.render("meteo/historiqueWeatherData", { weatherData: result });
     })
 });
+
+
+// GET method
+meteoRouter.get('/historiqueMeteoEnvoyer', function(req, res) {
+    const sql = "SELECT * FROM weatherCRCData WHERE (TM='ACKp') AND (DA = CURDATE()+0) ORDER BY ID DESC;"
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.render("meteo/historiqueWeatherData", { weatherData: result });
+    })
+});
 //-------------------------------------------------------------------------------------------------//
 
 
