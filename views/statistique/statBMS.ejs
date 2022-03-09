@@ -1,0 +1,76 @@
+<%- include("../partials/header"); -%>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+    <section id="main-content">
+        <section class="wrapper site-min-height">
+            <h3> Statistiques des SOS</h3>
+            <!-- page start-->
+            <div id="morris">
+
+                <div class="row mt">
+                    <div class="col-lg-6">
+                        <div class="content-panel">
+                            <h4><i class="fa fa-angle-right"></i> Nombre total des BMS</h4>
+                            <div class="panel-body">
+                                <div id="myfirstchart" class="graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="content-panel">
+                            <h4><i class="fa fa-angle-right"></i> BMS par mois</h4>
+                            <div class="panel-body">
+                                <div id="courbe" class="graph"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- page end-->
+        </section>
+    </section>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script>
+        var url = 'http://127.0.0.1:3000/statistique/totalBMSAPI'
+
+        fetch(url)
+            .then((resp) => resp.json())
+            .then(function(data) {
+                var dataAPI = data
+                console.log(dataAPI)
+                Morris.Bar({
+                    element: 'courbe',
+                    data: dataAPI,
+                    xkey: 'MoisNom',
+                    ykeys: ['totalBMS'],
+                    labels: ['totalBMS'],
+                    barRatio: 0.8,
+                    xLabelAngle: 35,
+                    hideHover: 'auto',
+                    barColors: ['red']
+                });
+            });
+
+
+
+
+
+
+
+        new Morris.Donut({
+
+            element: 'myfirstchart',
+            data: [{
+                label: 'Total des BMS',
+                value: '<%= totalBMS %>',
+
+            }],
+        });
+    </script>
+
+
+
+    <%- include("../partials/footer"); -%>
