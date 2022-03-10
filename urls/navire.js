@@ -1,6 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const moment = require('moment');
+const validationAbonnement = require('../fonctionDeTravail/validationAbonnement');
+const extraireDate = require('../fonctionDeTravail/extraireDate');
 const { redirect, render } = require('express/lib/response');
 const navireRouter = express.Router();
 
@@ -152,9 +154,10 @@ navireRouter.get('/:name/rechercheBulletins', function(req, res) {
 
 
 
-
 //------------------- afficher le compte de la navire  ---------------------//
 
+
+// la methode GET
 navireRouter.get('/navire/:id', function(req, res) {
 
     const id = "'" + req.params.id + "'"
@@ -162,9 +165,9 @@ navireRouter.get('/navire/:id', function(req, res) {
     //les requetes SQL de la page
     //---------------------------------------------------------------------------------------------------------//
     sql1 = "SELECT * FROM tobInfo WHERE NA = " + id + ";";
-    sql2 = "SELECT * FROM trackingData WHERE NA = " + id + ";";
-    sql3 = "SELECT * FROM trackingData WHERE NA = " + id + " AND TM LIKE '%DIS%';"
-    sql4 = "SELECT * FROM weatherCRCData WHERE (NA = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%');"
+    sql2 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE NA = " + id + ";";
+    sql3 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE NA = " + id + " AND TM LIKE '%DIS%';"
+    sql4 = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (NA = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%');"
     sql5 = "SELECT * FROM trackingData WHERE NA = " + id + " order by ID desc LIMIT 1;";
     sql6 = "SELECT * FROM weatherCRCData WHERE NA = " + id + " AND TM LIKE '%ACKp%' ORDER BY ID DESC LIMIT 1;"
 
@@ -181,48 +184,40 @@ navireRouter.get('/navire/:id', function(req, res) {
         //----------------------------------------------------------//
         let dateDernierPosition, LT, LG, dateDernierMeteo
 
-        // parcourir la resultat n4 pour extraire la date et la position
-        result[4].forEach(element => {
-            dateDernierPosition = moment(element.DA).fromNow()
-            LT = element.LT
-            LG = element.LG
-        });
-        //-----------------------------------------------------------//
+        //  extraire la date et la position
+        // La Position 
 
+        dateDernierPosition = moment(result[4][0]['DA']).fromNow()
+        LT = result[4][0]['LT']
+        LG = result[4][0]['LG']
+
+        // La date
         result[5].forEach(element => {
             dateDernierMeteo = moment(element.DA).fromNow()
         });
 
-        // l'affichage de msg si l'abonnement expire
-        const date = new Date().toLocaleDateString('sv').replace('-', '');
-        //const date = "20221203"
-        var msg = ''
-        if ((result[0][0]['DAEnd'] - parseInt(date)) > 100) {
-            msg = ''
-        } else if ((result[0][0]['DAEnd'] - parseInt(date)) === 0) {
-            msg = "L'abonnement est expiré"
+        //-----------------------------------------------------------//
 
-        } else {
-            msg = "L'abonnement s'expire bientôt"
-        }
 
+        dateAbonnement = extraireDate(result)
+        const resultatCouleur = validationAbonnement(dateAbonnement)
 
 
         res.render('navire/singleNavire', {
-            navire: result[0],
-            nombrePositionEnvoyer: result[1].length,
-            nombreSOS: result[2].length,
-            nombreBulletins: result[3].length,
-            dateDernierPosition: dateDernierPosition,
-            position: { LT: LT, LG: LG },
-            dateDernierMeteo: dateDernierMeteo,
-            msg: msg
+            navire: result[0], // retourner les données de la navire 
+            nombrePositionEnvoyer: result[1][0]['TOTAL'], // retourner le nombre total des positions de la navire 
+            nombreSOS: result[2][0]['TOTAL'], // retourner le nombre des SOS total de la navire 
+            nombreBulletins: result[3][0]['TOTAL'], // retourner les nombre des Bulletins total de la navire 
+            dateDernierPosition: dateDernierPosition, // retourner la date de la dernier position 
+            position: { LT: LT, LG: LG }, // les cordonnées de la position 
+            dateDernierMeteo: dateDernierMeteo, // la date de la dernieres Meteo
+            couleurValidationAbonnement: resultatCouleur[0]['couleur'], // couleur d'abonnement 
+            msgValidationAbonnement: resultatCouleur[0]['msg'], // msg d'abonnement 
         })
     });
 
 });
 //----------------------------------------------------------------------------------------------//
-
 
 
 
@@ -235,10 +230,8 @@ navireRouter.get('/modifier/:id', function(req, res) {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        result.forEach(r => {
-            nomNavire = r.NA
-        });
-        res.render('navire/modifierNavire', { navire: result, name: nomNavire })
+
+        res.render('navire/modifierNavire', { navire: result, name: result[0]['NA'] })
     })
 
 });
@@ -337,11 +330,8 @@ navireRouter.get('/totalposition/:name', function(req, res) {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        let navireName;
-        result.forEach(element => {
-            navireName = element.NA
-        });
-        res.render('navire/totalposition', { navirePositions: result, navireName: navireName })
+
+        res.render('navire/totalposition', { navirePositions: result, navireName: result[0]['NA'] })
     })
 });
 
@@ -356,16 +346,12 @@ navireRouter.get('/totalSOS/:name', function(req, res) {
         }
 
         let navireName;
-        if (result.length != 0) {
 
-            result.forEach(element => {
-                navireName = element.NA
-            });
-
-        }
-        res.render('navire/totalSOS', { navireSOS: result, navireName: navireName })
+        res.render('navire/totalSOS', { navireSOS: result, navireName: result[0]['NA'] })
     })
 });
+
+
 
 // afficher les bulletins
 navireRouter.get('/totalBulletins/:name', function(req, res) {
@@ -376,11 +362,8 @@ navireRouter.get('/totalBulletins/:name', function(req, res) {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        let navireName;
-        result.forEach(element => {
-            navireName = element.NA
-        });
-        res.render('navire/totalBulletins', { navireBulletins: result, navireName: navireName })
+
+        res.render('navire/totalBulletins', { navireBulletins: result, navireName: result[0]['NA'] })
     })
 });
 //--------------------------------------------------------------------------------------------------------//

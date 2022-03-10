@@ -9,40 +9,36 @@
                         <div class="row content-panel">
                             <div class="col-md-4 profile-text mt mb centered">
                                 <div class="right-divider hidden-sm hidden-xs">
-                                    <% if(msg === "L'abonnement est expiré"){%>
-                                        <br><br>
-                                        <h4 style="color: red;">
-                                            <%=msg%>
+
+
+                                    <h4>Debut d'abonnement</h4>
+                                    <h5>
+                                        <%= nav.DAEnd[6]%>
+                                            <%= nav.DAEnd[7]%> /
+                                                <%= nav.DAEnd[4]%>
+                                                    <%= nav.DAEnd[5]%> /
+                                                        <%= nav.DAEnd[0]%>
+                                                            <%= nav.DAEnd[1]%>
+                                                                <%= nav.DAEnd[2]%>
+                                                                    <%= nav.DAEnd[3]%>
+                                    </h5>
+                                    <h4>Fin d'abonnement</h4>
+                                    <h5>
+                                        <%= nav.DAEnd[6]%>
+                                            <%= nav.DAEnd[7]%> /
+                                                <%= nav.DAEnd[4]%>
+                                                    <%= nav.DAEnd[5]%> /
+                                                        <%= nav.DAEnd[0]%>
+                                                            <%= nav.DAEnd[1]%>
+                                                                <%= nav.DAEnd[2]%>
+                                                                    <%= nav.DAEnd[3]%>
+                                    </h5>
+                                    <% if (couleurValidationAbonnement !== ""){%>
+                                        <h4 style="color:<%= couleurValidationAbonnement %>">
+                                            <%= msgValidationAbonnement %>
                                         </h4>
-                                        <%} else{%>
+                                        <%}%>
 
-
-                                            <h4>Debut d'abonnement</h4>
-                                            <h5>
-                                                <%= nav.DAEnd[6]%>
-                                                    <%= nav.DAEnd[7]%> /
-                                                        <%= nav.DAEnd[4]%>
-                                                            <%= nav.DAEnd[5]%> /
-                                                                <%= nav.DAEnd[0]%>
-                                                                    <%= nav.DAEnd[1]%>
-                                                                        <%= nav.DAEnd[2]%>
-                                                                            <%= nav.DAEnd[3]%>
-                                            </h5>
-                                            <h4>Fin d'abonnement</h4>
-                                            <h5>
-                                                <%= nav.DAEnd[6]%>
-                                                    <%= nav.DAEnd[7]%> /
-                                                        <%= nav.DAEnd[4]%>
-                                                            <%= nav.DAEnd[5]%> /
-                                                                <%= nav.DAEnd[0]%>
-                                                                    <%= nav.DAEnd[1]%>
-                                                                        <%= nav.DAEnd[2]%>
-                                                                            <%= nav.DAEnd[3]%>
-                                            </h5>
-                                            <h5>
-                                                <%=msg%>
-                                            </h5>
-                                            <%}%>
                                 </div>
                             </div>
                             <!-- /col-md-4 -->

@@ -20,7 +20,7 @@
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="grey-panel pn donut-chart">
                                 <div class="grey-header">
-                                    <h5> PREV Envoyer Pour Aujourd'hui</h5>
+                                    <h5> Bulletins Envoyer Pour Aujourd'hui</h5>
                                 </div>
                                 <canvas id="serverstatus01" height="120" width="120"></canvas>
 
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="col-sm-6 col-xs-6">
                                         <h2>
-                                            <%=pourcentageDesPREV%>%
+                                            <%=pourcentageDesPREV%>
                                         </h2>
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="darkblue-panel pn">
                                 <div class="darkblue-header">
-                                    <h5>Position reçue Pour Aujourd'hui</h5>
+                                    <h5>Bulletins reçue Pour Aujourd'hui</h5>
                                 </div>
                                 <p id="dateAujourdhui"></p>
 
@@ -52,7 +52,7 @@
 
                                     <div class="pull-right">
                                         <h5>
-                                            <%=pourcentageDesPOS%>%
+                                            <%=pourcentageDesPOS%>
                                         </h5>
                                     </div>
 
@@ -130,9 +130,7 @@
 
     <script>
         // ---------------------------------- Afficher la date ---------------------------------//
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
+        const monthNames = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
         const d = new Date();
         document.getElementById('dateAujourdhui').innerHTML = d.getDay() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();

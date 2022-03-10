@@ -42,15 +42,15 @@ homeRouter.get('/', function(req, res) {
     //});
 
     const sql = "SELECT COUNT(*) AS TOTALPrev FROM weatherCRCData WHERE (TM='ACKp') AND (DA = CURDATE()+0); "
-    const sql2 = "SELECT COUNT(*) AS TOTALPos FROM trackingData WHERE (TM='POS') AND (DA = CURDATE()+0);"
+    const sql2 = "SELECT COUNT(*) AS TOTALPos FROM weatherCRCData WHERE (TM='ACKi') AND (DA = CURDATE()+0);"
     db.query(sql + sql2, (err, result) => {
         if (err) {
             throw err; // remplacer par 404 NOT FOUND
         }
 
-        const pourcentageDesPREV = result[0][0]['TOTALPrev'] / 3;
-        const pourcentageDesPOS = result[1][0]['TOTALPos'] / 24;
-        res.render("home", { temp: 13, pourcentageDesPREV: pourcentageDesPREV, pourcentageDesPOS: pourcentageDesPOS })
+        const PREV = result[0][0]['TOTALPrev'];
+        const ACKI = result[1][0]['TOTALPos'];
+        res.render("home", { temp: 13, pourcentageDesPREV: PREV, pourcentageDesPOS: ACKI })
     });
 
 });

@@ -40,7 +40,6 @@
             .then((resp) => resp.json())
             .then(function(data) {
                 var dataAPI = data
-                console.log(dataAPI)
                 Morris.Bar({
                     element: 'courbe',
                     data: dataAPI,
