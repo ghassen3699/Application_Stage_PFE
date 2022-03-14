@@ -2,228 +2,226 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
     <section id="main-content">
-        <% navire.forEach(function(nav) { %>
-            <section class="wrapper site-min-height">
-                <div class="row mt">
-                    <div class="col-lg-12">
-                        <div class="row content-panel">
-                            <div class="col-md-4 profile-text mt mb centered">
-                                <div class="right-divider hidden-sm hidden-xs">
+        <section class="wrapper site-min-height">
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <div class="row content-panel">
+                        <div class="col-md-4 profile-text mt mb centered">
+                            <div class="right-divider hidden-sm hidden-xs">
 
 
-                                    <h4>Debut d'abonnement</h4>
-                                    <h5>
-                                        <%= nav.DAEnd[6]%>
-                                            <%= nav.DAEnd[7]%> /
-                                                <%= nav.DAEnd[4]%>
-                                                    <%= nav.DAEnd[5]%> /
-                                                        <%= nav.DAEnd[0]%>
-                                                            <%= nav.DAEnd[1]%>
-                                                                <%= nav.DAEnd[2]%>
-                                                                    <%= nav.DAEnd[3]%>
-                                    </h5>
-                                    <h4>Fin d'abonnement</h4>
-                                    <h5>
-                                        <%= nav.DAEnd[6]%>
-                                            <%= nav.DAEnd[7]%> /
-                                                <%= nav.DAEnd[4]%>
-                                                    <%= nav.DAEnd[5]%> /
-                                                        <%= nav.DAEnd[0]%>
-                                                            <%= nav.DAEnd[1]%>
-                                                                <%= nav.DAEnd[2]%>
-                                                                    <%= nav.DAEnd[3]%>
-                                    </h5>
-                                    <% if (couleurValidationAbonnement !== ""){%>
-                                        <h4 style="color:<%= couleurValidationAbonnement %>">
-                                            <%= msgValidationAbonnement %>
-                                        </h4>
-                                        <%}%>
-
-                                </div>
-                            </div>
-                            <!-- /col-md-4 -->
-                            <div class="col-md-4 profile-text">
-                                <br><br>
-                                <h3>
-                                    <%= nav.NA%>
-                                </h3>
+                                <h4>Debut d'abonnement</h4>
                                 <h5>
-                                    <%= nav.ID_VMS%>
+                                    <%= navire['DABeg'][6]%>
+                                        <%= navire['DABeg'][7]%> /
+                                            <%= navire['DABeg'][4]%>
+                                                <%= navire['DABeg'][5]%> /
+                                                    <%= navire['DABeg'][0]%>
+                                                        <%= navire['DABeg'][1]%>
+                                                            <%= navire['DABeg'][2]%>
+                                                                <%= navire['DABeg'][3]%>
                                 </h5>
+                                <h4>Fin d'abonnement</h4>
                                 <h5>
-                                    <a href="/navire/historique/<%= nav.NA %>">L'historique de la navire > </a>
-
+                                    <%= navire['DAEnd'][6]%>
+                                        <%= navire['DAEnd'][7]%> /
+                                            <%= navire['DAEnd'][4]%>
+                                                <%= navire['DAEnd'][5]%> /
+                                                    <%= navire['DAEnd'][0]%>
+                                                        <%= navire['DAEnd'][1]%>
+                                                            <%= navire['DAEnd'][2]%>
+                                                                <%= navire['DAEnd'][3]%>
                                 </h5>
-                                <br>
-                            </div>
-                            <!-- /col-md-4 -->
-                            <div class="col-md-4 centered">
-                                <div class="profile-pic">
-                                    <p><img src="/images.png" class="img-circle"></p>
+                                <% if (validationAbonnement !== ""){%>
+                                    <h4 style="color:<%= validationAbonnement %>">
+                                        <%= msgAbonnement %>
+                                    </h4>
+                                    <%}%>
 
-                                </div>
                             </div>
-                            <!-- /col-md-4 -->
                         </div>
-                        <!-- /row -->
+                        <!-- /col-md-4 -->
+                        <div class="col-md-4 profile-text">
+                            <br><br>
+                            <h3>
+                                <%= navire['NA']%>
+                            </h3>
+                            <h5>
+                                <%= navire['ID_VMS']%>
+                            </h5>
+                            <h5>
+                                <a href="/navire/historique/<%= navire['ID_VMS']%>">L'historique de la navire > </a>
+
+                            </h5>
+                            <br>
+                        </div>
+                        <!-- /col-md-4 -->
+                        <div class="col-md-4 centered">
+                            <div class="profile-pic">
+                                <p><img src="/images.png" class="img-circle"></p>
+
+                            </div>
+                        </div>
+                        <!-- /col-md-4 -->
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /col-lg-12 -->
+                <div class="col-lg-12 mt">
+                    <div class="row content-panel">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#overview">
+                                        <h3>Informations</h3>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a data-toggle="tab" href="#edit">
+                                        <h3>Plus d'informations</h3>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /panel-heading -->
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div id="overview" class="tab-pane active">
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="detailed mt">
+                                                <h4>Les dernieres informations</h4>
+                                                <div class="recent-activity">
+                                                    <div class="activity-icon bg-theme"><i class="fa fa-check"></i></div>
+                                                    <div class="activity-panel">
+                                                        <h5>
+                                                            <%= dateDernierMeteo%>
+                                                        </h5>
+                                                        <p style="font-size: medium;">Dernière meteo</p>
+                                                    </div>
+                                                    <div class="activity-icon bg-theme02"><i class="fa fa-map-marker"></i></div>
+                                                    <div class="activity-panel">
+                                                        <h5>
+                                                            <%=dateDernierPosition%>
+                                                        </h5>
+                                                        <h5>LT :
+                                                            <%= position['LT']%> | LG :
+                                                                <%= position['LG']%>
+                                                        </h5>
+                                                        <p style="font-size: medium;">Dernière position</p>
+                                                    </div>
+
+
+                                                </div>
+                                                <!-- /recent-activity -->
+                                            </div>
+                                            <!-- /detailed -->
+                                        </div>
+                                        <!-- /col-md-6 -->
+                                        <div class="col-md-6 detailed">
+                                            <div class="row centered mt mb">
+                                                <div class="col-sm-4">
+                                                    <h3 style="color: blueviolet;">
+                                                        <%= nombrePositionEnvoyer %>
+                                                            <% if (nombrePositionEnvoyer !== 0){%>
+                                                                <h5 style="color: blueviolet;"><a href="/navire/totalposition/<%= navire['ID_VMS']%>" style="color: blueviolet;">Nombre total des positions envoyée</a></h5>
+                                                                <%} else {%>
+                                                                    <h5 style="color: blueviolet;">Nombre total des positions envoyée</h5>
+                                                                    <%}%>
+                                                    </h3>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <h3 style="color: red;">
+                                                        <%= nombreSos %>
+                                                            <% if(nombreSos !== 0){ %>
+                                                                <h5 style="color: red;"><a href="/navire/totalSOS/<%= navire['ID_VMS']%>" style="color: red;">Nombre total des SOS</a></h5>
+                                                                <%} else{%>
+                                                                    <h5 style="color: red;">Nombre total des SOS</h5>
+                                                                    <%}%>
+                                                    </h3>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <h3 style="color: green;">
+                                                        <%= nombreBulletins %>
+                                                            <% if(nombreBulletins !== 0){%>
+                                                                <h5 style="color: green;"><a href="/navire/totalBulletins/<%= navire['ID_VM']%>" style="color: green;">Nombre total des Bulletins</a></h5>
+                                                                <%} else{%>
+                                                                    <h5 style="color: green;">Nombre total des Bulletins</h5>
+                                                                    <%}%>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <!-- /row -->
+
+                                            <!-- /row -->
+
+                                            <h4>Courbe des informations</h4>
+                                            <div class="row centered">
+                                                <div class="col-md-8 col-md-offset-2">
+                                                    <div id="myfirstchart" style="height: 250px;"></div>
+                                                </div>
+                                                <!-- /col-md-8 -->
+                                            </div>
+                                            <!-- /row -->
+                                        </div>
+                                        <!-- /col-md-6 -->
+                                    </div>
+                                    <!-- /OVERVIEW -->
+                                </div>
+
+                                <div id="edit" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-lg-offset-2 detailed">
+                                            <form role="form" class="form-horizontal">
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-2 control-label">Company</label>
+                                                    <div class="col-lg-6">
+                                                        <p id="c-name" class="form-control">
+                                                            <%=navire['DABeg'] %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-lg-2 control-label">Lives In</label>
+                                                    <div class="col-lg-6">
+                                                        <input type="text" placeholder=" " id="lives-in" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-lg-2 control-label">Country</label>
+                                                    <div class="col-lg-6">
+                                                        <input type="text" placeholder=" " id="country" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-lg-2 control-label">Description</label>
+                                                    <div class="col-lg-10">
+                                                        <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <!-- /col-lg-8 -->
+                                    </div>
+                                    <!-- /row -->
+                                </div>
+                                <!-- /tab-pane -->
+                            </div>
+                            <!-- /tab-content -->
+                        </div>
+                        <!-- /panel-body -->
                     </div>
                     <!-- /col-lg-12 -->
-                    <div class="col-lg-12 mt">
-                        <div class="row content-panel">
-                            <div class="panel-heading">
-                                <ul class="nav nav-tabs nav-justified">
-                                    <li class="active">
-                                        <a data-toggle="tab" href="#overview">
-                                            <h3>Informations</h3>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a data-toggle="tab" href="#edit">
-                                            <h3>Plus d'informations</h3>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /panel-heading -->
-                            <div class="panel-body">
-                                <div class="tab-content">
-                                    <div id="overview" class="tab-pane active">
-                                        <div class="row">
-                                            <div class="col-md-6">
-
-                                                <div class="detailed mt">
-                                                    <h4>Les dernieres informations</h4>
-                                                    <div class="recent-activity">
-                                                        <div class="activity-icon bg-theme"><i class="fa fa-check"></i></div>
-                                                        <div class="activity-panel">
-                                                            <h5>
-                                                                <%= dateDernierMeteo%>
-                                                            </h5>
-                                                            <p style="font-size: medium;">Dernière meteo</p>
-                                                        </div>
-                                                        <div class="activity-icon bg-theme02"><i class="fa fa-map-marker"></i></div>
-                                                        <div class="activity-panel">
-                                                            <h5>
-                                                                <%=dateDernierPosition%>
-                                                            </h5>
-                                                            <h5>LT :
-                                                                <%= position.LT%> | LG :
-                                                                    <%= position.LG%>
-                                                            </h5>
-                                                            <p style="font-size: medium;">Dernière position</p>
-                                                        </div>
-
-
-                                                    </div>
-                                                    <!-- /recent-activity -->
-                                                </div>
-                                                <!-- /detailed -->
-                                            </div>
-                                            <!-- /col-md-6 -->
-                                            <div class="col-md-6 detailed">
-                                                <div class="row centered mt mb">
-                                                    <div class="col-sm-4">
-                                                        <h3 style="color: blueviolet;">
-                                                            <%= nombrePositionEnvoyer%>
-                                                                <% if (nombrePositionEnvoyer !== 0){%>
-                                                                    <h5 style="color: blueviolet;"><a href="/navire/totalposition/<%= nav.NA %>" style="color: blueviolet;">Nombre total des positions envoyée</a></h5>
-                                                                    <%} else {%>
-                                                                        <h5 style="color: blueviolet;">Nombre total des positions envoyée</h5>
-                                                                        <%}%>
-                                                        </h3>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <h3 style="color: red;">
-                                                            <%= nombreSOS %>
-                                                                <% if(nombreSOS !== 0){ %>
-                                                                    <h5 style="color: red;"><a href="/navire/totalSOS/<%= nav.NA %>" style="color: red;">Nombre total des SOS</a></h5>
-                                                                    <%} else{%>
-                                                                        <h5 style="color: red;">Nombre total des SOS</h5>
-                                                                        <%}%>
-                                                        </h3>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <h3 style="color: green;">
-                                                            <%= nombreBulletins %>
-                                                                <% if(nombreBulletins !== 0){%>
-                                                                    <h5 style="color: green;"><a href="/navire/totalBulletins/<%= nav.NA %>" style="color: green;">Nombre total des Bulletins</a></h5>
-                                                                    <%} else{%>
-                                                                        <h5 style="color: green;">Nombre total des Bulletins</h5>
-                                                                        <%}%>
-                                                        </h3>
-                                                    </div>
-                                                </div>
-                                                <!-- /row -->
-
-                                                <!-- /row -->
-
-                                                <h4>Courbe des informations</h4>
-                                                <div class="row centered">
-                                                    <div class="col-md-8 col-md-offset-2">
-                                                        <div id="myfirstchart" style="height: 250px;"></div>
-                                                    </div>
-                                                    <!-- /col-md-8 -->
-                                                </div>
-                                                <!-- /row -->
-                                            </div>
-                                            <!-- /col-md-6 -->
-                                        </div>
-                                        <!-- /OVERVIEW -->
-                                    </div>
-
-                                    <div id="edit" class="tab-pane">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-lg-offset-2 detailed">
-                                                <form role="form" class="form-horizontal">
-
-                                                    <div class="form-group">
-                                                        <label class="col-lg-2 control-label">Company</label>
-                                                        <div class="col-lg-6">
-                                                            <p id="c-name" class="form-control">
-                                                                <%= nav.DABeg %>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-lg-2 control-label">Lives In</label>
-                                                        <div class="col-lg-6">
-                                                            <input type="text" placeholder=" " id="lives-in" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-lg-2 control-label">Country</label>
-                                                        <div class="col-lg-6">
-                                                            <input type="text" placeholder=" " id="country" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-lg-2 control-label">Description</label>
-                                                        <div class="col-lg-10">
-                                                            <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-
-                                            <!-- /col-lg-8 -->
-                                        </div>
-                                        <!-- /row -->
-                                    </div>
-                                    <!-- /tab-pane -->
-                                </div>
-                                <!-- /tab-content -->
-                            </div>
-                            <!-- /panel-body -->
-                        </div>
-                        <!-- /col-lg-12 -->
-                    </div>
                 </div>
+            </div>
 
 
 
-            </section>
-            <% }); %>
+        </section>
 
 
     </section>
@@ -238,15 +236,15 @@
             // the chart.
             data: [{
                 label: 'Position',
-                value: '<%= nombrePositionEnvoyer%>',
+                value: "<%= nombrePositionEnvoyer %>",
 
             }, {
                 label: 'SOS',
-                value: '<%= nombreSOS %>',
+                value: "<%= nombreSos %>",
                 color: 'red'
             }, {
-                label: 'Bultins',
-                value: '<%= nombreBulletins %>',
+                label: 'Bulletins',
+                value: "<%= nombreBulletins %>",
                 color: 'green'
             }],
         });
