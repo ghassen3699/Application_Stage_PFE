@@ -1,7 +1,5 @@
 const express = require('express');
-const ejs = require("ejs");
 const mysql = require('mysql');
-const bodyParser = require("body-parser");
 
 
 // creation d'une connexion entre le server et Mysql
@@ -20,3 +18,6 @@ db.connect((err) => {
     }
     console.log('Mysql')
 });
+
+
+module.exports = db;

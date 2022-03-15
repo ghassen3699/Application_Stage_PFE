@@ -6,7 +6,6 @@ const extraireDate = require('../fonctionDeTravail/extraireDate');
 const testDate = require('../fonctionDeTravail/testerDate');
 const navireModel = require('../fonctionDeTravail/ModeleNavire');
 const { redirect, render } = require('express/lib/response');
-const profilNavire = require('../fonctionDeTravail/profilNavire');
 const validationUndifined = require('../fonctionDeTravail/validationUndefined');
 const navireRouter = express.Router();
 
@@ -95,11 +94,6 @@ navireRouter.post('/ajouter', function(req, res) {
 
 
 
-
-
-
-
-
 //------------------------ afficher tous les navires --------------//
 navireRouter.get('/navires', function(req, res) {
 
@@ -116,66 +110,114 @@ navireRouter.get('/navires', function(req, res) {
 
 
 
-
-
-//------------------------- le fonctionement de la bar de recherche -----------------------//
-
-// la fonction recherche de la page navire
-navireRouter.get('/recherche', function(req, res) {
-
-    const search = req.query.recherche
-
-    const sql = "SELECT * FROM tobInfo WHERE NA LIKE '%" + search + "%' OR ID_VMS LIKE '%" + search + "%' OR REG_ID LIKE '%" + search + "%' OR IMEI LIKE '%" + search + "%' OR RC LIKE '%" + search + "%' OR KEY_AES LIKE '%" + search + "%' OR DAEnd LIKE '%" + search + "%';"
-
-    db.query(sql, (err, result) => {
+//------------------- modifier navire ------------------------------------//
+// GET method
+navireRouter.get('/modifier/:id', function(req, res) {
+    const sql = "SELECT * FROM tobInfo Where ID = ? "
+    const msg = ""
+    db.query(sql, [req.params.id], (err, result) => {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        res.render('navire/touslesnavires', { navires: result })
+        const navire = new navireModel(
+            result[0]['ID'],
+            result[0]['NA'],
+            result[0]['ID_VMS'],
+            result[0]['REG_ID'],
+            result[0]['IMEI'],
+            result[0]['ICCID'],
+            result[0]['RC'],
+            result[0]['KEY_AES'],
+            extraireDate(result[0]['DABeg']),
+            extraireDate(result[0]['DAEnd']),
+        )
+
+        res.render('navire/modifierNavire', { navireData: navire, name: navire.NA, msg: msg })
     })
 
 });
 
-// la fonction recherche de la page historique des positions
-navireRouter.get('/:name/recherchePosition', function(req, res) {
-    const search = req.query.recherche
-    const sql = "SELECT * FROM trackingData WHERE (NA = '" + req.params.name + "') AND (TM = 'POS') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') LIMIT 20;"
-    db.query(sql, (err, result) => {
-        if (err) {
-            throw err // remplacer par 404 NOT FOUND
-        }
-        res.render('navire/totalposition', { navirePositions: result, navireName: req.params.name })
-    })
-});
+
+// POST method
+navireRouter.post('/modifier/:id', function(req, res) {
+    const sql1 = "SELECT * FROM tobInfo WHERE ID = ?"
+    const sql2 = "UPDATE tobInfo SET NA = ?, REG_ID = ?, IMEI = ?, ICCID = ?, RC = ?, KEY_AES = ?, DABeg = ?, DAEnd = ? WHERE ID = ?"
+    var msg = ""
 
 
-
-// la fonction recherche de la page historique des SOS
-navireRouter.get('/:name/rechercheSOS', function(req, res) {
-    const search = req.query.recherche
-
-    const sql = "SELECT * FROM trackingData WHERE (NA = '" + req.params.name + "') AND (TM = 'DIS') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') LIMIT 20;"
-    db.query(sql, (err, result) => {
-        if (err) {
-            throw err // remplacer par 404 NOT FOUND
-        }
-        res.render('navire/totalSOS', { navireSOS: result, navireName: req.params.name })
-    })
-});
-
-
-
-// la fonction recherche de la page historique des bulletins
-navireRouter.get('/:name/rechercheBulletins', function(req, res) {
-    const search = req.query.recherche
-
-    const sql = "SELECT * FROM weatherCRCData where (NA = '" + req.params.name + "') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR TM = '" + search + "' OR CRC LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%');"
-    db.query(sql, (err, result) => {
+    // tester si la navire existe ou non 
+    db.query(sql1, [req.params.id, ], (err, result) => {
         if (err) {
             throw err
         }
-        res.render('navire/totalBulletins', { navireBulletins: result, navireName: req.params.name })
+
+        // si les données est vrais on enregistre la navire 
+        if ((testDate(req.body.DABEG, 1)) && (testDate(req.body.DAEND, 1))) {
+            console.log(req.body)
+            db.query(sql2, [req.body.NA, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, testDate(req.body.DABEG, 0), testDate(req.body.DAEND, 0), req.params.id], (err, result) => {
+                if (err) {
+                    throw err;
+                }
+            });
+            res.redirect('/navire/navires')
+
+
+        } else {
+            const navire = new navireModel(
+                result[0]['ID'],
+                result[0]['NA'],
+                result[0]['ID_VMS'],
+                result[0]['REG_ID'],
+                result[0]['IMEI'],
+                result[0]['ICCID'],
+                result[0]['RC'],
+                result[0]['KEY_AES'],
+                extraireDate(result[0]['DABeg']),
+                extraireDate(result[0]['DAEnd']),
+            )
+            msg = "Entrer les donnees correctement"
+            res.render('navire/modifierNavire', { navireData: navire, name: navire.NA, msg: msg })
+        }
     })
+
+});
+
+
+
+//------------------------------------------------------------------------//
+
+
+
+
+//------------------- supprimer navire ------------------------------------//
+
+// GET method
+navireRouter.get('/supprimer/:id', function(req, res) {
+    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
+    db.query(sql, [req.params.id], (err, result) => {
+        if (err) {
+            throw err // remplacer par 404 NOT FOUND
+        }
+        res.render('navire/validSupprission', { navire: result })
+    })
+
+});
+
+// POST method
+navireRouter.post('/supprimer/:id', function(req, res) {
+    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
+    db.query(sql, (req.params.id), (err, result) => {
+        if (err) {
+            throw err
+        }
+        const sqlDelete = "DELETE FROM tobInfo where id = ?"
+        db.query(sqlDelete, (req.params.id), (err, result) => {
+            if (err) {
+                throw err // remplacer par 404 NOT FOUND
+            }
+        })
+    })
+    res.redirect('/navire/navires')
 });
 //------------------------------------------------------------------------//
 
@@ -264,123 +306,12 @@ navireRouter.get('/navire/:id', function(req, res) {
 
 });
 //----------------------------------------------------------------------------------------------//
-
-
-
-
-//------------------- modifier navire ------------------------------------//
-// GET method
-navireRouter.get('/modifier/:id', function(req, res) {
-    const sql = "SELECT * FROM tobInfo Where ID = ? "
-    const msg = ""
-    db.query(sql, [req.params.id], (err, result) => {
-        if (err) {
-            throw err // remplacer par 404 NOT FOUND
-        }
-        const navire = new navireModel(
-            result[0]['ID'],
-            result[0]['NA'],
-            result[0]['ID_VMS'],
-            result[0]['REG_ID'],
-            result[0]['IMEI'],
-            result[0]['ICCID'],
-            result[0]['RC'],
-            result[0]['KEY_AES'],
-            extraireDate(result[0]['DABeg']),
-            extraireDate(result[0]['DAEnd']),
-        )
-
-        res.render('navire/modifierNavire', { navireData: navire, name: navire.NA, msg: msg })
-    })
-
-});
-
-
-// POST method
-navireRouter.post('/modifier/:id', function(req, res) {
-    const sql1 = "SELECT * FROM tobInfo WHERE ID = ?"
-    const sql2 = "UPDATE tobInfo SET NA = ?, REG_ID = ?, IMEI = ?, ICCID = ?, RC = ?, KEY_AES = ?, DABeg = ?, DAEnd = ? WHERE ID = ?"
-    var msg = ""
-
-
-    // tester si la navire existe ou non 
-    db.query(sql1, [req.params.id, ], (err, result) => {
-        if (err) {
-            throw err
-        }
-
-        // si les données est vrais on enregistre la navire 
-        if ((testDate(req.body.DABEG, 1)) && (testDate(req.body.DAEND, 1))) {
-            console.log(req.body)
-            db.query(sql2, [req.body.NA, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, testDate(req.body.DABEG, 0), testDate(req.body.DAEND, 0), req.params.id], (err, result) => {
-                if (err) {
-                    throw err;
-                }
-            });
-            res.redirect('/navire/navires')
-
-
-        } else {
-            const navire = new navireModel(
-                result[0]['ID'],
-                result[0]['NA'],
-                result[0]['ID_VMS'],
-                result[0]['REG_ID'],
-                result[0]['IMEI'],
-                result[0]['ICCID'],
-                result[0]['RC'],
-                result[0]['KEY_AES'],
-                extraireDate(result[0]['DABeg']),
-                extraireDate(result[0]['DAEnd']),
-            )
-            msg = "Entrer les donnees correctement"
-            res.render('navire/modifierNavire', { navireData: navire, name: navire.NA, msg: msg })
-        }
-    })
-
-});
-
-
-
-//------------------------------------------------------------------------//
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
 
 
-
-
-//------------------- supprimer navire ------------------------------------//
-
-// GET method
-navireRouter.get('/supprimer/:id', function(req, res) {
-    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
-    db.query(sql, [req.params.id], (err, result) => {
-        if (err) {
-            throw err // remplacer par 404 NOT FOUND
-        }
-        res.render('navire/validSupprission', { navire: result })
-    })
-
-});
-
-// POST method
-navireRouter.post('/supprimer/:id', function(req, res) {
-    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
-    db.query(sql, (req.params.id), (err, result) => {
-        if (err) {
-            throw err
-        }
-        const sqlDelete = "DELETE FROM tobInfo where id = ?"
-        db.query(sqlDelete, (req.params.id), (err, result) => {
-            if (err) {
-                throw err // remplacer par 404 NOT FOUND
-            }
-        })
-    })
-    res.redirect('/navire/navires')
-});
-//------------------------------------------------------------------------//
 
 
 
@@ -525,7 +456,70 @@ navireRouter.post('/supprimerSOS/:id', function(req, res) {
 
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//------------------------- le fonctionement de la bar de recherche -----------------------//
+
+// la fonction recherche de la page navire
+navireRouter.get('/recherche', function(req, res) {
+
+    const search = req.query.recherche
+
+    const sql = "SELECT * FROM tobInfo WHERE NA LIKE '%" + search + "%' OR ID_VMS LIKE '%" + search + "%' OR REG_ID LIKE '%" + search + "%' OR IMEI LIKE '%" + search + "%' OR RC LIKE '%" + search + "%' OR KEY_AES LIKE '%" + search + "%' OR DAEnd LIKE '%" + search + "%';"
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err // remplacer par 404 NOT FOUND
+        }
+        res.render('navire/touslesnavires', { navires: result })
+    })
+
+});
+
+// la fonction recherche de la page historique des positions
+navireRouter.get('/:name/recherchePosition', function(req, res) {
+    const search = req.query.recherche
+    const sql = "SELECT * FROM trackingData WHERE (NA = '" + req.params.name + "') AND (TM = 'POS') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') LIMIT 20;"
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err // remplacer par 404 NOT FOUND
+        }
+        res.render('navire/totalposition', { navirePositions: result, navireName: req.params.name })
+    })
+});
+
+
+
+// la fonction recherche de la page historique des SOS
+navireRouter.get('/:name/rechercheSOS', function(req, res) {
+    const search = req.query.recherche
+
+    const sql = "SELECT * FROM trackingData WHERE (NA = '" + req.params.name + "') AND (TM = 'DIS') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') LIMIT 20;"
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err // remplacer par 404 NOT FOUND
+        }
+        res.render('navire/totalSOS', { navireSOS: result, navireName: req.params.name })
+    })
+});
+
+
+
+// la fonction recherche de la page historique des bulletins
+navireRouter.get('/:name/rechercheBulletins', function(req, res) {
+    const search = req.query.recherche
+
+    const sql = "SELECT * FROM weatherCRCData where (NA = '" + req.params.name + "') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR TM = '" + search + "' OR CRC LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%');"
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.render('navire/totalBulletins', { navireBulletins: result, navireName: req.params.name })
+    })
+});
+//------------------------------------------------------------------------//
+
+
+
+
 
 
 

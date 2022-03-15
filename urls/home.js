@@ -56,4 +56,9 @@ homeRouter.get('/', function(req, res) {
 });
 
 
+
+homeRouter.get('/testPage', function(req, res) {
+    res.render('testPage')
+})
+
 module.exports = homeRouter;

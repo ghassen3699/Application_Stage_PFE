@@ -33,10 +33,10 @@ db.connect((err) => {
 
 
 
-////////////////////////////////////////////////////// LES SCHEMINS DE LA METEO /////////////////////////////////
+////////////////////////////////////////////////////// LES SCHEMINS DE LA METEO ////////////////////////////////////////////////////
 
 //-------------------------------- historique meteo envoyer et reçue ------------------------------//
-// GET method
+// Historique Meteo envoyer
 meteoRouter.get('/historique', function(req, res) {
     db.query("SELECT * FROM weatherCRCData ORDER BY ID DESC LIMIT 15", (err, result) => {
         if (err) {
@@ -47,7 +47,7 @@ meteoRouter.get('/historique', function(req, res) {
 });
 
 
-// GET method
+// Historique Meteo reçue
 meteoRouter.get('/historiqueMeteoEnvoyer', function(req, res) {
     const sql = "SELECT * FROM weatherCRCData WHERE (TM='ACKp') AND (DA = CURDATE()+0) ORDER BY ID DESC;"
     db.query(sql, (err, result) => {
@@ -62,7 +62,7 @@ meteoRouter.get('/historiqueMeteoEnvoyer', function(req, res) {
 
 
 //-------------------------------- afficher ma meteo d'aujourd'hui ---------------------------------//
-// GET method
+// La Meteo d'aujourd'hui
 meteoRouter.get('/meteo', function(req, res) {
     res.render('meteo/meteoAujourdhui')
 });
@@ -71,7 +71,7 @@ meteoRouter.get('/meteo', function(req, res) {
 
 
 //--------------------------------- bar de recherche ------------------------------------------------//
-// GET method 
+// Le bar de recherche
 meteoRouter.get('/recherche', function(req, res) {
     const recherche = req.query.search
 

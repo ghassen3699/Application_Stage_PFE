@@ -1,5 +1,17 @@
 <%- include("partials/header"); -%>
-
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            right: 0;
+            width: 408px;
+            height: 100%;
+        }
+        
+        .visibleText {
+            font-size: 0px;
+        }
+    </style>
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
@@ -75,25 +87,38 @@
 
 
 
-                <div class="col-lg-3 ds">
-                    <div class="evenement">
-                        <a href="#" style="color: #797979;">
-                            <div class="panel green-panel no-margin">
-                                <div class="panel-body">
-                                    <div class="container-fluid">
-                                        <span style="font-size:medium">Les Notifications</span>
-                                        <br>
-                                        <i id="icon" class="fa fa-angle-double-up"></i>
+                <div class="col-lg-3 ds notificationbar">
+                    <a href="#" style="color: #797979;" id="buttonNotification">
+                        <div class="panel green-panel no-margin">
+                            <div class="panel-body">
+                                <div class="container-fluid">
+                                    <span style="font-size:medium">Les Notifications</span>
+                                    <br>
+                                    <i id="icon" class="fa fa-angle-double-up"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
+                    <br>
+                    <div class="notificationBarVisibility visibleText">
+                        <div class='panel terques-chart'>
+                            <div class='chart'>
+                                <div class='centered'>
+                                    <span>Nombre Total Des Notifications: 50</span>
+                                    <strong> 
+
+                                        </div>
+                                        <div class='sparkline' data-type='line' data-resize='true' data-height='75' data-width='90%' data-line-width='1' data-line-color='#fff' data-spot-color='#fff' data-fill-color='' data-highlight-line-color='#fff' data-spot-radius='4' data-data='[200,135,667,333,526,996,564,123,890,564,455]'>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                    <br>
-                    <div id="flexdiv"></div>
-
-
                 </div>
+
             </div>
         </section>
     </section>
@@ -101,34 +126,35 @@
 
 
 
-
     <script>
-        var a = document.querySelector('.evenement').addEventListener('click', function() {
-            var icon = document.getElementById('icon');
-            if (icon.classList.value === 'fa fa-angle-double-up') {
-                icon.classList.value = 'fa fa-angle-double-down';
-                var flexdiv = document.getElementById('flexdiv');
-                const a = 0
-                flexdiv.innerHTML = "<div class='panel terques-chart'><div class='panel-body'><div class='chart'><div class='centered'><span>Nombre Total Des Notifications :" + a + "</span><strong> </div><div class='sparkline' data-type='line' data-resize='true' data-height='75' data-width='90%' data-line-width='1' data-line-color='#fff' data-spot-color='#fff' data-fill-color='' data-highlight-line-color='#fff' data-spot-radius='4' data-data='[200,135,667,333,526,996,564,123,890,564,455]'></div></div></div></div><div class='donut-main'><h4 id='dropdown01' data-bs-toggle='dropdown' aria-expanded='false'><a href='#' class='dropdown-toggle' data-toggle='dropdown'><span style='color: brown;'>Filtrer <i class='fa fa-angle-down'></i></span></a></h4>"
-
-                if (a === 0) {
-                    flexdiv.innerHTML = flexdiv.innerHTML + "<div class='donut-main'><h4 id='dropdown01' data-bs-toggle='dropdown' aria-expanded='false'>Aucune Notifications</h4><br>"
-                } else {
-                    for (let i = 0; i < 3; i++) {
-                        flexdiv.innerHTML = flexdiv.innerHTML + "<div class='desc'><div class='thumb'><span class='badge bg-theme'><i class='fa fa-bell'></i></span></div><div class='details'><p><muted>Notification 1</muted><br/>Date<br/></p></div></div>"
-                    }
-                }
-
-            } else {
-                icon.classList.value = 'fa fa-angle-double-up'
-                var flexdiv = document.getElementById('flexdiv');
-                flexdiv.innerHTML = ""
-            }
-        });
     </script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 
+
+
+
+
+
     <script>
+        //------------------------------------ Le boutton des notifications--------------------------------------------------//
+        var buttonNotification = document.querySelector('#buttonNotification');
+        buttonNotification.addEventListener('click', () => {
+            var icon = document.getElementById('icon');
+            if (icon.classList.value === 'fa fa-angle-double-up') {
+                icon.classList.value = 'fa fa-angle-double-down'
+            } else {
+                icon.classList.value = 'fa fa-angle-double-up'
+            }
+            var bar = document.querySelector('.notificationbar');
+            var barVisibility = document.querySelector('.notificationBarVisibility');
+            bar.classList.toggle('sidebar');
+            barVisibility.classList.toggle('visibleText')
+        });
+        //--------------------------------------------------------------------------------------------------------------------//
+
+
+
         // ---------------------------------- Afficher la date ---------------------------------//
         const monthNames = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
