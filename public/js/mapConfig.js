@@ -1,30 +1,43 @@
-// get Div element 
+//---------------------------------------------la creation de la map---------------------------------------------------//
 const mapDiv = document.getElementById('map');
-
-
-// create the map 
 const map = L.map(mapDiv).setView([39.2009, 11.2153], 11);
 const atribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     atribution
 });
 tiles.addTo(map);
+//----------------------------------------------------------------------------------------------------------------------//
 
 
-// define the Icons 
-var myIcon = L.icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/45/45998.png',
-    iconSize: [38, 38],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-});
 
 
-// create Markers & Popup
-var marker1 = L.marker([39.2006, 11.173]).bindPopup("Lat:" + 39.2006 + " Lng:" + 11.173).openPopup().addTo(map);
-L.marker([37.2002, 11.173], { icon: myIcon }).bindPopup("Lat :" + 37.2002 + " Long :" + 11.173).openPopup().addTo(map);
-L.marker([38.2001, 12.173], { icon: myIcon }).bindPopup("Lat :" + 38.2001 + " Long :" + 12.173).openPopup().addTo(map);
-L.marker([38.2000, 0.173], { icon: myIcon }).bindPopup("Lat :" + 38.2000 + " Long :" + 0.173).openPopup().addTo(map);
+//-------------------------------- Lire les Informations des navires qui connecte aujourd'hui ---------------------------//
+
+var url = "http://127.0.0.1:3000/map/navireMapApi";
+
+fetch(url)
+    .then(async(resp) => await resp.json())
+    .then(async function(data) {
+        var navireInformation = await data
+
+        navireInformation.forEach(navire => {
+
+            var markerLocation = new L.LatLng(navire['LT'], navire['LG'])
+            var marker = new L.Marker(markerLocation).bindPopup(navire['NA'] + " || Lat:" + navire['LT'] + " || Lng:" + navire['LG']).openPopup()
+            map.addLayer(marker)
+        });
+    });
+
+
+//-------------------------------------------------------------------------------------------------------------------------//
+
+
+
+
+
+
+
+
 
 
 var c = L.circle([39.2009, 11.2153], { radius: 20000 }).addTo(map);

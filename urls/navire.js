@@ -6,7 +6,6 @@ const extraireDate = require('../fonctionDeTravail/extraireDate');
 const testDate = require('../fonctionDeTravail/testerDate');
 const navireModel = require('../fonctionDeTravail/ModeleNavire');
 const { redirect, render } = require('express/lib/response');
-const profilNavire = require('../fonctionDeTravail/profilNavire');
 const validationUndifined = require('../fonctionDeTravail/validationUndefined');
 const navireRouter = express.Router();
 
@@ -59,17 +58,16 @@ navireRouter.post('/ajouter', function(req, res) {
 
 
     const sql2 = "INSERT INTO tobInfo VALUES(?,?,?,?,?,?,?,?,?,?)"
-    const sql1 = "SELECT * FROM tobInfo WHERE ID = " + req.body.id_nav + " OR ID_VMS = '" + req.body.ID_VMS + "';";
-
-
-    // tester si le ID n'existe pas 
+    const sql1 = "SELECT * FROM tobInfo WHERE ID = '" + req.body.id_nav + "' OR ID_VMS = '" + req.body.ID_VMS + "';";
+    console.log(sql1)
+        // tester si le ID n'existe pas 
     db.query(sql1, (err, result) => {
+
         if (err) {
             throw err;
         }
-
-
-        // si les données est vrais on enregistre la navire 
+        console.log(result)
+            // si les données est vrais on enregistre la navire 
         if ((result.length === 0) && (testDate(req.body.DABEG, 1)) && (testDate(req.body.DAEND, 1))) {
 
             db.query(sql2, [req.body.id_nav, req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, testDate(req.body.DAEND, 0), testDate(req.body.DAEND, 0)], (err, result) => {
