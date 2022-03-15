@@ -7,27 +7,26 @@
 
             <div class="row mt">
                 <div class="col-lg-12">
-                    <div class="custom-box">
-                        <h3 style="text-align: center;">
-                            <%= name %>
-                        </h3>
-                    </div>
+
 
                     <div class="form-panel">
+                        <h3 style="text-align: center;"> Navire :
+                            <%= name %>
 
+
+                        </h3>
                         <br>
                         <br>
-
-                        <div class=" ftestttorm">
+                        <div class=" form">
                             <form class="cmxform form-horizontal style-form" id="commentForm" method="post">
-                                <%= msg%>
 
+                                <% navire.forEach(function(n) { %>
 
 
                                     <div class="form-group ">
                                         <label for="cemail" class="control-label col-lg-2" style="font-size: medium;">NA </label>
                                         <div class="col-lg-5">
-                                            <input value="<%= navireData.NA %>" class="form-control " id="cemail" type="text" name="NA" />
+                                            <input value="<%= n.NA %>" class="form-control " id="cemail" type="text" name="NA" />
                                         </div>
                                     </div>
                                     <br>
@@ -35,7 +34,7 @@
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ID_VMS </label>
                                         <div class="col-lg-10">
-                                            <input value="<%= navireData.ID_VMS %>" class="form-control " id="curl" type="text" name="ID_VMS" disabled />
+                                            <input value="<%= n.ID_VMS %>" class="form-control " id="curl" type="text" name="ID_VMS" required />
                                         </div>
                                     </div>
                                     <br>
@@ -43,7 +42,7 @@
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">REG_ID </label>
                                         <div class="col-lg-5">
-                                            <input value="<%= navireData.ID_REG %>" class="form-control " id="curl" type="text" name="REG_ID" required />
+                                            <input value="<%= n.REG_ID %>" class="form-control " id="curl" type="text" name="REG_ID" required />
                                         </div>
                                     </div>
                                     <br>
@@ -51,7 +50,7 @@
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">IMEI </label>
                                         <div class="col-lg-5">
-                                            <input value="<%= navireData.IMEI %>" class="form-control " id="curl" type="text" name="IMEI" required />
+                                            <input value="<%= n.IMEI %>" class="form-control " id="curl" type="text" name="IMEI" required />
                                         </div>
                                     </div>
                                     <br>
@@ -59,7 +58,7 @@
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ICCID </label>
                                         <div class="col-lg-10">
-                                            <input value="<%= navireData.ICCID %>" class="form-control " id="curl" type="text" name="ICCID" required />
+                                            <input value="<%= n.ICCID %>" class="form-control " id="curl" type="text" name="ICCID" required />
                                         </div>
                                     </div>
 
@@ -67,40 +66,40 @@
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">RC </label>
                                         <div class="col-lg-10">
-                                            <input value="<%= navireData.RC %>" class="form-control " id="curl" type="text" name="RC" required />
+                                            <input value="<%= n.RC %>" class="form-control " id="curl" type="text" name="RC" required />
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">KEY_AES</label>
                                         <div class="col-lg-10">
-                                            <input value="<%= navireData.KEY_AES %>" class="form-control " id="curl" type="text" name="KEY_AES" required />
+                                            <input value="<%= n.KEY_AES %>" class="form-control " id="curl" type="text" name="KEY_AES" required />
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">DABEG</label>
                                         <div class="col-lg-10">
-                                            <input value="<%= navireData.DABeg %>" class="form-control " id="curl" type="text" name="DABEG" required />
+                                            <input value="<%= n.DABeg %>" class="form-control " id="curl" type="text" name="DABEG" required />
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
                                         <label for="curl" class="control-label col-lg-2" style="font-size: medium;">DAEND</label>
                                         <div class="col-lg-10">
-                                            <input value="<%= navireData.DAEnd %>" class="form-control " id="curl" type="text" name="DAEND" required />
+                                            <input value="<%= n.DAEnd %>" class="form-control " id="curl" type="text" name="DAEND" required />
                                         </div>
                                     </div>
 
 
-
-                                    <div class="custom-box">
-                                        <h3 style="text-align: center;">
-                                            <button class="btn btn-theme" type="submit" style="font-size: medium;">Enregistrer</button>
-                                            <a href="/home" class="btn btn-theme04" type="button" style="font-size: medium;">Annuler</a>
-                                        </h3>
+                                    <div class="form-group">
+                                        <div class="col-lg-offset-2 col-lg-10">
+                                            <button class="btn btn-theme" type="submit">Enregistrer</button>
+                                            <a href="/home" class="btn btn-theme04" type="button">Annuler</a>
+                                        </div>
                                     </div>
 
+                                    <% }); %>
                             </form>
                         </div>
                     </div>

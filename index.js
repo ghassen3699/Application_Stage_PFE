@@ -25,12 +25,7 @@ const app = express(); // creation d'une application express
 app.set("view engine", "ejs"); // utilisation de la bibliothéque ejs pour l'affichage des templates
 app.use(express.static('public')); // le dossier static 
 
-
-
-
-
 //--------------------- L'importation des routes -------------------------//
-const authRouter = require('./urls/authentification');
 const mapRouter = require('./urls/map');
 const homeRouter = require('./urls/home');
 const parametreRouter = require('./urls/parametre');
@@ -41,10 +36,7 @@ const statistiqueRouter = require('./urls/statistique');
 
 
 
-
-
 app.use(bodyParser.urlencoded({ extended: true }));;
-app.use('/', authRouter); // le route map
 app.use('/map', mapRouter); // le route map
 app.use('/home', homeRouter); // le route home
 app.use('/parametre', parametreRouter); // le route des parametres

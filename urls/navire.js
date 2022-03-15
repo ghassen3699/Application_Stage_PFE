@@ -3,10 +3,11 @@ const mysql = require('mysql');
 const moment = require('moment');
 const validationAbonnement = require('../fonctionDeTravail/validationAbonnement');
 const extraireDate = require('../fonctionDeTravail/extraireDate');
-const testDate = require('../fonctionDeTravail/testerDate');
-const navireModel = require('../fonctionDeTravail/ModeleNavire');
 const { redirect, render } = require('express/lib/response');
+<<<<<<< HEAD
 const validationUndifined = require('../fonctionDeTravail/validationUndefined');
+=======
+>>>>>>> parent of 0247824... Modification au niveau des requetes sql
 const navireRouter = express.Router();
 
 
@@ -47,16 +48,18 @@ db.connect((err) => {
 //---------------------- Ajouter navire --------------------------//
 // GET method
 navireRouter.get('/ajouter', function(req, res) {
-    var msg = ""
-    res.render('navire/ajouterNavire', { msg: msg })
+
+    res.render('navire/ajouterNavire')
 });
 
 // POST method
 navireRouter.post('/ajouter', function(req, res) {
 
 
+    const sql = "INSERT INTO tobInfo VALUES(?,?,?,?,?,?,?,?,?,?)"
 
 
+<<<<<<< HEAD
     const sql2 = "INSERT INTO tobInfo VALUES(?,?,?,?,?,?,?,?,?,?)"
     const sql1 = "SELECT * FROM tobInfo WHERE ID = '" + req.body.id_nav + "' OR ID_VMS = '" + req.body.ID_VMS + "';";
     console.log(sql1)
@@ -81,13 +84,14 @@ navireRouter.post('/ajouter', function(req, res) {
         } else {
             msg = "Entrer correctement les données"
             res.render('navire/ajouterNavire', { msg: msg })
+=======
+    db.query(sql, [req.body.id_nav, req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, req.body.DABEG, req.body.DAEND], (err, result) => {
+        if (err) {
+            throw err; // remplacer par 404 NOT FOUND
+>>>>>>> parent of 0247824... Modification au niveau des requetes sql
         }
     });
-
-
-
-
-
+    res.redirect('/navire/navires')
 });
 //-----------------------------------------------------------------//
 
@@ -234,12 +238,12 @@ navireRouter.get('/navire/:id', function(req, res) {
 
     //les requetes SQL de la page
     //---------------------------------------------------------------------------------------------------------//
-    sql1 = "SELECT * FROM tobInfo WHERE ID_VMS = " + id + ";";
-    sql2 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE ID_VMS = " + id + ";";
-    sql3 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE ID_VMS = " + id + " AND TM LIKE '%DIS%';"
-    sql4 = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%');"
-    sql5 = "SELECT * FROM trackingData WHERE ID_VMS = " + id + " ORDER by ID DESC LIMIT 1;";
-    sql6 = "SELECT * FROM weatherCRCData WHERE ID_VMS = " + id + " AND TM LIKE '%ACKp%' ORDER BY ID DESC LIMIT 1;"
+    sql1 = "SELECT * FROM tobInfo WHERE NA = " + id + ";";
+    sql2 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE NA = " + id + ";";
+    sql3 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE NA = " + id + " AND TM LIKE '%DIS%';"
+    sql4 = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (NA = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%');"
+    sql5 = "SELECT * FROM trackingData WHERE NA = " + id + " order by ID desc LIMIT 1;";
+    sql6 = "SELECT * FROM weatherCRCData WHERE NA = " + id + " AND TM LIKE '%ACKp%' ORDER BY ID DESC LIMIT 1;"
 
     //---------------------------------------------------------------------------------------------------------//
 
@@ -250,56 +254,39 @@ navireRouter.get('/navire/:id', function(req, res) {
             throw err // remplacer par 404 NOT FOUND
         }
 
+        // Configuration de la date et la position avec Moment.JS
+        //----------------------------------------------------------//
+        let dateDernierPosition, LT, LG, dateDernierMeteo
 
-        var dateDernierPosition, LT, LG, dateDernierMeteo, resultatCouleur
+        //  extraire la date et la position
+        // La Position 
 
+        dateDernierPosition = moment(result[4][0]['DA']).fromNow()
+        LT = result[4][0]['LT']
+        LG = result[4][0]['LG']
 
-        // La date du derniere position & les caractéristiques 
-        if (result[4].length > 0) {
-            dateDernierPosition = moment(result[4][0]['DA']).fromNow() // Configuration de la date et la position avec Moment.JS
-            LT = result[4][0]['LT']
-            LG = result[4][0]['LG']
+        // La date
+        result[5].forEach(element => {
+            dateDernierMeteo = moment(element.DA).fromNow()
+        });
 
-        }
-
-
-        if (result[5].length > 0) {
-            // La date de la dernier meteo
-            result[5].forEach(element => {
-                dateDernierMeteo = moment(element.DA).fromNow()
-            });
-        }
+        //-----------------------------------------------------------//
 
 
-        if (result[0].length > 0) {
-            // la date de l'abonnement & le couleur de la validation 
-            dateAbonnement = extraireDate(result[0][0]['DAEnd'])
-            resultatCouleur = validationAbonnement(dateAbonnement)
-        }
-
-        // La verifications des données 
-        var nombrePositionEnvoyer = validationUndifined(result[1][0]['TOTAL'], 'Aucune position Envoyer')
-        var nombreSOS = validationUndifined(result[2][0]['TOTAL'], "Aucune SOS Envoyer")
-        var nombreBulletins = validationUndifined(result[3][0]['TOTAL'], "Aucune Bulletins envoyer")
-        dateDernierPosition = validationUndifined(dateDernierPosition, "Aucune position envoyer")
-        dateDernierMeteo = validationUndifined(dateDernierMeteo, "Aucune Meteo envoyer")
-        LT = validationUndifined(LT, "Aucune")
-        LG = validationUndifined(LG, "Aucune")
+        dateAbonnement = extraireDate(result)
+        const resultatCouleur = validationAbonnement(dateAbonnement)
 
 
-
-
-        console.log(result[0][0]['ID_VMS'])
         res.render('navire/singleNavire', {
-            navire: result[0][0],
-            nombrePositionEnvoyer: nombrePositionEnvoyer,
-            nombreSos: nombreSOS,
-            nombreBulletins: nombreBulletins,
-            dateDernierPosition: dateDernierPosition,
-            position: { LT: LT, LG: LG },
-            dateDernierMeteo: dateDernierMeteo,
-            validationAbonnement: resultatCouleur[0]['couleur'],
-            msgAbonnement: resultatCouleur[0]['msg']
+            navire: result[0], // retourner les données de la navire 
+            nombrePositionEnvoyer: result[1][0]['TOTAL'], // retourner le nombre total des positions de la navire 
+            nombreSOS: result[2][0]['TOTAL'], // retourner le nombre des SOS total de la navire 
+            nombreBulletins: result[3][0]['TOTAL'], // retourner les nombre des Bulletins total de la navire 
+            dateDernierPosition: dateDernierPosition, // retourner la date de la dernier position 
+            position: { LT: LT, LG: LG }, // les cordonnées de la position 
+            dateDernierMeteo: dateDernierMeteo, // la date de la dernieres Meteo
+            couleurValidationAbonnement: resultatCouleur[0]['couleur'], // couleur d'abonnement 
+            msgValidationAbonnement: resultatCouleur[0]['msg'], // msg d'abonnement 
         })
     });
 
@@ -310,6 +297,42 @@ navireRouter.get('/navire/:id', function(req, res) {
 
 
 
+<<<<<<< HEAD
+=======
+//------------------- modifier navire ------------------------------------//
+// GET method
+navireRouter.get('/modifier/:id', function(req, res) {
+    const sql = "SELECT * FROM tobInfo Where ID = ? "
+    db.query(sql, [req.params.id], (err, result) => {
+        if (err) {
+            throw err // remplacer par 404 NOT FOUND
+        }
+
+        res.render('navire/modifierNavire', { navire: result, name: result[0]['NA'] })
+    })
+
+});
+
+
+// POST method
+navireRouter.post('/modifier/:id', function(req, res) {
+    const sql = "SELECT * FROM tobInfo WHERE ID = ?"
+    db.query(sql, [req.params.id, ], (err, result) => {
+        if (err) {
+            throw err // remplacer par 404 NOT FOUND
+        }
+        const sqlUpdate = "UPDATE tobInfo SET NA = ?, ID_VMS = ?, REG_ID = ?, IMEI = ?, ICCID = ?, RC = ?, KEY_AES = ?, DA_BEG = ?, DA_END = ? WHERE ID = ?"
+        db.query(sqlUpdate, [req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, req.body.DABEG, req.body.DAEND, req.params.id, ], (err, result) => {
+            if (err) {
+                throw err // remplacer par 404 NOT FOUND
+            }
+        })
+    })
+    res.redirect('/navire/navires')
+});
+//------------------------------------------------------------------------//
+
+>>>>>>> parent of 0247824... Modification au niveau des requetes sql
 
 
 
@@ -321,9 +344,9 @@ navireRouter.get('/navire/:id', function(req, res) {
 
 // afficher l'historique du tracking de la navire
 //---------------------------------------------------------------------------//
-navireRouter.get('/historique/:IDVMS', function(req, res) {
-    const sql = "SELECT * FROM trackingData WHERE ID_VMS = ? LIMIT 20"
-    db.query(sql, (req.params.IDVMS), (err, result) => {
+navireRouter.get('/historique/:name', function(req, res) {
+    const sql = "SELECT * FROM trackingData WHERE NA = ? LIMIT 20"
+    db.query(sql, (req.params.name), (err, result) => {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
@@ -341,9 +364,9 @@ navireRouter.get('/historique/:IDVMS', function(req, res) {
 // ------------------ afficher l'historique des positions, des SOS et des bulletins ------------------//
 
 // Afficher les positions
-navireRouter.get('/totalposition/:IDVMS', function(req, res) {
-    const id = "'" + req.params.IDVMS + "'"
-    sql = "SELECT * FROM trackingData WHERE ID_VMS = " + id + " LIMIT 20;";
+navireRouter.get('/totalposition/:name', function(req, res) {
+    const id = "'" + req.params.name + "'"
+    sql = "SELECT * FROM trackingData WHERE NA = " + id + " LIMIT 20;";
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -355,9 +378,9 @@ navireRouter.get('/totalposition/:IDVMS', function(req, res) {
 });
 
 // afficher les SOS
-navireRouter.get('/totalSOS/:IDVMS', function(req, res) {
-    const id = "'" + req.params.IDVMS + "'"
-    sql = "SELECT * FROM trackingData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%DIS%');"
+navireRouter.get('/totalSOS/:name', function(req, res) {
+    const id = "'" + req.params.name + "'"
+    sql = "SELECT * FROM trackingData WHERE (NA = " + id + ") AND (TM LIKE '%DIS%');"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -373,9 +396,9 @@ navireRouter.get('/totalSOS/:IDVMS', function(req, res) {
 
 
 // afficher les bulletins
-navireRouter.get('/totalBulletins/:IDVMS', function(req, res) {
-    const id = "'" + req.params.IDVMS + "'"
-    sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ;"
+navireRouter.get('/totalBulletins/:name', function(req, res) {
+    const id = "'" + req.params.name + "'"
+    sql = "SELECT * FROM weatherCRCData WHERE (NA = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ;"
 
     db.query(sql, (err, result) => {
         if (err) {
