@@ -4,10 +4,7 @@ const moment = require('moment');
 const validationAbonnement = require('../fonctionDeTravail/validationAbonnement');
 const extraireDate = require('../fonctionDeTravail/extraireDate');
 const { redirect, render } = require('express/lib/response');
-<<<<<<< HEAD
-const validationUndifined = require('../fonctionDeTravail/validationUndefined');
-=======
->>>>>>> parent of 0247824... Modification au niveau des requetes sql
+const validationUndifined = require('../fonctionDeTravail/validationUndifined');
 const navireRouter = express.Router();
 
 
@@ -59,7 +56,6 @@ navireRouter.post('/ajouter', function(req, res) {
     const sql = "INSERT INTO tobInfo VALUES(?,?,?,?,?,?,?,?,?,?)"
 
 
-<<<<<<< HEAD
     const sql2 = "INSERT INTO tobInfo VALUES(?,?,?,?,?,?,?,?,?,?)"
     const sql1 = "SELECT * FROM tobInfo WHERE ID = '" + req.body.id_nav + "' OR ID_VMS = '" + req.body.ID_VMS + "';";
     console.log(sql1)
@@ -84,14 +80,14 @@ navireRouter.post('/ajouter', function(req, res) {
         } else {
             msg = "Entrer correctement les données"
             res.render('navire/ajouterNavire', { msg: msg })
-=======
-    db.query(sql, [req.body.id_nav, req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, req.body.DABEG, req.body.DAEND], (err, result) => {
-        if (err) {
-            throw err; // remplacer par 404 NOT FOUND
->>>>>>> parent of 0247824... Modification au niveau des requetes sql
+            db.query(sql, [req.body.id_nav, req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, req.body.DABEG, req.body.DAEND], (err, result) => {
+                if (err) {
+                    throw err; // remplacer par 404 NOT FOUND
+                }
+            });
         }
+        res.redirect('/navire/navires')
     });
-    res.redirect('/navire/navires')
 });
 //-----------------------------------------------------------------//
 
@@ -297,8 +293,6 @@ navireRouter.get('/navire/:id', function(req, res) {
 
 
 
-<<<<<<< HEAD
-=======
 //------------------- modifier navire ------------------------------------//
 // GET method
 navireRouter.get('/modifier/:id', function(req, res) {
@@ -332,7 +326,6 @@ navireRouter.post('/modifier/:id', function(req, res) {
 });
 //------------------------------------------------------------------------//
 
->>>>>>> parent of 0247824... Modification au niveau des requetes sql
 
 
 
