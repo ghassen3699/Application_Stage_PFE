@@ -68,7 +68,7 @@
                                     <tr class="gradeX">
 
                                         <td style="text-align: center;font-size: medium;">
-                                            <a href="/navire/navire/<%= navire.NA%>" style="color:gray;">
+                                            <a href="/navire/navire/<%= navire.ID_VMS%>" style="color:gray;">
                                                 <%= navire.NA %>
                                             </a>
                                         </td>
@@ -93,9 +93,9 @@
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
 
                                             <%= navire.DABeg[6]%>
-                                                <%= navire.DABeg[7]%> /
+                                                <%= navire.DABeg[7]%> -
                                                     <%= navire.DABeg[4]%>
-                                                        <%= navire.DABeg[5]%> /
+                                                        <%= navire.DABeg[5]%> -
                                                             <%= navire.DABeg[0]%>
                                                                 <%= navire.DABeg[1]%>
                                                                     <%= navire.DABeg[2]%>
@@ -104,19 +104,19 @@
                                         </td>
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
                                             <%= navire.DAEnd[6]%>
-                                                <%= navire.DAEnd[7]%> /
+                                                <%= navire.DAEnd[7]%> -
                                                     <%= navire.DAEnd[4]%>
-                                                        <%= navire.DAEnd[5]%> /
+                                                        <%= navire.DAEnd[5]%> -
                                                             <%= navire.DAEnd[0]%>
                                                                 <%= navire.DAEnd[1]%>
                                                                     <%= navire.DAEnd[2]%>
                                                                         <%= navire.DAEnd[3]%>
                                         </td>
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/modifier/<%= navire.ID%>" style="color: goldenrod;" class="fa fa-refresh" aria-hidden="true"></a>
+                                            <a href="/navire/modifier/<%= navire.ID %>" style="color: goldenrod;" class="fa fa-refresh" aria-hidden="true"></a>
                                         </td>
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/supprimer/<%= navire.ID%>" style="color: red;" class="icon-remove"></a>
+                                            <a href="/navire/supprimer/<%= navire.ID %>" style="color: red;" class="icon-remove"></a>
                                         </td>
                                     </tr>
 
