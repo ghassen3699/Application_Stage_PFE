@@ -6,9 +6,8 @@ const extraireDate = require('../fonctionDeTravail/extraireDate');
 const { redirect, render } = require('express/lib/response');
 const validationUndifined = require('../fonctionDeTravail/validationUndifined');
 const testDate = require('../fonctionDeTravail/testDate');
-const navireModel = require('../fonctionDeTravail/navireModel');
 const navireRouter = express.Router();
-
+const { registerForm } = require('../fonctionDeTravail/validationJoi');
 
 
 
@@ -56,7 +55,7 @@ navireRouter.post('/ajouter', function(req, res) {
 
 
     const sql2 = "INSERT INTO tobInfo VALUES(?,?,?,?,?,?,?,?,?,?)"
-    const sql1 = "SELECT * FROM tobInfo WHERE ID = '" + req.body.id_nav + "' OR ID_VMS = '" + req.body.ID_VMS + "';";
+    const sql1 = "SELECT * FROM tobInfo WHERE ID_VMS = '" + req.body.ID_VMS + "';";
 
     // tester si le ID n'existe pas 
     db.query(sql1, (err, result) => {
@@ -64,18 +63,37 @@ navireRouter.post('/ajouter', function(req, res) {
         if (err) {
             throw err;
         }
-        console.log(result)
-            // si les données est vrais on enregistre la navire 
-        if ((result.length === 0) && (testDate(req.body.DABEG, 1)) && (testDate(req.body.DAEND, 1))) {
+        // si les données est vrais on enregistre la navire 
+        if (result.length === 0) {
+            const { error } = registerForm(req.body)
 
-            db.query(sql2, [req.body.id_nav, req.body.NA, req.body.ID_VMS, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, testDate(req.body.DAEND, 0), testDate(req.body.DAEND, 0)], (err, result) => {
-                if (err) {
-                    throw err;
-                }
-            });
-            res.redirect('/navire/navires')
+            if (error) {
+                console.log(error)
+                res.render('navire/ajouterNavire', { msg: error })
+            } else {
+
+
+                db.query('SELECT * FROM tobInfo ORDER BY ID DESC LIMIT 1 ;', (err, result) => {
+                    if (err) {
+                        throw err;
+                    }
+                    var id, REG_ID
+                    result.forEach(resultEelement => {
+                        id = resultEelement['ID'] + 1
+                        REG_ID = resultEelement['REG_ID'] + 1
+                    });
+                    db.query(sql2, [id, req.body.NA, req.body.ID_VMS, REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, testDate(req.body.DABEG, 0), testDate(req.body.DAEND, 0)], (err, result) => {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                    res.redirect('/navire/navires')
+                })
+
+            }
+
         } else {
-            msg = "Entrer correctement les données"
+            msg = 'Votre ID VMS Est Déja Utiliser'
             res.render('navire/ajouterNavire', { msg: msg })
         }
     });
@@ -197,40 +215,43 @@ navireRouter.get('/modifier/:id', function(req, res) {
 
 
 
-// POST method
 navireRouter.post('/modifier/:id', function(req, res) {
-    const sql1 = "SELECT * FROM tobInfo WHERE ID = ?"
+    const sql1 = "SELECT * FROM tobInfo WHERE ID = " + req.params.id + ";"
     const sql2 = "UPDATE tobInfo SET NA = ?, REG_ID = ?, IMEI = ?, ICCID = ?, RC = ?, KEY_AES = ?, DABeg = ?, DAEnd = ? WHERE ID = ?"
-    var msg = ""
 
-
-    // tester si la navire existe ou non 
-    db.query(sql1, [req.params.id, ], (err, result) => {
+    db.query(sql1, (err, result) => {
         if (err) {
             throw err
         }
 
-        // si les données est vrais on enregistre la navire 
-        if ((testDate(req.body.DABEG, 1)) && (testDate(req.body.DAEND, 1))) {
-            db.query(sql2, [req.body.NA, req.body.REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, testDate(req.body.DABEG, 0), testDate(req.body.DAEND, 0), req.params.id], (err, result) => {
-                if (err) {
-                    throw err;
-                }
-            });
-            return res.redirect('/navire/navires')
+        const { error } = registerForm(req.body)
 
-        } else {
+        if (error) {
+
             var name
             result.forEach(navire => {
                 name = navire['NA']
             });
-            msg = "Entrer les donnees correctement"
-            return res.render('navire/modifierNavire', { navireData: result, name: name, msg: msg })
+            return res.render('navire/modifierNavire', { navireData: result, name: name, msg: error })
+
+
+        } else {
+            var id, REG_ID
+            result.forEach(resultEelement => {
+                id = resultEelement['ID']
+                REG_ID = resultEelement['REG_ID']
+            });
+
+            db.query(sql2, [req.body.NA, REG_ID, req.body.IMEI, req.body.ICCID, req.body.RC, req.body.KEY_AES, testDate(req.body.DABEG, 0), testDate(req.body.DAEND, 0), id], (err, result) => {
+                if (err) {
+                    throw err
+                }
+            })
+            return res.redirect('/navire/navires')
         }
+
     })
-
 });
-
 
 
 //------------------------------------------------------------------------//
