@@ -23,18 +23,21 @@
                                 <div class="span6" id="">
                                     <div class="dataTables_length" id="hidden-table-info_length">
                                         <label>
-                                            <select size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
-                                                <option value="10" selected="selected" >10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
+                                            <form id="formPagination" action="/navire/<%= ID_VMS%>/paginationPosition" method="get">
+                                                <select size="1" id="myForm" name="pagination" aria-controls="hidden-table-info">
+                                                    <option  value="10" >10</option>
+                                                    <option  value="25">25</option>
+                                                    <option  value="50">50</option>
+                                                    <option  value="100">100</option>
+                                                </select>
+
+                                            </form>
                                             &nbsp;
-                                            record per page 
+                                            Pagination
                                         </label>
                                     </div>
                                 </div>
-                                <form action="/navire/<%= navireName %>/recherchePosition" method="get">
+                                <form action="/navire/<%= ID_VMS %>/recherchePosition" method="get">
                                     <div class="span6">
                                         <div class="dataTables_filter" id="hidden-table-info_filter">
                                             <label>
@@ -132,6 +135,26 @@
             <!-- /wrapper -->
         </section>
 
+        <script>
+            // document.querySelector('#paginationForm').click(function() {
+            //     document.querySelector('#myForm').submit();
+            // });
 
+            var activities = document.getElementById("myForm");
+
+            activities.addEventListener("click", function() {
+                var options = activities.querySelectorAll("option");
+                var count = options.length;
+                if (typeof(count) === "undefined" || count < 2) {
+                    document.querySelector('#formPagination').submit();
+                }
+            });
+
+            activities.addEventListener("change", function() {
+                if ((activities.value == "10") || (activities.value == "25") || (activities.value == "50") || (activities.value == "100")) {
+                    document.querySelector('#formPagination').submit();
+                }
+            });
+        </script>
 
         <%- include("../partials/footer"); -%>

@@ -76,19 +76,27 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group ">
+
+
+                                        <div class="form-group">
                                             <label for="curl" class="control-label col-lg-2" style="font-size: medium;">DABEG</label>
-                                            <div class="col-lg-10">
-                                                <input value="<%= navire['DABeg'][0] %><%= navire['DABeg'][1] %><%= navire['DABeg'][2] %><%= navire['DABeg'][3] %>-<%= navire['DABeg'][4] %><%= navire['DABeg'][5] %>-<%= navire['DABeg'][6] %><%= navire['DABeg'][7] %>" class="form-control " id="curl" type="text"
-                                                    name="DABEG" required />
+                                            <div class="col-md-3 col-xs-11">
+                                                <div class="input-append date dpYears">
+                                                    <input type="date" value="<%= navire['DABeg'][0] %><%= navire['DABeg'][1] %><%= navire['DABeg'][2] %><%= navire['DABeg'][3] %>-<%= navire['DABeg'][4] %><%= navire['DABeg'][5] %>-<%= navire['DABeg'][6] %><%= navire['DABeg'][7] %>" id="bday" name="DABEG"
+                                                        size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="form-group ">
+
+
+                                        <div class="form-group">
                                             <label for="curl" class="control-label col-lg-2" style="font-size: medium;">DAEND</label>
-                                            <div class="col-lg-10">
-                                                <input value="<%= navire['DAEnd'][0] %><%= navire['DAEnd'][1] %><%= navire['DAEnd'][2] %><%= navire['DAEnd'][3] %>-<%= navire['DAEnd'][4] %><%= navire['DAEnd'][5] %>-<%= navire['DAEnd'][6] %><%= navire['DAEnd'][7] %>" class="form-control " id="curl" type="text"
-                                                    name="DAEND" required />
+                                            <div class="col-md-3 col-xs-11">
+                                                <div class="input-append date dpYears">
+                                                    <input type="date" value="<%= navire['DAEnd'][0] %><%= navire['DAEnd'][1] %><%= navire['DAEnd'][2] %><%= navire['DAEnd'][3] %>-<%= navire['DAEnd'][4] %><%= navire['DAEnd'][5] %>-<%= navire['DAEnd'][6] %><%= navire['DAEnd'][7] %>" id="bday" name="DAEND"
+                                                        size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                                                </div>
                                             </div>
                                         </div>
 
