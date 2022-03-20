@@ -398,7 +398,6 @@ navireRouter.get('/navire/:id', function(req, res) {
             navireData = contenu
         });
 
-
         res.render('navire/singleNavire', {
             navire: result[0],
             nombrePositionEnvoyer: nombrePositionEnvoyer,

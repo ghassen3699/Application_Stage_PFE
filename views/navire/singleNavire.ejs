@@ -1,4 +1,15 @@
 <%- include("../partials/header"); -%>
+    <style>
+        .teste {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border: 10px solid red;
+            margin-top: 20px;
+        }
+    </style>
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
     <section id="main-content">
@@ -60,8 +71,11 @@
                             <!-- /col-md-4 -->
                             <div class="col-md-4 centered">
                                 <div class="profile-pic">
-                                    <p><img src="/images.png" class="img-circle"></p>
-
+                                    <% if (validationAbonnement === "red"){%>
+                                        <p><img src="/images.png" class="img-circle" style="border: 10px solid red;"></p>
+                                        <%}else{%>
+                                            <p><img src="/images.png" class="img-circle"></p>
+                                            <%}%>
                                 </div>
                             </div>
                             <!-- /col-md-4 -->
