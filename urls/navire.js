@@ -438,9 +438,8 @@ navireRouter.get('/historique/:ID_VMS', function(req, res) {
 });
 
 // pagination de la page historique de tracking
-navireRouter.get('/:ID_VMS/paginationTracking', function(req, res) {
+navireRouter.get('/:ID_VMS/paginationHistorique', function(req, res) {
     const pagination = req.query.pagination
-    console.log(pagination)
     const sql = "SELECT * FROM trackingData WHERE ID_VMS = '" + req.params.ID_VMS + "' LIMIT " + pagination + ";"
     db.query(sql, (err, result) => {
         if (err) {
@@ -450,6 +449,10 @@ navireRouter.get('/:ID_VMS/paginationTracking', function(req, res) {
         result.forEach(navireElement => {
             ID_VMS = navireElement['ID_VMS'];
         });
+
+        if (ID_VMS === undefined) {
+            ID_VMS = req.params.ID_VMS
+        }
         res.render('navire/historiqueTracking', { navire: result, ID_VMS: ID_VMS })
     })
 });
@@ -500,7 +503,7 @@ navireRouter.get('/:ID_VMS/paginationPosition', function(req, res) {
         result.forEach(navireElement => {
             ID_VMS = navireElement['ID_VMS'];
         });
-        res.render('navire/historiqueTracking', { navire: result, ID_VMS: ID_VMS })
+        res.render('navire/totalposition', { navirePositions: result, ID_VMS: ID_VMS })
     })
 });
 //------------------------------------------------------------------------------------------------//
