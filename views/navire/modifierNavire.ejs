@@ -25,7 +25,7 @@
 
                                 <form class="cmxform form-horizontal style-form" id="commentForm" method="post">
                                     <div class="form-group ">
-                                        <label for="cemail" class="control-label col-lg-2" style="font-size: medium;">NA </label>
+                                        <label for="cemail" class="control-label col-lg-2" style="font-size: medium;">Le nom de la navire :</label>
                                         <div class="col-lg-5">
                                             <input value="<%= navire['NA'] %>" class="form-control " id="cemail" type="text" name="NA" />
                                         </div>
@@ -33,7 +33,7 @@
                                     <br>
 
                                     <div class="form-group ">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ID_VMS </label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ID_VMS de la navire :</label>
                                         <div class="col-lg-10">
                                             <input value="<%= navire['ID_VMS'] %>" class="form-control " id="curl" type="text" name="ID_VMS" disabled required />
                                         </div>
@@ -41,7 +41,7 @@
                                     <br>
 
                                     <div class="form-group ">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">REG_ID </label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">REG_ID de la navire :</label>
                                         <div class="col-lg-5">
                                             <input value="<%= navire['REG_ID'] %>" class="form-control " id="curl" type="text" name="REG_ID" disabled required />
                                         </div>
@@ -49,7 +49,7 @@
                                     <br>
 
                                     <div class="form-group ">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">IMEI </label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">IMEI de la navire :</label>
                                         <div class="col-lg-5">
                                             <input value="<%= navire['IMEI'] %>" class="form-control " id="curl" type="text" name="IMEI" required />
                                         </div>
@@ -57,7 +57,7 @@
                                     <br>
 
                                     <div class="form-group ">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ICCID </label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ICCID de la navire :</label>
                                         <div class="col-lg-10">
                                             <input value="<%= navire['ICCID'] %>" class="form-control " id="curl" type="text" name="ICCID" required />
                                         </div>
@@ -65,14 +65,14 @@
 
 
                                     <div class="form-group ">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">RC </label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">RC de la navire :</label>
                                         <div class="col-lg-10">
                                             <input value="<%= navire['RC'] %>" class="form-control " id="curl" type="text" name="RC" required />
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">KEY_AES</label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">KEY_AES de la navire :</label>
                                         <div class="col-lg-10">
                                             <input value="<%= navire['KEY_AES'] %>" class="form-control " id="curl" type="text" name="KEY_AES" required />
                                         </div>
@@ -81,7 +81,7 @@
 
 
                                     <div class="form-group">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">DABEG</label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Date debut d'abonnement :</label>
                                         <div class="col-md-3 col-xs-11">
                                             <div class="input-append date dpYears">
                                                 <input type="date" value="<%= navire['DABeg'][0] %><%= navire['DABeg'][1] %><%= navire['DABeg'][2] %><%= navire['DABeg'][3] %>-<%= navire['DABeg'][4] %><%= navire['DABeg'][5] %>-<%= navire['DABeg'][6] %><%= navire['DABeg'][7] %>" id="bday" name="DABEG"
@@ -93,7 +93,7 @@
 
 
                                     <div class="form-group">
-                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">DAEND</label>
+                                        <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Date fin d'abonnement :</label>
                                         <div class="col-md-3 col-xs-11">
                                             <div class="input-append date dpYears">
                                                 <input type="date" value="<%= navire['DAEnd'][0] %><%= navire['DAEnd'][1] %><%= navire['DAEnd'][2] %><%= navire['DAEnd'][3] %>-<%= navire['DAEnd'][4] %><%= navire['DAEnd'][5] %>-<%= navire['DAEnd'][6] %><%= navire['DAEnd'][7] %>" id="bday" name="DAEND"

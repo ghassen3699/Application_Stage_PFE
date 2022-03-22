@@ -122,10 +122,7 @@
                     <div class="notificationBarVisibility visibleText">
                         <div class='panel terques-chart'>
                             <div class='chart'>
-
-
                                 <div class='centered'>
-                                    <br>
                                     <span>Nombre Total Des Navire Trouvee: <%= nombreDesNavire%></span>
                                     <br>
                                     <form action="/navire/PickerSingleDate" method="get">
@@ -155,19 +152,21 @@
                                 </form>
                                 <hr>
 
-                                <div class='centered'>
+                                <form action="/navire/PickerRequete" method="get">
+                                    <div class='centered'>
 
-                                    <h5 class="centered mt">Recherche Simple</h5>
-                                    <br>
-                                    <h6>Entrer Votre Requétes</h6>
-                                    <input type="test" placeholder="ID_VMD, NA ...." value="" id="bday" name="DAEND" size="16" class="form-control">
-                                </div>
+                                        <h5 class="centered mt">Recherche Simple</h5>
+                                        <br>
+                                        <h6>Entrer Votre Requétes</h6>
+                                        <input type="test" placeholder="ID_VMD, NA ...." id="bday" name="recherche" class="form-control">
+                                    </div>
 
-                                <div class='centered'>
-                                    <br>
+                                    <div class='centered'>
+                                        <br>
 
-                                    <h5 class="centered mt"><button type="submit" class="btn btn-warning btn-lg btn-block">Recherche</button></h5>
-                                </div>
+                                        <h5 class="centered mt"><button type="submit" class="btn btn-warning btn-lg btn-block">Recherche</button></h5>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

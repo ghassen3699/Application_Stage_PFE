@@ -27,6 +27,7 @@ app.use(express.static('public')); // le dossier static
 
 //--------------------- L'importation des routes -------------------------//
 const mapRouter = require('./urls/map');
+const authRouter = require('./urls/authentification');
 const homeRouter = require('./urls/home');
 const parametreRouter = require('./urls/parametre');
 const meteoRouter = require('./urls/meteo');
@@ -36,7 +37,8 @@ const statistiqueRouter = require('./urls/statistique');
 
 
 
-app.use(bodyParser.urlencoded({ extended: true }));;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', authRouter);
 app.use('/map', mapRouter); // le route map
 app.use('/home', homeRouter); // le route home
 app.use('/parametre', parametreRouter); // le route des parametres

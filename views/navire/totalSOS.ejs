@@ -25,10 +25,13 @@
                                         <label>
                                             <form id="formPagination" action="/navire/<%= ID_VMS%>/paginationSOS" method="get">
                                                 <select size="1" id="myForm" name="pagination" aria-controls="hidden-table-info">
+                                                    <option  value="10" >--</option>
                                                     <option  value="10" >10</option>
                                                     <option  value="25">25</option>
                                                     <option  value="50">50</option>
                                                     <option  value="100">100</option>
+                                                    <option  value="TOUS">Tous ...</option>
+
                                                 </select>
 
                                             </form>
@@ -152,7 +155,7 @@
             });
 
             activities.addEventListener("change", function() {
-                if ((activities.value == "10") || (activities.value == "25") || (activities.value == "50") || (activities.value == "100")) {
+                if ((activities.value == "10") || (activities.value == "25") || (activities.value == "50") || (activities.value == "100") || (activities.value == "TOUS")) {
                     document.querySelector('#formPagination').submit();
                 }
             });

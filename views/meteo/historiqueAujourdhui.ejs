@@ -11,7 +11,7 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3> L'historique de la méteo pour aujourd'hui</h3>
+            <h3> L'historique de la méteo</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
@@ -23,7 +23,7 @@
                                 <div class="span6" id="">
                                     <div class="dataTables_length" id="hidden-table-info_length">
                                         <label>
-                                            <form id="formPagination" action="/meteo/paginationMeteo" method="get">
+                                            <form id="formPagination" action="/meteo/AujourdhuiHistoriqueMeteo" method="get">
                                                 <select size="1" id="myForm" name="pagination" aria-controls="hidden-table-info">
                                                     <option  value="10" >--</option>
                                                     <option  value="10" >10</option>
@@ -37,7 +37,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <form action="/meteo/recherche" method="get">
+                                <form action="/meteo/historiqueAujourdhuiRecherche" method="get">
                                     <div class="span6">
                                         <div class="dataTables_filter" id="hidden-table-info_filter">
                                             <label>

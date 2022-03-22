@@ -1,5 +1,9 @@
 <%- include("../partials/header"); -%>
-
+    <style>
+        .styles {
+            color: red;
+        }
+    </style>
 
     <section id="main-content">
         <section class="wrapper site-min-height">
@@ -13,7 +17,7 @@
                     </div>
 
 
-                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12" id="clignot1">
                         <div class="custom-box">
                             <div class="servicetitle">
                                 <h3>Prévision</h3>
@@ -30,11 +34,11 @@
                                 <li style="font-size: medium;">information 6</li>
                                 <li style="font-size: medium;">information 7</li>
                             </ul>
-                            <p class="btn btn-theme">La Date du prév</p>
+                            <p class="btn btn-theme">Historique Prevision D'aujourd'hui</p>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12 styles" id="clignot2">
                         <div class="custom-box">
                             <div class="servicetitle">
                                 <h3>BMS</h3>
@@ -51,7 +55,7 @@
                                 <li style="font-size: medium;">information 6</li>
                                 <li style="font-size: medium;">information 7</li>
                             </ul>
-                            <p class="btn btn-theme">La Date du BMS</p>
+                            <p class="btn btn-theme">Attention !! BMS Pour Aujourd'hui</p>
                         </div>
                         <!-- end custombox -->
                     </div>
@@ -66,7 +70,13 @@
         <!-- /wrapper -->
     </section>
 
+    <script>
+        var timer = setInterval(function() {
+            const clignotte2 = document.getElementById('clignot2');
 
+            clignotte2.classList.toggle('styles')
+        }, 1000)
+    </script>
 
 
 

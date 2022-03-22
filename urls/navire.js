@@ -3,7 +3,6 @@ const mysql = require('mysql');
 const moment = require('moment');
 const validationAbonnement = require('../fonctionDeTravail/validationAbonnement');
 const extraireDate = require('../fonctionDeTravail/extraireDate');
-const { redirect, render } = require('express/lib/response');
 const validationUndifined = require('../fonctionDeTravail/validationUndifined');
 const testDate = require('../fonctionDeTravail/testDate');
 const navireRouter = express.Router();
@@ -50,7 +49,7 @@ db.connect((err) => {
 // GET method
 navireRouter.get('/ajouter', function(req, res) {
     var msg = ''
-    res.render('navire/ajouterNavire', { msg })
+    return res.render('navire/ajouterNavire', { msg })
 });
 
 // POST method
@@ -72,7 +71,7 @@ navireRouter.post('/ajouter', function(req, res) {
 
             if (error) {
                 console.log(error)
-                res.render('navire/ajouterNavire', { msg: error })
+                return res.render('navire/ajouterNavire', { msg: error })
             } else {
 
 
@@ -90,14 +89,14 @@ navireRouter.post('/ajouter', function(req, res) {
                             throw err;
                         }
                     });
-                    res.redirect('/navire/navires')
+                    return res.redirect('/navire/navires')
                 })
 
             }
 
         } else {
             msg = 'Votre ID VMS Est Déja Utiliser'
-            res.render('navire/ajouterNavire', { msg: msg })
+            return res.render('navire/ajouterNavire', { msg: msg })
         }
     });
 });
@@ -113,11 +112,11 @@ navireRouter.post('/ajouter', function(req, res) {
 //------------------------------------------------------- afficher tous les navires ----------------------------------------------------------------------//
 navireRouter.get('/navires', function(req, res) {
 
-    db.query("SELECT * FROM tobInfo order by ID DESC LIMIT 10;", (err, result) => {
+    db.query("SELECT * FROM tobInfo ORDER BY ID DESC LIMIT 10;", (err, result) => {
         if (err) {
             throw err; // remplacer par 404 NOT FOUND
         }
-        res.render('navire/touslesnavires', { navires: result });
+        return res.render('navire/touslesnavires', { navires: result });
     });
 
 });
@@ -127,12 +126,18 @@ navireRouter.get('/navires', function(req, res) {
 // la fonction de pagination de la page navire 
 navireRouter.get('/paginationNavires', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT * FROM tobInfo order by ID DESC LIMIT " + pagination + ";"
+    var sql
+    if (pagination === "TOUS") {
+        sql = "SELECT * FROM tobInfo ORDER BY ID DESC ;"
+    } else {
+        sql = "SELECT * FROM tobInfo ORDER BY ID DESC LIMIT " + pagination + ";"
+    }
+
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
-        res.render('navire/touslesnavires', { navires: result })
+        return res.render('navire/touslesnavires', { navires: result })
     })
 });
 
@@ -157,22 +162,34 @@ navireRouter.get('/recherche', function(req, res) {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        res.render('navire/touslesnavires', { navires: result })
+        return res.render('navire/touslesnavires', { navires: result })
     })
 
 });
 
 
+// la fonction recherche de la page tracking 
+navireRouter.get('/:ID_VMS/rechercheTracking', function(req, res) {
+    const search = req.query.recherche
+    const sql = "SELECT * FROM trackingData WHERE (ID_VMS = '" + req.params.ID_VMS + "') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') LIMIT 20;"
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+        return res.render('navire/historiqueTracking', { navire: result, ID_VMS: req.params.ID_VMS })
+    })
+});
 
 // la fonction recherche de la page historique des positions
 navireRouter.get('/:ID_VMS/recherchePosition', function(req, res) {
     const search = req.query.recherche
-    const sql = "SELECT * FROM trackingData WHERE (ID_VMS = '" + req.params.ID_VMS + "') AND (TM = 'POS') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') LIMIT 20;"
+    const sql = "SELECT * FROM trackingData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM = 'POS') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR LT LIKE '%" + search + "%' OR LG LIKE '%" + search + "%' OR CO LIKE '%" + search + "%' OR SP LIKE '%" + search + "%' OR COM LIKE '%" + search + "%' OR TM LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') LIMIT 20;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        res.render('navire/totalposition', { navirePositions: result, navireName: req.params.name })
+        return res.render('navire/totalposition', { navirePositions: result, ID_VMS: req.params.ID_VMS })
     })
 });
 
@@ -187,7 +204,7 @@ navireRouter.get('/:ID_VMS/rechercheSOS', function(req, res) {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        res.render('navire/totalSOS', { navireSOS: result, navireName: req.params.name })
+        return res.render('navire/totalSOS', { navireSOS: result, ID_VMS: req.params.ID_VMS })
     })
 });
 
@@ -197,12 +214,12 @@ navireRouter.get('/:ID_VMS/rechercheSOS', function(req, res) {
 navireRouter.get('/:ID_VMS/rechercheBulletins', function(req, res) {
     const search = req.query.recherche
 
-    const sql = "SELECT * FROM weatherCRCData where (ID_VMS = '" + req.params.ID_VMS + "') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR TM = '" + search + "' OR CRC LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%');"
+    const sql = "SELECT * FROM weatherCRCData where (ID_VMS = " + req.params.ID_VMS + ") AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR TM = '" + search + "' OR CRC LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%');"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
-        res.render('navire/totalBulletins', { navireBulletins: result, navireName: req.params.name })
+        return res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
     })
 });
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -215,7 +232,7 @@ navireRouter.get('/:ID_VMS/rechercheBulletins', function(req, res) {
 //----------------------------------------------------------- modifier navire ---------------------------------------------------------------------------//
 // GET method
 navireRouter.get('/modifier/:id', function(req, res) {
-    const sql = "SELECT * FROM tobInfo Where ID = ? "
+    const sql = "SELECT * FROM tobInfo WHERE ID = ? "
     const msg = ""
     db.query(sql, [req.params.id], (err, result) => {
         if (err) {
@@ -225,7 +242,7 @@ navireRouter.get('/modifier/:id', function(req, res) {
         result.forEach(navire => {
             name = navire['NA']
         });
-        res.render('navire/modifierNavire', { navireData: result, name: name, msg: msg })
+        return res.render('navire/modifierNavire', { navireData: result, name: name, msg: msg })
     })
 
 });
@@ -289,7 +306,7 @@ navireRouter.get('/supprimer/:id', function(req, res) {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
-        res.render('navire/validSupprission', { navire: result })
+        return res.render('navire/validSupprission', { navire: result })
     })
 
 });
@@ -308,7 +325,7 @@ navireRouter.post('/supprimer/:id', function(req, res) {
             }
         })
     })
-    res.redirect('/navire/navires')
+    return res.redirect('/navire/navires')
 });
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -331,9 +348,10 @@ navireRouter.get('/navire/:id', function(req, res) {
     sql1 = "SELECT * FROM tobInfo WHERE ID_VMS = " + id + ";";
     sql2 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE ID_VMS = " + id + ";";
     sql3 = "SELECT COUNT(*) AS TOTAL FROM trackingData WHERE ID_VMS = " + id + " AND TM LIKE '%DIS%';"
-    sql4 = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%');"
+    sql4 = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%');"
     sql5 = "SELECT * FROM trackingData WHERE ID_VMS = " + id + " order by ID desc LIMIT 1;";
     sql6 = "SELECT * FROM weatherCRCData WHERE ID_VMS = " + id + " AND TM LIKE '%ACKp%' ORDER BY ID DESC LIMIT 1;"
+    sql7 = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKb%');"
 
     //---------------------------------------------------------------------------------------------------------//
 
@@ -398,7 +416,7 @@ navireRouter.get('/navire/:id', function(req, res) {
             navireData = contenu
         });
 
-        res.render('navire/singleNavire', {
+        return res.render('navire/singleNavire', {
             navire: result[0],
             nombrePositionEnvoyer: nombrePositionEnvoyer,
             nombreSos: nombreSOS,
@@ -422,37 +440,31 @@ navireRouter.get('/navire/:id', function(req, res) {
 
 // la page des historiques 
 navireRouter.get('/historique/:ID_VMS', function(req, res) {
-    const sql = "SELECT * FROM trackingData WHERE ID_VMS = ? LIMIT 10"
+    const sql = "SELECT * FROM trackingData WHERE ID_VMS = ? ORDER BY ID DESC LIMIT 10"
     db.query(sql, (req.params.ID_VMS), (err, result) => {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
 
-        var ID_VMS;
-        result.forEach(navireElement => {
-            ID_VMS = navireElement['ID_VMS'];
-        });
-        res.render('navire/historiqueTracking', { navire: result, ID_VMS: ID_VMS })
+        return res.render('navire/historiqueTracking', { navire: result, ID_VMS: req.params.ID_VMS })
     })
 });
 
 // pagination de la page historique de tracking
 navireRouter.get('/:ID_VMS/paginationHistorique', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT * FROM trackingData WHERE ID_VMS = '" + req.params.ID_VMS + "' LIMIT " + pagination + ";"
+    var sql
+    if (pagination === "TOUS") {
+        sql = "SELECT * FROM trackingData WHERE ID_VMS = '" + req.params.ID_VMS + "' ORDER BY ID DESC ;"
+    } else {
+        sql = "SELECT * FROM trackingData WHERE ID_VMS = '" + req.params.ID_VMS + "' ORDER BY ID DESC LIMIT " + pagination + ";"
+    }
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
-        var ID_VMS;
-        result.forEach(navireElement => {
-            ID_VMS = navireElement['ID_VMS'];
-        });
 
-        if (ID_VMS === undefined) {
-            ID_VMS = req.params.ID_VMS
-        }
-        res.render('navire/historiqueTracking', { navire: result, ID_VMS: ID_VMS })
+        return res.render('navire/historiqueTracking', { navire: result, ID_VMS: req.params.ID_VMS })
     })
 });
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -472,20 +484,14 @@ navireRouter.get('/:ID_VMS/paginationHistorique', function(req, res) {
 //------------------------------------------------------------------------------------------------//
 navireRouter.get('/totalposition/:ID_VMS', function(req, res) {
     const id = "'" + req.params.ID_VMS + "'"
-    sql = "SELECT * FROM trackingData WHERE ID_VMS = " + id + " LIMIT 10;";
+    sql = "SELECT * FROM trackingData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%POS%') ORDER BY ID DESC LIMIT 10;";
 
     db.query(sql, (err, result) => {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
 
-        // enregistrer le nom de la navire 
-        var ID_VMS
-        result.forEach(navireData => {
-            ID_VMS = navireData['ID_VMS']
-        });
-
-        res.render('navire/totalposition', { navirePositions: result, ID_VMS: ID_VMS })
+        return res.render('navire/totalposition', { navirePositions: result, ID_VMS: id })
     })
 });
 
@@ -493,16 +499,19 @@ navireRouter.get('/totalposition/:ID_VMS', function(req, res) {
 // pagination de la page historique des positions
 navireRouter.get('/:ID_VMS/paginationPosition', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT * FROM trackingData WHERE ID_VMS = '" + req.params.ID_VMS + "' LIMIT " + pagination + ";"
+    var sql
+    if (pagination === "TOUS") {
+        sql = "SELECT * FROM trackingData WHERE ID_VMS = " + req.params.ID_VMS + " ORDER BY ID DESC ;"
+    } else {
+        sql = "SELECT * FROM trackingData WHERE ID_VMS = " + req.params.ID_VMS + " ORDER BY ID DESC LIMIT " + pagination + ";"
+    }
+
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
-        var ID_VMS;
-        result.forEach(navireElement => {
-            ID_VMS = navireElement['ID_VMS'];
-        });
-        res.render('navire/totalposition', { navirePositions: result, ID_VMS: ID_VMS })
+
+        return res.render('navire/totalposition', { navirePositions: result, ID_VMS: req.params.ID_VMS })
     })
 });
 //------------------------------------------------------------------------------------------------//
@@ -512,21 +521,14 @@ navireRouter.get('/:ID_VMS/paginationPosition', function(req, res) {
 // Afficher les SOS 
 //------------------------------------------------------------------------------------------------//
 navireRouter.get('/totalSOS/:ID_VMS', function(req, res) {
-    const id = "'" + req.params.ID_VMS + "'"
-    sql = "SELECT * FROM trackingData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%DIS%');"
+    sql = "SELECT * FROM trackingData WHERE (ID_VMS = '" + req.params.ID_VMS + "') AND (TM LIKE '%DIS%') ORDER BY ID DESC LIMIT 10;"
 
     db.query(sql, (err, result) => {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
         }
 
-        // enregistrer le nom de la navire 
-        var navireName
-        result.forEach(navireData => {
-            ID_VMS = navireData['ID_VMS']
-        });
-
-        res.render('navire/totalSOS', { navireSOS: result, ID_VMS: ID_VMS })
+        return res.render('navire/totalSOS', { navireSOS: result, ID_VMS: req.params.ID_VMS })
     })
 });
 
@@ -534,16 +536,19 @@ navireRouter.get('/totalSOS/:ID_VMS', function(req, res) {
 // pagination de la page historique des SOS
 navireRouter.get('/:ID_VMS/paginationSOS', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT * FROM trackingData WHERE (ID_VMS = '" + req.params.ID_VMS + "') AND (TM LIKE '%DIS%') LIMIT " + pagination + ";"
+    var sql
+    if (pagination === "TOUS") {
+        sql = "SELECT * FROM trackingData WHERE (ID_VMS = '" + req.params.ID_VMS + "') AND (TM LIKE '%DIS%') ORDER BY ID DESC ;"
+    } else {
+        sql = "SELECT * FROM trackingData WHERE (ID_VMS = '" + req.params.ID_VMS + "') AND (TM LIKE '%DIS%') ORDER BY ID DESC LIMIT " + pagination + ";"
+    }
+
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
-        var ID_VMS;
-        result.forEach(navireElement => {
-            ID_VMS = navireElement['ID_VMS'];
-        });
-        res.render('navire/totalSOS', { navireSOS: result, ID_VMS: ID_VMS })
+
+        return res.render('navire/totalSOS', { navireSOS: result, ID_VMS: req.params.ID_VMS })
     })
 });
 //------------------------------------------------------------------------------------------------//
@@ -555,7 +560,7 @@ navireRouter.get('/:ID_VMS/paginationSOS', function(req, res) {
 //------------------------------------------------------------------------------------------------//
 navireRouter.get('/totalBulletins/:ID_VMS', function(req, res) {
     const id = "'" + req.params.ID_VMS + "'"
-    sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ;"
+    sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ORDER BY ID DESC LIMIT 10;"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -563,11 +568,8 @@ navireRouter.get('/totalBulletins/:ID_VMS', function(req, res) {
         }
 
         // enregistrer le nom de la navire 
-        var navireName
-        result.forEach(navireData => {
-            ID_VMS = navireData['ID_VMS']
-        });
-        res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: ID_VMS })
+
+        return res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: id })
     })
 });
 
@@ -575,16 +577,20 @@ navireRouter.get('/totalBulletins/:ID_VMS', function(req, res) {
 // pagination de la page historique des Bulletins
 navireRouter.get('/:ID_VMS/paginationBulletins', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = '" + req.params.ID_VMS + "') AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') LIMIT " + pagination + ";"
+    var sql
+    if (pagination === "TOUS") {
+        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ORDER BY ID DESC ;"
+    } else {
+        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ORDER BY ID DESC LIMIT " + pagination + ";"
+
+    }
+
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
-        var ID_VMS;
-        result.forEach(navireElement => {
-            ID_VMS = navireElement['ID_VMS'];
-        });
-        res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: ID_VMS })
+
+        return res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
     })
 });
 //--------------------------------------------------------------------------------------------------------//
@@ -598,7 +604,7 @@ navireRouter.get('/:ID_VMS/paginationBulletins', function(req, res) {
 //----------------------------------------------------------------- Supprimer les positions de la navire -----------------------------------------------------------------//
 // GET method
 navireRouter.get('/supprimerPosition/:id', function(req, res) {
-    res.render('navire/validSupprission')
+    return res.render('navire/validSupprission')
 });
 
 // POST method
@@ -615,7 +621,7 @@ navireRouter.post('/supprimerPosition/:id', function(req, res) {
             }
         })
     })
-    res.redirect('/navire/navires')
+    return res.redirect('/navire/navires')
 
 });
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -631,7 +637,7 @@ navireRouter.post('/supprimerPosition/:id', function(req, res) {
 //-------------------------------------------------------------- Supprimer les SOS de la navire ------------------------------------------------------------------------------//
 // GET method
 navireRouter.get('/supprimerSOS/:id', function(req, res) {
-    res.render('navire/validSupprission')
+    return res.render('navire/validSupprission')
 });
 
 // POST method
@@ -648,7 +654,7 @@ navireRouter.post('/supprimerSOS/:id', function(req, res) {
             }
         })
     })
-    res.redirect('/navire/navires')
+    return res.redirect('/navire/navires')
 
 });
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -657,7 +663,7 @@ navireRouter.post('/supprimerSOS/:id', function(req, res) {
 
 //-------------------------------------------------------------- Recherche par picker------------------------------------------------------------------------------------------//
 
-
+// la page picker 
 navireRouter.get('/picker', function(req, res) {
     sql = "SELECT * FROM tobInfo LIMIT 18"
     db.query(sql, (err, result) => {
@@ -665,37 +671,52 @@ navireRouter.get('/picker', function(req, res) {
             throw err
         }
 
-        res.render('navire/picker', { navires: result, nombreDesNavire: result.length })
+        return res.render('navire/picker', { navires: result, nombreDesNavire: result.length })
 
     })
 });
 
+// recherche par une seule date
 navireRouter.get('/PickerSingleDate', function(req, res) {
     const date = testDate(req.query.date, 0)
-    const sql = "SELECT * FROM tobInfo WHERE ((DABeg =" + date + ") OR (DAEnd =" + date + "));"
+    const sql = "SELECT * FROM tobInfo WHERE ((DABeg =" + date + ") OR (DAEnd =" + date + ")) ORDER BY ID DESC ;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err;
         }
-        res.render('navire/picker', { navires: result, nombreDesNavire: result.length })
+        return res.render('navire/picker', { navires: result, nombreDesNavire: result.length })
     })
-})
+});
 
-
+// recherche entre deux dates 
 navireRouter.get('/PickerBetweenDate', function(req, res) {
     const date1 = testDate(req.query.date1, 0)
     const date2 = testDate(req.query.date2, 0)
-    const sql = "SELECT * FROM tobInfo where ((DABeg BETWEEN '" + date1 + "' AND '" + date2 + "') OR (DAEnd BETWEEN '" + date1 + "' AND '" + date2 + "'));"
+    const sql = "SELECT * FROM tobInfo where ((DABeg BETWEEN '" + date1 + "' AND '" + date2 + "') OR (DAEnd BETWEEN '" + date1 + "' AND '" + date2 + "')) ORDER BY ID DESC ;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err;
         }
-        res.render('navire/picker', { navires: result, nombreDesNavire: result.length })
+        return res.render('navire/picker', { navires: result, nombreDesNavire: result.length })
     })
 
-})
+});
 
 
+// recherche par une requete
+navireRouter.get('/PickerRequete', function(req, res) {
+    const search = req.query.recherche
+
+    const sql = "SELECT * FROM tobInfo WHERE NA LIKE '%" + search + "%' OR ID_VMS LIKE '%" + search + "%' OR REG_ID LIKE '%" + search + "%' OR IMEI LIKE '%" + search + "%' OR RC LIKE '%" + search + "%' OR KEY_AES LIKE '%" + search + "%' OR DAEnd LIKE '%" + search + "%' ORDER BY ID DESC ;"
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+        return res.render('navire/picker', { navires: result, nombreDesNavire: result.length })
+
+    })
+});
 
 
 // l'exportation du module

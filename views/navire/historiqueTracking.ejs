@@ -25,24 +25,25 @@
                                         <label>
                                             <form id="formPagination" action="/navire/<%= ID_VMS%>/paginationHistorique" method="get">
                                                 <select size="1" id="myForm" name="pagination" aria-controls="hidden-table-info">
+                                                    <option  value="10" >--</option>
                                                     <option  value="10" >10</option>
                                                     <option  value="25">25</option>
                                                     <option  value="50">50</option>
                                                     <option  value="100">100</option>
+                                                    <option  value="TOUS">Tous ...</option>
                                                 </select>
-
                                             </form>
                                             &nbsp;
                                             Pagination
                                         </label>
                                     </div>
                                 </div>
-                                <form action="/navire/recherche" method="get">
+                                <form action="/navire/<%=ID_VMS%>/rechercheTracking" method="get">
                                     <div class="span6">
                                         <div class="dataTables_filter" id="hidden-table-info_filter">
                                             <label>
                                                 Recherche &nbsp;
-                                                <input type="text" aria-controls="hidden-table-info" name="search">
+                                                <input type="text" aria-controls="hidden-table-info" name="recherche">
                                             </label>
                                         </div>
                                     </div>
@@ -53,9 +54,7 @@
                         <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
                             <thead>
                                 <tr>
-                                    <th style="text-align: center;">NA</th>
-                                    <th style="text-align: center;">ID_VMS</th>
-                                    <th class="hidden-phone" style="text-align: center;">RC</th>
+
                                     <th class="hidden-phone" style="text-align: center;">DA</th>
                                     <th class="hidden-phone" style="text-align: center;">TI</th>
                                     <th class="hidden-phone" style="text-align: center;">LT</th>
@@ -72,15 +71,8 @@
 
                                     <tr class="gradeX">
 
-                                        <td style="text-align: center;font-size: medium;">
-                                            <%= n.NA %>
-                                        </td>
-                                        <td class="hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= n.ID_VMS %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= n.RC %>
-                                        </td>
+
+
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
 
                                             <%= n.DA[6]%>
@@ -147,7 +139,7 @@
             });
 
             activities.addEventListener("change", function() {
-                if ((activities.value == "10") || (activities.value == "25") || (activities.value == "50") || (activities.value == "100")) {
+                if ((activities.value == "10") || (activities.value == "25") || (activities.value == "50") || (activities.value == "100") || (activities.value == "TOUS")) {
                     document.querySelector('#formPagination').submit();
                 }
             });

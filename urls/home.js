@@ -41,24 +41,19 @@ homeRouter.get('/', function(req, res) {
     //    })
     //});
 
-    const sql = "SELECT COUNT(*) AS TOTALPrev FROM weatherCRCData WHERE (TM='ACKp') AND (DA = CURDATE()+0); "
-    const sql2 = "SELECT COUNT(*) AS TOTALPos FROM weatherCRCData WHERE (TM='ACKi') AND (DA = CURDATE()+0);"
-    db.query(sql + sql2, (err, result) => {
+
+    sql_navire_connecter = "SELECT * FROM trackingData WHERE DA = '20220322' ORDER BY ID DESC LIMIT 1;"
+    db.query(sql_navire_connecter, (err, result) => {
         if (err) {
-            throw err; // remplacer par 404 NOT FOUND
+            throw err
         }
 
-        const PREV = result[0][0]['TOTALPrev'];
-        const ACKI = result[1][0]['TOTALPos'];
-        res.render("home", { temp: 13, pourcentageDesPREV: PREV, pourcentageDesPOS: ACKI })
-    });
+
+        res.render("home", { temp: 13, pourcentageDesPREV: 'PREV', pourcentageDesPOS: 'ACKI' })
+    })
 
 });
 
 
-
-homeRouter.get('/testPage', function(req, res) {
-    res.render('testPage')
-})
 
 module.exports = homeRouter;

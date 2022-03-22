@@ -73,9 +73,11 @@
                                 <div class="profile-pic">
                                     <% if (validationAbonnement === "red"){%>
                                         <p><img src="/images.png" class="img-circle" style="border: 10px solid red;"></p>
-                                        <%}else{%>
-                                            <p><img src="/images.png" class="img-circle"></p>
-                                            <%}%>
+                                        <%}else if(validationAbonnement === "orange"){%>
+                                            <p><img src="/images.png" class="img-circle" style="border: 10px solid orange;"></p>
+                                            <%}else {%>
+                                                <p><img src="/images.png" class="img-circle"></p>
+                                                <%}%>
                                 </div>
                             </div>
                             <!-- /col-md-4 -->
@@ -138,7 +140,7 @@
                                             <!-- /col-md-6 -->
                                             <div class="col-md-6 detailed">
                                                 <div class="row centered mt mb">
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-3">
                                                         <h3 style="color: blueviolet;">
                                                             <%= nombrePositionEnvoyer%>
                                                                 <% if (nombrePositionEnvoyer !== 0){%>
@@ -148,7 +150,7 @@
                                                                         <%}%>
                                                         </h3>
                                                     </div>
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-3">
                                                         <h3 style="color: red;">
                                                             <%= nombreSos %>
                                                                 <% if(nombreSos !== 0){ %>
@@ -158,13 +160,24 @@
                                                                         <%}%>
                                                         </h3>
                                                     </div>
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-3">
                                                         <h3 style="color: green;">
                                                             <%= nombreBulletins %>
                                                                 <% if(nombreBulletins !== 0){%>
-                                                                    <h5 style="color: green;"><a href="/navire/totalBulletins/<%= navireData.ID_VMS %>" style="color: green;">Nombre total des Bulletins</a></h5>
+                                                                    <h5 style="color: green;"><a href="/navire/totalBulletins/<%= navireData.ID_VMS %>" style="color: green;">Nombre total des Previsions</a></h5>
                                                                     <%} else{%>
-                                                                        <h5 style="color: green;">Nombre total des Bulletins</h5>
+                                                                        <h5 style="color: green;">Nombre total des Previsions</h5>
+                                                                        <%}%>
+                                                        </h3>
+                                                    </div>
+
+                                                    <div class="col-sm-3">
+                                                        <h3 style="color: orange;">
+                                                            <%= nombreBulletins %>
+                                                                <% if(nombreBulletins !== 0){%>
+                                                                    <h5 style="color: orange;"><a href="/navire/totalBulletins/<%= navireData.ID_VMS %>" style="color: orange;">Nombre total des BMS</a></h5>
+                                                                    <%} else{%>
+                                                                        <h5 style="color: orange;">Nombre total des BMS</h5>
                                                                         <%}%>
                                                         </h3>
                                                     </div>
