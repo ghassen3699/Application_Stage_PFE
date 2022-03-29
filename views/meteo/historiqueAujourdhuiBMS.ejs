@@ -11,43 +11,37 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3> Historique des Bulletins</h3>
+            <h3> La BMS d'aujourd'hui</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
                     <div class="adv-table">
-
-
                         <div class="dataTables_wrapper form-inline" id="hidden-table-info_wrapper">
                             <div class="row-fluid" id="">
                                 <div class="span6" id="">
                                     <div class="dataTables_length" id="hidden-table-info_length">
                                         <br>
                                         <label>
-                                            <form id="formPagination" action="/navire/<%= ID_VMS%>/paginationPrev" method="get">
+                                            <form id="formPagination" action="/meteo/historiqueAujourdhuiBMS_pagination" method="get">
                                                 <select size="1" id="myForm" name="pagination" aria-controls="hidden-table-info">
                                                     <option  value="10" >--</option>
                                                     <option  value="10" >10</option>
                                                     <option  value="25">25</option>
                                                     <option  value="50">50</option>
                                                     <option  value="100">100</option>
-                                                    <option  value="TOUS">Tous ...</option>
-
                                                 </select>
-
                                             </form>
                                             &nbsp;
                                             Pagination
                                         </label>
                                     </div>
                                 </div>
-                                <form action="/navire/<%= ID_VMS %>/rechercheBulletins" method="get">
+                                <form action="/meteo/historiqueAujourdhuiRecherche_BMS" method="get">
                                     <div class="span6">
                                         <div class="dataTables_filter" id="hidden-table-info_filter">
-                                            <br>
                                             <label>
                                                 Recherche &nbsp;
-                                                <input type="text" aria-controls="hidden-table-info" name="recherche">
+                                                <input type="text" aria-controls="hidden-table-info" name="search">
                                             </label>
                                         </div>
                                     </div>
@@ -59,51 +53,42 @@
                             <thead>
                                 <tr>
                                     <th class="hidden-phone" style="text-align: center;">DA</th>
-                                    <th class="hidden-phone" style="text-align: center;">TI</th>
-                                    <th class="hidden-phone" style="text-align: center;">TM</th>
-                                    <th class="hidden-phone" style="text-align: center;">CRC</th>
-                                    <th class="hidden-phone" style="text-align: center;">IPADDRESS</th>
-                                    <th class="hidden-phone" style="text-align: center;">Supprimer</th>
-
+                                    <th style="text-align: center;">CRC</th>
+                                    <th style="text-align: center;">TI</th>
+                                    <th style="text-align: center;">TY</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% navireBulletins.forEach(function(navire) { %>
+                                <% weatherDataAujourdhui.forEach(function(meteo) { %>
 
                                     <tr class="gradeX">
-
-
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
 
-                                            <%= navire.DA[6]%>
-                                                <%= navire.DA[7]%> /
-                                                    <%= navire.DA[4]%>
-                                                        <%= navire.DA[5]%> /
-                                                            <%= navire.DA[0]%>
-                                                                <%= navire.DA[1]%>
-                                                                    <%= navire.DA[2]%>
-                                                                        <%= navire.DA[3]%>
+                                            <%= meteo.DA[6]%>
+                                                <%= meteo.DA[7]%> /
+                                                    <%= meteo.DA[4]%>
+                                                        <%= meteo.DA[5]%> /
+                                                            <%= meteo.DA[0]%>
+                                                                <%= meteo.DA[1]%>
+                                                                    <%= meteo.DA[2]%>
+                                                                        <%= meteo.DA[3]%>
 
                                         </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.TI %>
+                                        <td style="text-align: center;font-size: medium;">
+                                            <%= meteo.CRC %>
                                         </td>
 
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.TM %>
+                                        <td class="hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= meteo.TI[0] %>
+                                                <%= meteo.TI[1] %>
+                                                    h -
+                                                    <%= meteo.TI[2] %>
+                                                        <%= meteo.TI[3] %>
+                                                            min
                                         </td>
 
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.CRC %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.IPADDRESS %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/supprimerSOS/<%= navire.ID%>" style="color: red;" class="icon-remove"></a>
+                                        <td class="hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= meteo.TY %>
                                         </td>
                                     </tr>
 
@@ -135,10 +120,11 @@
             });
 
             activities.addEventListener("change", function() {
-                if ((activities.value == "10") || (activities.value == "25") || (activities.value == "50") || (activities.value == "100") || (activities.value == "TOUS")) {
+                if ((activities.value == "10") || (activities.value == "25") || (activities.value == "50") || (activities.value == "100")) {
                     document.querySelector('#formPagination').submit();
                 }
             });
         </script>
+
 
         <%- include("../partials/footer"); -%>

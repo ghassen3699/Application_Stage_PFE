@@ -28,17 +28,21 @@
 
 
                     <br>
+                    <div class="border-head">
+                        <br>
+                        <h3 style="text-align: center;">Les informations d'aujourd'hui</h3>
+                    </div>
                     <div class="row mt">
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="grey-panel pn donut-chart">
                                 <div class="grey-header">
-                                    <h5> Bulletins Envoyer Pour Aujourd'hui</h5>
+                                    <h5> Previsions reçu Pour Aujourd'hui</h5>
                                 </div>
                                 <canvas id="serverstatus01" height="120" width="120"></canvas>
 
                                 <div class="row">
                                     <div class="col-sm-6 col-xs-6 goleft">
-                                        <p><br><a href="/meteo/historiqueAujourdhui">Verifier</a></p>
+                                        <p><br><a href="/meteo/historiqueAujourdhuiPREV">Verifier</a></p>
                                     </div>
                                     <div class="col-sm-6 col-xs-6">
                                         <h2>
@@ -54,7 +58,7 @@
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="darkblue-panel pn">
                                 <div class="darkblue-header">
-                                    <h5>Navires Connéctee pour Aoujourd'hui</h5>
+                                    <h5>BMS reçu pour aujourd'hui</h5>
                                 </div>
                                 <p id="dateAujourdhui"></p>
 
@@ -64,7 +68,7 @@
 
                                     <div class="pull-right">
                                         <h5>
-                                            <%=pourcentageDesPOS%>
+                                            <%=pourcentageDesBMS%>
                                         </h5>
                                     </div>
 
@@ -82,7 +86,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="border-head">
+                        <br>
+                        <h3 style="text-align: center;">Les navires connecter pour aujourdhui</h3>
+                    </div>
 
+                    <% naviresConnecter.forEach(navire => { %>
+                        &nbsp; &nbsp;
+                        <a href="/navire/navire/<%= navire.ID_VMS%>" class="btn btn-round btn-warning">
+                            <%= navire.NA%>
+                        </a>
+                        <%});%>
                 </div>
 
 
@@ -158,7 +172,7 @@
         const monthNames = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
 
         const d = new Date();
-        document.getElementById('dateAujourdhui').innerHTML = d.getDay() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
+        document.getElementById('dateAujourdhui').innerHTML = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
         //---------------------------------------------------------------------------------------//
 
 

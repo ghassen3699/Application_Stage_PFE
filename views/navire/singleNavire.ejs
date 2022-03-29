@@ -55,15 +55,15 @@
                             </div>
                             <!-- /col-md-4 -->
                             <div class="col-md-4 profile-text">
-                                <br><br>
-                                <h3>
+                                <br>
+                                <h1>
                                     <%= navireData.NA%>
-                                </h3>
+                                </h1>
                                 <h5>
                                     <%= navireData.ID_VMS%>
                                 </h5>
                                 <h5>
-                                    <a href="/navire/historique/<%= navireData.ID_VMS %>">L'historique de la navire > </a>
+                                    <a href="/navire/historique/<%= navireData.ID_VMS %>">Historique de navigation > </a>
 
                                 </h5>
                                 <br>
@@ -162,9 +162,9 @@
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <h3 style="color: green;">
-                                                            <%= nombreBulletins %>
-                                                                <% if(nombreBulletins !== 0){%>
-                                                                    <h5 style="color: green;"><a href="/navire/totalBulletins/<%= navireData.ID_VMS %>" style="color: green;">Nombre total des Previsions</a></h5>
+                                                            <%= nombrePREV %>
+                                                                <% if(nombrePREV !== 0){%>
+                                                                    <h5 style="color: green;"><a href="/navire/totalPrevision/<%= navireData.ID_VMS %>" style="color: green;">Nombre total des Previsions</a></h5>
                                                                     <%} else{%>
                                                                         <h5 style="color: green;">Nombre total des Previsions</h5>
                                                                         <%}%>
@@ -173,9 +173,9 @@
 
                                                     <div class="col-sm-3">
                                                         <h3 style="color: orange;">
-                                                            <%= nombreBulletins %>
-                                                                <% if(nombreBulletins !== 0){%>
-                                                                    <h5 style="color: orange;"><a href="/navire/totalBulletins/<%= navireData.ID_VMS %>" style="color: orange;">Nombre total des BMS</a></h5>
+                                                            <%= nombreBMS %>
+                                                                <% if(nombreBMS !== 0){%>
+                                                                    <h5 style="color: orange;"><a href="/navire/totalBMS/<%= navireData.ID_VMS %>" style="color: orange;">Nombre total des BMS</a></h5>
                                                                     <%} else{%>
                                                                         <h5 style="color: orange;">Nombre total des BMS</h5>
                                                                         <%}%>
@@ -273,9 +273,13 @@
                 value: '<%= nombreSos %>',
                 color: 'red'
             }, {
-                label: 'Bultins',
-                value: '<%= nombreBulletins %>',
+                label: 'Previsions',
+                value: '<%= nombrePREV %>',
                 color: 'green'
+            }, {
+                label: 'BMS',
+                value: '<%= nombreBMS %>',
+                color: 'orange'
             }],
         });
     </script>

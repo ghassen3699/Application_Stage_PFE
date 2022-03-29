@@ -135,22 +135,20 @@ statistiqueRouter.get('/totalBMSAPI', function(req, res) {
 
 });
 
-
+// nombre des BMS envoyeé et reçue
 statistiqueRouter.get('/totalBMS', function(req, res) {
-    sql = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (TM='ACKb') AND (YEAR(CURDATE()+0) = YEAR(DA)); "
-
-    db.query(sql, (err, result) => {
+    sql = "SELECT COUNT(*) AS TOTALBMS_Envoyer FROM weatherCRCData WHERE (TM='ACKb') AND (YEAR(CURDATE()+0) = YEAR(DA)); "
+    sql2 = "SELECT COUNT(*) AS TOTALBMS_Reçu FROM CRCData WHERE (TY='BMS') AND (YEAR(DA) = YEAR(CURDATE()+0)) ;"
+    db.query(sql + sql2, (err, result) => {
         if (err) {
             throw err
         }
-
-        res.render('statistique/statBMS', { totalBMS: result[0]['TOTAL'] })
+        res.render('statistique/statBMS', { totalBMS: result[0][0]['TOTALBMS_Envoyer'], totalBMSReçu: result[1][0]['TOTALBMS_Reçu'] })
     })
 
 });
 
 //------------------------------------------------------------------------------------------------------------//
-
 
 
 
@@ -204,14 +202,13 @@ statistiqueRouter.get('/totalPREVAPI', function(req, res) {
 
 statistiqueRouter.get('/totalPREV', function(req, res) {
     sql = "SELECT COUNT(*) AS TOTAL FROM weatherCRCData WHERE (TM='ACKp') AND (YEAR(CURDATE()+0) = YEAR(DA)); "
-
-    db.query(sql, (err, result) => {
+    sql2 = "SELECT COUNT(*) AS TOTALPREV_Reçu FROM CRCData WHERE (TY = 'PREV') AND (YEAR(DA) = YEAR(CURDATE()+0)) ;"
+    db.query(sql + sql2, (err, result) => {
         if (err) {
             throw err
         }
 
-        res.render('statistique/statPREV', { totalPREV: result[0]['TOTAL'] })
-
+        res.render('statistique/statPREV', { totalPREV: result[0][0]['TOTAL'], totalPrev_Reçu: result[1][0]['TOTALPREV_Reçu'] })
     })
 
 });

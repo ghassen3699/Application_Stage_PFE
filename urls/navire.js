@@ -211,15 +211,29 @@ navireRouter.get('/:ID_VMS/rechercheSOS', function(req, res) {
 
 
 // la fonction recherche de la page historique des bulletins
-navireRouter.get('/:ID_VMS/rechercheBulletins', function(req, res) {
+navireRouter.get('/:ID_VMS/recherchePrev', function(req, res) {
     const search = req.query.recherche
 
-    const sql = "SELECT * FROM weatherCRCData where (ID_VMS = " + req.params.ID_VMS + ") AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR TM = '" + search + "' OR CRC LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%');"
+    const sql = "SELECT * FROM weatherCRCData where (ID_VMS = " + req.params.ID_VMS + ") AND (TM = 'ACKp') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR TM = '" + search + "' OR CRC LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') ORDER BY ID DESC;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
         }
-        return res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
+        return res.render('navire/totalPrev', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
+    })
+});
+
+
+// la fonction recherche de la page historique des bulletins
+navireRouter.get('/:ID_VMS/rechercheBMS', function(req, res) {
+    const search = req.query.recherche
+
+    const sql = "SELECT * FROM weatherCRCData where (ID_VMS = " + req.params.ID_VMS + ") AND (TM = 'ACKb') AND (DA LIKE '%" + search + "%' OR TI LIKE '%" + search + "%' OR TM = '" + search + "' OR CRC LIKE '%" + search + "%' OR IPADDRESS LIKE '%" + search + "%') ORDER BY ID DESC ;"
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+        return res.render('navire/totalBMS', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
     })
 });
 //--------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -296,7 +310,6 @@ navireRouter.post('/modifier/:id', function(req, res) {
 
 
 
-
 //--------------------------------------------------------------- supprimer navire ----------------------------------------------------------------------//
 
 // GET method
@@ -356,7 +369,7 @@ navireRouter.get('/navire/:id', function(req, res) {
     //---------------------------------------------------------------------------------------------------------//
 
     // la concatination des requetes 
-    sql = sql1 + sql2 + sql3 + sql4 + sql5 + sql6
+    sql = sql1 + sql2 + sql3 + sql4 + sql5 + sql6 + sql7
     db.query(sql, (err, result) => {
         if (err) {
             throw err // remplacer par 404 NOT FOUND
@@ -371,7 +384,7 @@ navireRouter.get('/navire/:id', function(req, res) {
 
         if (result[4].length > 0) {
             result[4].forEach(contenu => {
-                dateDernierPosition = moment(contenu['DA']).fromNow() // Configuration de la date et la position avec Moment.JS
+                dateDernierPosition = moment(contenu['DA']).locale('fr').fromNow() // Configuration de la date et la position avec Moment.JS
                 LT = contenu['LT']
                 LG = contenu['LG']
             });
@@ -383,7 +396,7 @@ navireRouter.get('/navire/:id', function(req, res) {
         if (result[5].length > 0) {
             // La date de la dernier meteo
             result[5].forEach(element => {
-                dateDernierMeteo = moment(element.DA).fromNow()
+                dateDernierMeteo = moment(element.DA).locale('fr').fromNow()
             });
         }
 
@@ -396,15 +409,13 @@ navireRouter.get('/navire/:id', function(req, res) {
                 dateAbonnement = extraireDate(date)
                 resultatCouleur = validationAbonnement(dateAbonnement)
             });
-
-
         }
-
 
         // La verifications des données 
         var nombrePositionEnvoyer = validationUndifined(result[1][0]['TOTAL'], 'Aucune position Envoyer')
         var nombreSOS = validationUndifined(result[2][0]['TOTAL'], "Aucune SOS Envoyer")
-        var nombreBulletins = validationUndifined(result[3][0]['TOTAL'], "Aucune Bulletins envoyer")
+        var nombrePREV = validationUndifined(result[3][0]['TOTAL'], "Aucune Prevision envoyer")
+        var nombreBMS = validationUndifined(result[6][0]['TOTAL'], "Aucune BMS envoyer")
         dateDernierPosition = validationUndifined(dateDernierPosition, "Aucune position envoyer")
         dateDernierMeteo = validationUndifined(dateDernierMeteo, "Aucune Meteo envoyer")
         LT = validationUndifined(LT, "Aucune")
@@ -420,7 +431,8 @@ navireRouter.get('/navire/:id', function(req, res) {
             navire: result[0],
             nombrePositionEnvoyer: nombrePositionEnvoyer,
             nombreSos: nombreSOS,
-            nombreBulletins: nombreBulletins,
+            nombrePREV: nombrePREV,
+            nombreBMS: nombreBMS,
             dateDernierPosition: dateDernierPosition,
             position: { LT: LT, LG: LG },
             dateDernierMeteo: dateDernierMeteo,
@@ -556,11 +568,11 @@ navireRouter.get('/:ID_VMS/paginationSOS', function(req, res) {
 
 
 
-// Afficher les Bulletins 
+// Afficher les Previsions
 //------------------------------------------------------------------------------------------------//
-navireRouter.get('/totalBulletins/:ID_VMS', function(req, res) {
+navireRouter.get('/totalPrevision/:ID_VMS', function(req, res) {
     const id = "'" + req.params.ID_VMS + "'"
-    sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ORDER BY ID DESC LIMIT 10;"
+    sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKp%') ORDER BY ID DESC LIMIT 10;"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -569,19 +581,18 @@ navireRouter.get('/totalBulletins/:ID_VMS', function(req, res) {
 
         // enregistrer le nom de la navire 
 
-        return res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: id })
+        return res.render('navire/totalPrev', { navireBulletins: result, ID_VMS: id })
     })
 });
 
-
-// pagination de la page historique des Bulletins
-navireRouter.get('/:ID_VMS/paginationBulletins', function(req, res) {
+// pagination de la page historique des Previsions
+navireRouter.get('/:ID_VMS/paginationPrev', function(req, res) {
     const pagination = req.query.pagination
     var sql
     if (pagination === "TOUS") {
-        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ORDER BY ID DESC ;"
+        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKp%') ORDER BY ID DESC ;"
     } else {
-        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKp%' OR TM LIKE '%ACKb%') ORDER BY ID DESC LIMIT " + pagination + ";"
+        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKp%') ORDER BY ID DESC LIMIT " + pagination + ";"
 
     }
 
@@ -590,9 +601,48 @@ navireRouter.get('/:ID_VMS/paginationBulletins', function(req, res) {
             throw err
         }
 
-        return res.render('navire/totalBulletins', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
+        return res.render('navire/totalPrev', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
     })
 });
+
+
+// Afficher les BMS 
+//------------------------------------------------------------------------------------------------//
+navireRouter.get('/totalBMS/:ID_VMS', function(req, res) {
+    const id = "'" + req.params.ID_VMS + "'"
+    sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + id + ") AND (TM LIKE '%ACKb%') ORDER BY ID DESC LIMIT 10;"
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err // remplacer par 404 NOT FOUND
+        }
+
+        // enregistrer le nom de la navire 
+
+        return res.render('navire/totalBMS', { navireBulletins: result, ID_VMS: id })
+    })
+});
+
+// pagination de la page historique des BMS
+navireRouter.get('/:ID_VMS/paginationBMS', function(req, res) {
+    const pagination = req.query.pagination
+    var sql
+    if (pagination === "TOUS") {
+        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKb%') ORDER BY ID DESC ;"
+    } else {
+        sql = "SELECT * FROM weatherCRCData WHERE (ID_VMS = " + req.params.ID_VMS + ") AND (TM LIKE '%ACKb%') ORDER BY ID DESC LIMIT " + pagination + ";"
+
+    }
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+
+        return res.render('navire/totalBMS', { navireBulletins: result, ID_VMS: req.params.ID_VMS })
+    })
+});
+
 //--------------------------------------------------------------------------------------------------------//
 
 

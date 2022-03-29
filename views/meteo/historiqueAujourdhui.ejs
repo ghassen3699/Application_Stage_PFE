@@ -11,19 +11,18 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3> L'historique de la méteo</h3>
+            <h3> Les PREV d'aujourd'hui</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
                     <div class="adv-table">
-
-
                         <div class="dataTables_wrapper form-inline" id="hidden-table-info_wrapper">
                             <div class="row-fluid" id="">
                                 <div class="span6" id="">
                                     <div class="dataTables_length" id="hidden-table-info_length">
+                                        <br>
                                         <label>
-                                            <form id="formPagination" action="/meteo/AujourdhuiHistoriqueMeteo" method="get">
+                                            <form id="formPagination" action="/meteo/historiqueAujourdhuiPREV_pagination" method="get">
                                                 <select size="1" id="myForm" name="pagination" aria-controls="hidden-table-info">
                                                     <option  value="10" >--</option>
                                                     <option  value="10" >10</option>
@@ -37,7 +36,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <form action="/meteo/historiqueAujourdhuiRecherche" method="get">
+                                <form action="/meteo/historiqueAujourdhuiRecherche_PREV" method="get">
                                     <div class="span6">
                                         <div class="dataTables_filter" id="hidden-table-info_filter">
                                             <label>
@@ -53,55 +52,44 @@
                         <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
                             <thead>
                                 <tr>
-                                    <th style="text-align: center;">NA</th>
-                                    <th style="text-align: center;">ID_VMS</th>
                                     <th class="hidden-phone" style="text-align: center;">DA</th>
-                                    <th class="hidden-phone" style="text-align: center;">TI</th>
-                                    <th class="hidden-phone" style="text-align: center;">TM</th>
-                                    <th class="hidden-phone" style="text-align: center;">CRC</th>
-                                    <th class="hidden-phone" style="text-align: center;">IP_ADDRESS</th>
+                                    <th style="text-align: center;">CRC</th>
+                                    <th style="text-align: center;">TI</th>
+                                    <th style="text-align: center;">TY</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% weatherData.forEach(function(meteoHistorique) { %>
+                                <% weatherDataAujourdhui.forEach(function(meteo) { %>
 
                                     <tr class="gradeX">
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
 
+                                            <%= meteo.DA[6]%>
+                                                <%= meteo.DA[7]%> /
+                                                    <%= meteo.DA[4]%>
+                                                        <%= meteo.DA[5]%> /
+                                                            <%= meteo.DA[0]%>
+                                                                <%= meteo.DA[1]%>
+                                                                    <%= meteo.DA[2]%>
+                                                                        <%= meteo.DA[3]%>
+
+                                        </td>
                                         <td style="text-align: center;font-size: medium;">
-                                            <%= meteoHistorique.NA %>
+                                            <%= meteo.CRC %>
                                         </td>
 
                                         <td class="hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= meteoHistorique.ID_VMS %>
+                                            <%= meteo.TI[0] %>
+                                                <%= meteo.TI[1] %>
+                                                    h -
+                                                    <%= meteo.TI[2] %>
+                                                        <%= meteo.TI[3] %>
+                                                            min
                                         </td>
 
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-
-                                            <%= meteoHistorique.DA[6]%>
-                                                <%= meteoHistorique.DA[7]%> /
-                                                    <%= meteoHistorique.DA[4]%>
-                                                        <%= meteoHistorique.DA[5]%> /
-                                                            <%= meteoHistorique.DA[0]%>
-                                                                <%= meteoHistorique.DA[1]%>
-                                                                    <%= meteoHistorique.DA[2]%>
-                                                                        <%= meteoHistorique.DA[3]%>
-
+                                        <td class="hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= meteo.TY %>
                                         </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= meteoHistorique.TI %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= meteoHistorique.TM %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= meteoHistorique.CRC %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= meteoHistorique.IPADDRESS %>
-                                        </td>
-
-
                                     </tr>
 
                                     <% }); %>

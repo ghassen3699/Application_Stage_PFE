@@ -11,7 +11,7 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3> Historique des Bulletins</h3>
+            <h3> Historique des Previsions</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
@@ -41,10 +41,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <form action="/navire/<%= ID_VMS %>/rechercheBulletins" method="get">
+                                <form action="/navire/<%= ID_VMS %>/recherchePrev" method="get">
                                     <div class="span6">
                                         <div class="dataTables_filter" id="hidden-table-info_filter">
-                                            <br>
                                             <label>
                                                 Recherche &nbsp;
                                                 <input type="text" aria-controls="hidden-table-info" name="recherche">

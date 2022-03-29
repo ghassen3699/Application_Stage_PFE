@@ -41,18 +41,24 @@ homeRouter.get('/', function(req, res) {
     //    })
     //});
 
+    //sql = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20210706') GROUP BY NA , ID_VMS;" 
+    //sql = "SELECT * FROM trackingData WHERE (DA = "20210706") AND (ID_VMS = "VMS2005") ORDER BY TI DESC;" ------> recherche par ID_VMS
+    //sql = ""
 
-    sql_navire_connecter = "SELECT * FROM trackingData WHERE DA = '20220322' ORDER BY ID DESC LIMIT 1;"
-    db.query(sql_navire_connecter, (err, result) => {
+    sql1 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%PREV%') AND (DA = CURDATE()+0) ;"
+    sql2 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%BMS%') AND (DA = CURDATE()+0) ;"
+    sql3 = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20210706') GROUP BY NA , ID_VMS;"
+    db.query(sql1 + sql2 + sql3, (err, result) => {
         if (err) {
             throw err
         }
 
-
-        res.render("home", { temp: 13, pourcentageDesPREV: 'PREV', pourcentageDesPOS: 'ACKI' })
+        res.render("home", { temp: 13, pourcentageDesPREV: result[0].length, pourcentageDesBMS: result[1].length, naviresConnecter: result[2] })
     })
 
 });
+
+
 
 
 
