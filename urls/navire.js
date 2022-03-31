@@ -70,7 +70,6 @@ navireRouter.post('/ajouter', function(req, res) {
             const { error } = registerForm(req.body)
 
             if (error) {
-                console.log(error)
                 return res.render('navire/ajouterNavire', { msg: error })
             } else {
 
