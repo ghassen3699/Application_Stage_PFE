@@ -1,18 +1,15 @@
-const moment = require('moment');
+var curr = new Date;
+var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+6));
 
 
-// calculer la diff entre le temps courant est le temps du dernier position et retourner un couleur
-function validateNavireCouleur(TI, DA) {
 
-    var date = moment(DA, "YYYY-MM-DD");
-    var time = TI.substr(0, 2) + ':' + TI.substr(2, 4);
-
-    var fullDateFormat = moment("24/12/2019 09:15:00", "DD MM YYYY hh:mm:ss");
+var date = curr.getFullYear().toString() + curr.getMonth().toString() + curr.getDate().toString()
 
 
-    console.log(fullDateFormat)
-}
+// var sql = ""
 
-validateNavireCouleur('0915', '20210303')
+// while (firstday <= lastday) {
+//     sql = "SELECT COUNT(*) FROM trackingData WHERE (DA = )"
+// }
 
-// module.exports = validateNavireCouleur

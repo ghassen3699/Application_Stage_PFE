@@ -10,7 +10,7 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3> Tous Les Navires</h3>
+            <h3>Les positions d'aujourd'hui</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
@@ -23,7 +23,7 @@
                                     <div class="dataTables_length" id="hidden-table-info_length">
                                         <label>
                                             <br>
-                                            <form id="formPagination" action="/navire/paginationNavires" method="get">
+                                            <form id="formPagination" action="/map/navireAujourdhuiPagination" method="get">
                                                 <select size="1" id="myForm" name="pagination" aria-controls="hidden-table-info">
                                                     <option  value="10" >--</option>
                                                     <option  value="10" >10</option>
@@ -40,7 +40,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <form action="/navire/recherche" method="get">
+                                <form action="/map/mapRecherchePositions" method="get">
                                     <div class="span6">
                                         <div class="dataTables_filter" id="hidden-table-info_filter">
                                             <label>
@@ -59,15 +59,13 @@
                                 <tr>
                                     <th style="text-align: center;">NA</th>
                                     <th style="text-align: center;">ID_VMS</th>
-                                    <th class="hidden-phone" style="text-align: center;">REG_ID</th>
-                                    <th class="hidden-phone" style="text-align: center;">IMEI</th>
-                                    <th class="hidden-phone" style="text-align: center;">ICCID</th>
-                                    <th class="hidden-phone" style="text-align: center;">RC</th>
-                                    <th class="hidden-phone" style="text-align: center;">KEY_AES</th>
-                                    <th class="hidden-phone" style="text-align: center;">DABEG</th>
-                                    <th class="hidden-phone" style="text-align: center;">DAEND</th>
-                                    <th class="hidden-phone" style="text-align: center;">Modifier</th>
-                                    <th class="hidden-phone" style="text-align: center;">Supprmer</th>
+                                    <th class="hidden-phone" style="text-align: center;">DA</th>
+                                    <th class="hidden-phone" style="text-align: center;">TI</th>
+                                    <th class="hidden-phone" style="text-align: center;">LT</th>
+                                    <th class="hidden-phone" style="text-align: center;">LG</th>
+                                    <th class="hidden-phone" style="text-align: center;">CO</th>
+                                    <th class="hidden-phone" style="text-align: center;">TM</th>
+                                    <th class="hidden-phone" style="text-align: center;">IP_ADDRESS</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,53 +78,48 @@
                                                 <%= navire.NA %>
                                             </a>
                                         </td>
+
                                         <td class="hidden-phone" style="text-align: center; font-size: medium;">
                                             <%= navire.ID_VMS %>
                                         </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.REG_ID %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.IMEI %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.ICCID %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.RC %>
-                                        </td>
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.KEY_AES %>
-                                        </td>
+
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
 
-                                            <%= navire.DABeg[6]%>
-                                                <%= navire.DABeg[7]%> -
-                                                    <%= navire.DABeg[4]%>
-                                                        <%= navire.DABeg[5]%> -
-                                                            <%= navire.DABeg[0]%>
-                                                                <%= navire.DABeg[1]%>
-                                                                    <%= navire.DABeg[2]%>
-                                                                        <%= navire.DABeg[3]%>
+                                            <%= navire.DA[6]%>
+                                                <%= navire.DA[7]%> -
+                                                    <%= navire.DA[4]%>
+                                                        <%= navire.DA[5]%> -
+                                                            <%= navire.DA[0]%>
+                                                                <%= navire.DA[1]%>
+                                                                    <%= navire.DA[2]%>
+                                                                        <%= navire.DA[3]%>
 
                                         </td>
+
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.DAEnd[6]%>
-                                                <%= navire.DAEnd[7]%> -
-                                                    <%= navire.DAEnd[4]%>
-                                                        <%= navire.DAEnd[5]%> -
-                                                            <%= navire.DAEnd[0]%>
-                                                                <%= navire.DAEnd[1]%>
-                                                                    <%= navire.DAEnd[2]%>
-                                                                        <%= navire.DAEnd[3]%>
+                                            <%= navire.TI %>
                                         </td>
+
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/modifier/<%= navire.ID %>" style="color: goldenrod;" class="fa fa-refresh" aria-hidden="true"></a>
+                                            <%= navire.LT %>
                                         </td>
+
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/supprimer/<%= navire.ID %>" style="color: red;" class="icon-remove"></a>
-                                            <img data="/xmaks-solid.svg"></img>
+                                            <%= navire.LG %>
                                         </td>
+
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= navire.CO %>
+                                        </td>
+
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= navire.TM %>
+                                        </td>
+
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= navire.IPADDRESS %>
+                                        </td>
+
                                     </tr>
 
                                     <% }); %>

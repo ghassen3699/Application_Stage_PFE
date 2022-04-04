@@ -1,0 +1,153 @@
+<%- include("../partials/header"); -%>
+
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="row">
+                <div class="col-lg-9 main-chart">
+                    <div class="row mb">
+                        <div class="content-panel">
+
+                            <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">NA</th>
+                                        <th style="text-align: center;">ID_VMS</th>
+                                        <th class="hidden-phone" style="text-align: center;">DA</th>
+                                        <th class="hidden-phone" style="text-align: center;">TI</th>
+                                        <th class="hidden-phone" style="text-align: center;">LT</th>
+                                        <th class="hidden-phone" style="text-align: center;">LG</th>
+                                        <th class="hidden-phone" style="text-align: center;">CO</th>
+                                        <th class="hidden-phone" style="text-align: center;">TM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% navires.forEach(function(navire) { %>
+
+                                        <tr class="gradeX">
+
+                                            <td style="text-align: center;font-size: medium;">
+                                                <a href="/navire/navire/<%= navire.ID_VMS%>" style="color:gray;">
+                                                    <%= navire.NA %>
+                                                </a>
+                                            </td>
+
+                                            <td class="hidden-phone" style="text-align: center; font-size: medium;">
+                                                <%= navire.ID_VMS %>
+                                            </td>
+
+                                            <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+
+                                                <%= navire.DA[6]%>
+                                                    <%= navire.DA[7]%> -
+                                                        <%= navire.DA[4]%>
+                                                            <%= navire.DA[5]%> -
+                                                                <%= navire.DA[0]%>
+                                                                    <%= navire.DA[1]%>
+                                                                        <%= navire.DA[2]%>
+                                                                            <%= navire.DA[3]%>
+
+                                            </td>
+
+                                            <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                                <%= navire.TI %>
+                                            </td>
+
+                                            <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                                <%= navire.LT %>
+                                            </td>
+
+                                            <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                                <%= navire.LG %>
+                                            </td>
+
+                                            <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                                <%= navire.CO %>
+                                            </td>
+
+                                            <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                                <%= navire.TM %>
+                                            </td>
+
+                                        </tr>
+
+                                        <% }); %>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="col-lg-3 ds">
+                    <div class="notificationBarVisibility">
+
+                        <!-- formulaire pour la recherche par une seule date  -->
+                        <div class='centered'>
+                            <span><h4>Nombre total du Tracking : <br><br>
+                                <%= nombreDesNavire%></h4></span>
+                            <hr>
+                            <form action="/map/mapSingleDate" method="get">
+                                <h4 class="centered mt">Recherche Par Date</h4>
+                                <input type="date" id="recherche1" value="" name="date" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                                <h5 class="centered mt"><button type="submit" class="btn btn-warning btn-lg btn-block">Recherche par date</button></h5>
+                            </form>
+                        </div>
+                        <hr>
+
+                        <!-- formulaire pour recherche entre deux dates -->
+                        <form action="/map/mapBetweenDate" method="get">
+                            <div class='centered'>
+                                <h4 class="centered mt ">Recherche entre deux dates</h4>
+                                <br>
+                                <h5>Début</h5>
+                                <input type="date" lang="fr-CA" value="" id="recherche2" name="date1" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                                <h5>Fin</h5>
+                                <input type="date" lang="fr-CA" value="" id="recherche3" name="date2" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                            </div>
+                            <div class='centered'>
+                                <br>
+                                <h5 class="centered mt"><button type="submit" class="btn btn-warning btn-lg btn-block">Recherche entre deux dates</button></h5>
+                            </div>
+                        </form>
+                        <hr>
+
+
+                        <!-- formulaire pour recherche par une requete -->
+                        <form action="/map/mapRequete" method="get">
+                            <div class='centered'>
+                                <h4 class="centered mt">Recherche par entéte</h4>
+                                <br>
+                                <h5>Entrer Votre entéte</h5>
+                                <input type="test" placeholder="ID_VMD, NA ...." id="bday" name="recherche" class="form-control">
+                            </div>
+                            <div class='centered'>
+                                <br>
+                                <h5 class="centered mt"><button type="submit" class="btn btn-warning btn-lg btn-block">Recherche par entéte</button></h5>
+                            </div>
+                        </form>
+
+
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+        </section>
+    </section>
+
+
+
+    <script type="text/javascript" src="/js/pickerDateConfig.js"></script>
+
+
+
+
+
+    <%- include("../partials/footer"); -%>
