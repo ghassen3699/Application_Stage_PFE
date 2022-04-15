@@ -30,18 +30,35 @@ db.connect((err) => {
 
 
 
-// les api des positions
+// les api des positions d'aujourd'hui
 mapRouter.get('/navireMapApi', function(req, res) {
 
 
-    const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) order by TI DESC;"
-    db.query(sql, (err, result) => {
+    const sql1 = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) order by TI DESC; "
+    const sql2 = " SELECT * FROM trackingData ORDER BY ID DESC LIMIT 20;"
+    db.query(sql1 + sql2, (err, result) => {
         if (err) {
             throw err
         }
         res.json(result)
     })
 
+});
+
+
+// les api des positions par picker 
+mapRouter.get('/navirePositionApi/:ID_VMS/:Date1/:Date2', function(req, res) {
+    const ID_VMS = req.params.ID_VMS;
+    const date1 = req.params.Date1;
+    const date2 = req.params.Date2;
+    const sql = "SELECT * FROM trackingData WHERE (DA BETWEEN '" + date1 + "' AND '" + date2 + "') AND (ID_VMS = '" + ID_VMS + "') ORDER BY ID DESC ;"
+
+    db.query(sql, (err, result) => {
+        if (err) {
+            throw err
+        }
+        res.json(result)
+    })
 });
 
 
@@ -55,6 +72,7 @@ mapRouter.get('/', function(req, res) {
 
 
 // la page tableau des derniers positions pour aujourd'hui
+// ------------------------------------------------------------------------------------------------------------------------------------------ //
 mapRouter.get('/navireAujourdhui', function(req, res) {
     const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC LIMIT 10;"
     db.query(sql, (err, result) => {
@@ -95,6 +113,8 @@ mapRouter.get('/mapRecherchePositions', function(req, res) {
     })
 
 });
+// ------------------------------------------------------------------------------------------------------------------------------------------ //
+
 
 
 

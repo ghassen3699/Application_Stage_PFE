@@ -1,33 +1,107 @@
-<%- include("partials/header"); -%>
+<%- include("../partials/header"); -%>
     <style>
         #map {
-            height: 800px;
+            height: 850px;
         }
     </style>
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
-    <link rel="stylesheet" href="/leaflet/leaflet.css">
-    <script src="/leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="../leaflet/leaflet.css">
+    <link rel="stylesheet" href="../css/buttonOnOff.css">
+    <script src="../leaflet/leaflet.js"></script>
 
     <section id="main-content">
-        <section class="wrapper site-min-height">
-            <div class="row mt">
-                <div class="col-sm-18">
-                    <section class="panel">
-
-                        <div class="panel-body">
+        <section class="wrapper">
+            <div class="row">
+                <div class="col-lg-9 main-chart">
+                    <div class="row mb">
+                        <div class="content-panel">
                             <div id="map"></div>
                         </div>
-                    </section>
+                    </div>
                 </div>
-            </div>
+
+                <div class="col-lg-3 ds bar" id="bar">
+                    <div class="notificationBarVisibility" id="navireInfo">
+
+                        <!-- formulaire pour la recherche par une seule date  -->
+                        <hr>
+                        <div class='centered'>
+                            <span><h4 id="navireName">Aucune Navire</h4><h6 id="IDVMS_Navire">.....</h6></span>
+                            <i id="icon" class="fa fa-angle-double-down"></i>
+                        </div>
+                        <hr>
+
+
+                        <!-- formulaire pour recherche entre deux dates -->
+                        <div id="affichage">
+                            <div class='centered'>
+                                <h4 class="centered mt ">Filtrer</h4>
+                                <label class="switch">
+                                    <input type="checkbox" class="onoff" value="Off" id="onoff">
+                                    <span class="slider round"></span>
+                                </label>
+                                <hr>
+
+                            </div>
+                            <div class="centered">
+                                <h5>Début</h5>
+                                <input type="date" lang="fr-CA" value="" id="date1" name="date1" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                                <h5>Fin</h5>
+                                <input type="date" lang="fr-CA" value="" id="date2" name="date2" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+
+                                <div class='centered'>
+                                    <br>
+                                    <h5 class="centered mt"><button class="btn btn-warning btn-lg btn-block" id="buttonClickFormulaire">Recherche</button></h5>
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <!-- formulaire pour recherche par une requete -->
+                            <div>
+                                <div class='centered'>
+                                    <h4 class="centered mt">SOS</h4>
+                                    <i id="icon" class="fa fa-angle-double-down"></i>
+                                    <div class="SOSDiv">
+                                        <h5 id="SOSData">Aucune SOS</h5>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div>
+                                <div class='centered'>
+                                    <h4 class="centered mt">Infractions</h4>
+                                    <i id="icon" class="fa fa-angle-double-down"></i>
+                                    <h5 id="Infraction">Aucune infraction</h5>
+
+                                </div>
+
+                            </div>
+                            <hr>
+                            <div>
+                                <div class='centered'>
+                                    <h4 class="centered mt">ACKV</h4>
+                                    <i id="icon" class="fa fa-angle-double-down"></i>
+                                    <h5 id="ACKv">Aucune ACKV</h5>
+
+                                </div>
+
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
         </section>
     </section>
-    <script src="js/mapConfig.js"></script>
+
+    <script src="../js/mapConfig.js"></script>
 
 
 
 
 
 
-    <%- include("partials/footer"); -%>
+    <%- include("../partials/footer"); -%>
