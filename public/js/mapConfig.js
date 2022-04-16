@@ -102,6 +102,23 @@ function SOSFilterPicker(navireInformation, ID_VMS, DATE1, DATE2) {
 
 
 
+// afficher les Infractions de chaque navire 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function InfractionNavire(navireInformation, ID_VMS) {
+    var listeInfraction = []
+    listeInfraction = navireInformation.filter(function(navire) {
+
+        var duration = durationHours(navire.TI, navire.DA)
+        return ((navire.ID_VMS === ID_VMS) && (duration > 3))
+    })
+    return listeInfraction
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 // former le temps de chaque position
 function formatTIME(time) {
@@ -130,7 +147,47 @@ function durationDays(date) {
 
 
 
+function durationHours(tempsPosition, datePosition) {
 
+    // le temps courant 
+    var currentDate = new Date()
+    var currentTime = currentDate.getHours().toString() + currentDate.getMinutes().toString()
+
+    var minute = currentDate.getMinutes().toString()
+    if (minute.length === 2) {
+        // changer les informations du temps a un objet
+        var time1 = { hour: tempsPosition[0] + tempsPosition[1], minute: tempsPosition[2] + tempsPosition[3], second: 00 } // le temps de la navire 
+        var time2 = { hour: currentTime[0] + currentTime[1], minute: currentTime[2] + currentTime[3], second: 00 } // le temps courant 
+    } else {
+        // changer les informations du temps a un objet
+        var time1 = { hour: tempsPosition[0] + tempsPosition[1], minute: tempsPosition[2] + tempsPosition[3], second: 00 } // le temps de la navire 
+        var time2 = { hour: currentTime[0] + currentTime[1], minute: '0' + currentTime[2], second: 00 } // le temps courant 
+    }
+
+
+
+    // extraire les informations de la date courante 
+    const currentYear = currentDate.getFullYear()
+    const currentMonth = currentDate.getMonth() + 1
+    const currentDay = currentDate.getDate()
+
+    // extraire les informations de la date du position
+    const positionDateYear = datePosition.substring(0, 4)
+    const positionDateMonth = datePosition.substring(4, 6)
+    const positionDateDay = datePosition.substring(6, 10)
+
+    // format du Date
+    var d1 = new Date(positionDateYear, positionDateMonth, positionDateDay, time1.hour, time1.minute, time1.second);
+    var d2 = new Date(currentYear, currentMonth, currentDay, time2.hour, time2.minute, time2.second);
+
+
+    // nombre des heures
+    var diff = Math.abs((d2.getTime() - d1.getTime()) / 1000);
+    var heures = Math.floor(diff / 3600);
+
+
+    return heures
+}
 
 
 
@@ -163,8 +220,8 @@ fetch(url)
         // lire les données sous forme Json
         var navireInformation = await data
 
-
-        // enregistrer les données d'ajourd'hui
+        console.log(navireInformation[2])
+            // enregistrer les données d'ajourd'hui
         var listePositionsToday = positionsAujourdhui(navireInformation, L)
         var listePositionsFilter
 
@@ -187,7 +244,9 @@ fetch(url)
 
         for (let i = 0; i < checkbox.length; i++) {
 
-            // lire les SOS d'ajourd'hui
+
+            // lire et afficher les SOS d'aujourd'hui
+            //--------------------------------------------------------------------------------------------------//
             var SOSData = document.querySelectorAll("#SOSData")
             var sosToday = SOSAujourdhui(navireInformation[0], checkbox[i].classList[1])
             sosToday.forEach(navireSOS => {
@@ -195,7 +254,19 @@ fetch(url)
                 SOSData[i].innerHTML = 'SOS :    ' + formatTIME(navireSOS['TI']) + " <br> LT/LG :  " + navireSOS['LT'] + "/" + navireSOS['LG']
 
             });
+            //--------------------------------------------------------------------------------------------------//
 
+
+
+
+            // lire et afficher les Infractions de chaque navire 
+            //--------------------------------------------------------------------------------------------------//
+            var infractionToday = InfractionNavire(navireInformation[0], checkbox[i].classList[1])
+            var divInfraction = document.querySelectorAll('#Infraction')
+            infractionToday.forEach(navireInfraction => {
+                divInfraction[i].innerHTML = 'Infraction Trouver a ' + formatTIME(navireInfraction['TI'])
+            });
+            //--------------------------------------------------------------------------------------------------//
 
 
 
@@ -241,16 +312,24 @@ fetch(url)
                     // si le mode filter non activee
                 } else {
 
+                    // afficher les SOS d'aujourd'hui
+                    var SOSData = document.querySelectorAll("#SOSData")
+                    var sosToday = SOSAujourdhui(navireInformation[0], checkbox[i].classList[1])
+                    if (sosToday.length === 0) {
+                        SOSData[i].innerHTML = 'Aucune SOS'
+                    } else {
+                        sosToday.forEach(navireSOS => {
 
-                    // enregistrer les données par picker 
+                            SOSData[i].innerHTML = 'SOS :    ' + formatTIME(navireSOS['TI']) + " <br> LT/LG :  " + navireSOS['LT'] + "/" + navireSOS['LG']
 
+                        });
+                    }
+
+
+
+                    // afficher les positions d'aujourd'hui 
                     document.getElementById("onoff").value = "Off"
-
-
                     listePositionsFilter.clearLayers();
-
-
-
                     map.addLayer(listePositionsToday)
                 }
             })
