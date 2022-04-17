@@ -146,7 +146,7 @@ function durationDays(date) {
 
 
 
-
+// duree des heures
 function durationHours(tempsPosition, datePosition) {
 
     // le temps courant 
@@ -190,7 +190,17 @@ function durationHours(tempsPosition, datePosition) {
 }
 
 
+// afficher et supprimer les DIV du toggleBar d'une façon dynamique
+function displayDiv(ID_Buttton, ID_Div, compteur) {
+    navireDIV = document.querySelectorAll(ID_Div)
 
+    navireDIV[compteur].classList.toggle('displayDiv')
+    if (ID_Buttton[compteur].classList.value === "fa fa-angle-double-down") {
+        ID_Buttton[compteur].classList.value = "fa fa-angle-double-up"
+    } else {
+        ID_Buttton[compteur].classList.value = "fa fa-angle-double-down"
+    }
+}
 
 
 
@@ -220,8 +230,7 @@ fetch(url)
         // lire les données sous forme Json
         var navireInformation = await data
 
-        console.log(navireInformation[2])
-            // enregistrer les données d'ajourd'hui
+        // enregistrer les données d'ajourd'hui
         var listePositionsToday = positionsAujourdhui(navireInformation, L)
         var listePositionsFilter
 
@@ -229,8 +238,45 @@ fetch(url)
         map.addLayer(listePositionsToday)
 
 
-        // le fonctionnement de checkbox
+        // le fonctionnement de checkbox et navireButton
         var checkbox = document.querySelectorAll('.onoff')
+
+
+        // ajouter eventListener pour afficher les DIV des navires d'une façon dynamique
+        var iconBouttonNavire = document.querySelectorAll('#iconNavire')
+        for (let i = 0; i < iconBouttonNavire.length; i++) {
+            iconBouttonNavire[i].addEventListener('click', function() {
+                displayDiv(iconBouttonNavire, '#affichage', i)
+            })
+        }
+
+        // ajouter eventListener pour afficher les SOS des navires d'une façon dynamique
+        var iconBouttonSOS = document.querySelectorAll('#iconSOS')
+        for (let i = 0; i < iconBouttonSOS.length; i++) {
+            iconBouttonSOS[i].addEventListener('click', function() {
+                displayDiv(iconBouttonSOS, '#affichageSOS', i)
+            })
+        }
+
+        // ajouter eventListener pour afficher les INFRACTIONS des navires d'une façon dynamique
+        var iconBouttonInfraction = document.querySelectorAll('#iconInfraction')
+        for (let i = 0; i < iconBouttonInfraction.length; i++) {
+            iconBouttonInfraction[i].addEventListener('click', function() {
+                displayDiv(iconBouttonInfraction, '#affichageInfraction', i)
+            })
+        }
+
+        // ajouter eventListener pour afficher les ACKV des navires d'une façon dynamique
+        var iconBouttonACKV = document.querySelectorAll('#iconAckv')
+        for (let i = 0; i < iconBouttonACKV.length; i++) {
+            iconBouttonACKV[i].addEventListener('click', function() {
+                displayDiv(iconBouttonACKV, '#affichageACKV', i)
+            })
+        }
+
+
+
+
 
         // affecter les IDVMS pour chaque navire 
         for (let i = 0; i < checkbox.length; i++) {
@@ -243,6 +289,7 @@ fetch(url)
 
 
         for (let i = 0; i < checkbox.length; i++) {
+
 
 
             // lire et afficher les SOS d'aujourd'hui
@@ -274,14 +321,26 @@ fetch(url)
 
 
             checkbox[i].addEventListener('change', function() {
+
+
                 currentvalue = document.getElementById('onoff').value;
 
                 // si le mode filter est activee
                 if (currentvalue == "Off") {
 
+
+                    // filterDiv dynamique
+                    var filterDiv = document.querySelectorAll('#filterDiv')
+                    filterDiv[i].classList.remove('displayDiv')
+
+
+                    // supprimer les positions d'aujourd'hui
                     map.removeLayer(listePositionsToday)
 
+                    // selectionner les bouttons des formulaires 
                     var buttonClickFormulaire = document.querySelectorAll("#buttonClickFormulaire")
+
+                    // ajouter un eventListener au boutton de la formulaire 
                     buttonClickFormulaire[i].addEventListener('click', function() {
                         var date1Picker = document.querySelectorAll('#date1')
                         var date2Picker = document.querySelectorAll('#date2')
@@ -298,7 +357,6 @@ fetch(url)
                             })
                         }
 
-                        // checkbox[i].classList[1] le IDVMS
 
                         map.addLayer(listePositionsFilter)
                     })
@@ -309,8 +367,19 @@ fetch(url)
                     //afficher les positions d'ajourd'hui
                     document.getElementById("onoff").value = "On"
 
+
+
+
+
+
+
+
                     // si le mode filter non activee
                 } else {
+
+                    // filterDiv dynamique
+                    var filterDiv = document.querySelectorAll('#filterDiv')
+                    filterDiv[i].classList.add('displayDiv')
 
                     // afficher les SOS d'aujourd'hui
                     var SOSData = document.querySelectorAll("#SOSData")
@@ -340,6 +409,13 @@ fetch(url)
 
 
 //-------------------------------------------------------------------------------------------------------------------------//
+
+
+
+
+
+
+
 
 
 

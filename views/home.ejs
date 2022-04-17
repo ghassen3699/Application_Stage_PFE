@@ -179,10 +179,11 @@
 
         //----------------------------------- l'affichage de la courbe --------------------------//
         const ctx = document.getElementById('myChart').getContext('2d');
+        const xlabels = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+                labels: xlabels,
                 datasets: [{
                     label: 'Nombre des positions reçue pour cette semaine',
                     data: [12, 19, 3, 5, 2, 3, 25],
@@ -216,6 +217,8 @@
                 }
             }
         });
+
+        
     </script>
 
 

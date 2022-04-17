@@ -2,6 +2,7 @@ const express = require('express');
 const https = require('https');
 const mysql = require('mysql');
 const homeRouter = express.Router();
+const firstLastDay = require('../fonctionDeTravail/firstDay');
 
 
 //------------------------------- La connexion entre NodeJs et Mysql -------------------------------------//
@@ -45,15 +46,29 @@ homeRouter.get('/', function(req, res) {
     //sql = "SELECT * FROM trackingData WHERE (DA = "20210706") AND (ID_VMS = "VMS2005") ORDER BY TI DESC;" ------> recherche par ID_VMS
     //sql = ""
 
+    var week = firstLastDay()
+
+
+
     sql1 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%PREV%') AND (DA = CURDATE()+0) ;"
     sql2 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%BMS%') AND (DA = CURDATE()+0) ;"
-    sql3 = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20210706') GROUP BY NA , ID_VMS;"
-    db.query(sql1 + sql2 + sql3, (err, result) => {
+    sql3 = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20210706') GROUP BY NA , ID_VMS; "
+    sql4 = "SELECT DA, COUNT(*) AS TOTAL FROM trackingData WHERE DA BETWEEN " + 20210705 + " AND " + 20210711 + " GROUP BY DA;"
+
+    db.query(sql1 + sql2 + sql3 + sql4, (err, result) => {
         if (err) {
             throw err
         }
+        var x = [1, 2, 3, 4, 5, 6]
+        var listNombrePosition = []
+        if (result[3].length > 0) {
+            result[3].forEach(resultat => {
+                listNombrePosition.push(resultat.TOTAL)
+            });
+        }
 
-        res.render("home", { temp: 13, pourcentageDesPREV: result[0].length, pourcentageDesBMS: result[1].length, naviresConnecter: result[2] })
+
+        res.render("home", { temp: 13, pourcentageDesPREV: result[0].length, pourcentageDesBMS: result[1].length, naviresConnecter: result[2], data: listNombrePosition })
     })
 
 });
