@@ -22,6 +22,26 @@
                 </div>
 
                 <div class="col-lg-3 ds bar" id="bar">
+                    <div class='centered'>
+                        <h4 class="centered mt ">Recherche specifique</h4>
+                        <br>
+                    </div>
+
+                    <div class='centered'>
+                        <h5>Navire</h5>
+                        <select class="form-control" id="navireSelect">
+                            <option id="IDVMS_select" value="choisir">Choisir une navire</option>
+                        </select>
+
+                        <h5>Début</h5>
+                        <input type="date" lang="fr-CA" value="" id="rechercheDate1" name="date1" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+
+                        <h5>Fin</h5>
+                        <input type="date" lang="fr-CA" value="" id="rechercheDate2" name="date2" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                        <h5 class="centered mt"><button type="submit" id="rechercheFormSpecifique" class="btn btn-warning btn-lg btn-block">Recherche</button></h5>
+                    </div>
+
+
                     <div class="notificationBarVisibility" id="navireInfo">
 
                         <!-- formulaire pour la recherche par une seule date  -->

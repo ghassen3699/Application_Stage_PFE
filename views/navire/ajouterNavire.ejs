@@ -1,5 +1,5 @@
 <%- include("../partials/header"); -%>
-    <!--external css-->
+
 
 
     <section id="main-content">
@@ -11,8 +11,10 @@
                 <div class="col-lg-13">
                     <div class="custom-box">
                         <% if (msg !== ""){%>
-                            <div class="alert alert-success"><b>Désole! &nbsp;</b>
-                                <%=msg%>.</div>
+                            <script>
+                                alert('<%= msg%>')
+                            </script>
+
                             <%}%>
 
                                 <h3 style="text-align: center;">Ajouter Navire</h3>
@@ -21,14 +23,14 @@
 
 
                         <div class=" form">
-                            <form class="cmxform form-horizontal style-form" id="commentForm" method="post" action="/navire/ajouter">
+                            <form id="form" class="cmxform form-horizontal style-form" id="commentForm" method="post" action="/navire/ajouter">
                                 <br>
 
 
                                 <div class="form-group ">
                                     <label for="cemail" class="control-label col-lg-2" style="font-size: medium;">Nom du navire :</label>
                                     <div class="col-lg-5">
-                                        <input class="form-control" placeholder="Le Nom Du Navire ..." id="curl" type="text" name="NA" required />
+                                        <input class="form-control" id="NA" placeholder="Le Nom Du Navire ..." id="curl" type="text" name="NA" required />
                                     </div>
                                 </div>
                                 <br>
@@ -36,7 +38,7 @@
                                 <div class="form-group ">
                                     <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ID_VMS du navire :</label>
                                     <div class="col-lg-10">
-                                        <input class="form-control" placeholder="Exemple ( VMS0000 ...)" id="curl" type="text" name="ID_VMS" required />
+                                        <input class="form-control" id="ID_VMS" placeholder="Exemple ( VMS0000 ...)" id="curl" type="text" name="ID_VMS" required />
                                     </div>
                                 </div>
                                 <br>
@@ -46,7 +48,7 @@
                                 <div class="form-group ">
                                     <label for="curl" class="control-label col-lg-2" style="font-size: medium;">IMEI du navire :</label>
                                     <div class="col-lg-5">
-                                        <input class="form-control" placeholder="Exemple (123456789....)" id="curl" type="text" name="IMEI" required />
+                                        <input class="form-control" id="IMEI" placeholder="Exemple (123456789....)" id="curl" type="text" name="IMEI" required />
                                     </div>
                                 </div>
                                 <br>
@@ -54,7 +56,7 @@
                                 <div class="form-group ">
                                     <label for="curl" class="control-label col-lg-2" style="font-size: medium;">ICCID du navire :</label>
                                     <div class="col-lg-10">
-                                        <input class="form-control" placeholder="Exemple (123456789 ....)" id="curl" type="text" name="ICCID" required />
+                                        <input class="form-control" id="CURL" placeholder="Exemple (123456789 ....)" id="curl" type="text" name="ICCID" required />
                                     </div>
                                 </div>
 
@@ -62,14 +64,14 @@
                                 <div class="form-group ">
                                     <label for="curl" class="control-label col-lg-2" style="font-size: medium;">RC du navire :</label>
                                     <div class="col-lg-10">
-                                        <input class="form-control" placeholder="Exemple (3A1234 ....)" id="curl" type="text" name="RC" required />
+                                        <input class="form-control" id="RC" placeholder="Exemple (3A1234 ....)" id="curl" type="text" name="RC" required />
                                     </div>
                                 </div>
 
                                 <div class="form-group ">
                                     <label for="curl" class="control-label col-lg-2" style="font-size: medium;">KEY_AES du navire :</label>
                                     <div class="col-lg-10">
-                                        <input class="form-control" placeholder=" Exemple (706F656C736500000000000000001111 ....)" id="curl" type="text" name="KEY_AES" required />
+                                        <input class="form-control" id="KEY_AES" placeholder=" Exemple (706F656C736500000000000000001111 ....)" id="curl" type="text" name="KEY_AES" required />
                                     </div>
                                 </div>
 

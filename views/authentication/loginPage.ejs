@@ -1,1 +1,48 @@
-login Page
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VMD Solutions</title>
+
+    <link href="/img/favicon.png" rel="icon">
+    <link rel="shortcut icon" type="image/png" href="/vmdicon.png" />
+
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/style-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="login-page">
+        <div class="container">
+            <form class="form-login" action="index.html">
+                <h2 class="form-login-heading">VMD Solutions</h2>
+                <div class="login-wrap">
+                    <input type="text" name="EMAIL" class="form-control" placeholder="Email ...." autofocus>
+                    <br>
+                    <input type="password" name="PASSWORD" class="form-control" placeholder="Password ...">
+                    <br>
+                    <a class="btn btn-theme btn-block" href="/home" type="submit"><i class="fa fa-lock"></i> SIGN IN</a>
+                    <hr>
+                    <div class="login-social-link centered">
+                        <p>Seul l'administrateur a le droit de créer les comptes</p>
+                        <p></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery.backstretch.min.js"></script>
+    <script>
+        $.backstretch("img/vmdimage.gif", {
+            speed: 500
+        });
+    </script>
+</body>
+
+</html>

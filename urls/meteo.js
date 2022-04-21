@@ -55,7 +55,7 @@ meteoRouter.get('/meteo', function(req, res) {
 
 // Historique PREV reçue pour aujourd'hui
 meteoRouter.get('/historiqueAujourdhuiPREV', function(req, res) {
-    const sql = "SELECT CRC, TY, TI, DA FROM CRCData WHERE( (TY LIKE '%PREV%')) AND (DA = CURDATE()+0) LIMIT 10;"
+    const sql = "SELECT ID, CRC, TY, TI, DA FROM CRCData WHERE( (TY LIKE '%PREV%')) AND (DA = CURDATE()+0) ORDER BY ID DESC LIMIT 10;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -68,7 +68,7 @@ meteoRouter.get('/historiqueAujourdhuiPREV', function(req, res) {
 // La fonction pagination de la page historique PREV d'aujourd'hui 
 meteoRouter.get('/historiqueAujourdhuiPREV_pagination', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT CRC, TY, TI, DA FROM CRCData WHERE( (TY LIKE '%PREV%')) AND (DA = CURDATE()+0) LIMIT " + pagination + ";"
+    const sql = "SELECT ID, CRC, TY, TI, DA FROM CRCData WHERE( (TY LIKE '%PREV%')) AND (DA = CURDATE()+0) ORDER BY ID DESC LIMIT " + pagination + ";"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -82,7 +82,7 @@ meteoRouter.get('/historiqueAujourdhuiPREV_pagination', function(req, res) {
 
 // Historique BMS recue pour aujourd'hui
 meteoRouter.get('/historiqueAujourdhuiBMS', function(req, res) {
-    const sql = "SELECT CRC, TY, TI, DA FROM CRCData WHERE((TY LIKE '%BMS%')) AND (DA = CURDATE()+0) LIMIT 10;"
+    const sql = "SELECT ID, CRC, TY, TI, DA FROM CRCData WHERE((TY LIKE '%BMS%')) AND (DA = CURDATE()+0) ORDER BY ID DESC LIMIT 10;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -95,7 +95,7 @@ meteoRouter.get('/historiqueAujourdhuiBMS', function(req, res) {
 // La fonction pagination de la page meteo d'aujourd'hui 
 meteoRouter.get('/historiqueAujourdhuiBMS_pagination', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT CRC, TY, TI, DA FROM CRCData WHERE((TY LIKE '%BMS%')) AND (DA = CURDATE()+0) LIMIT " + pagination + ";"
+    const sql = "SELECT ID, CRC, TY, TI, DA FROM CRCData WHERE((TY LIKE '%BMS%')) AND (DA = CURDATE()+0) ORDER BY ID DESC LIMIT " + pagination + ";"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -114,7 +114,7 @@ meteoRouter.get('/historiqueAujourdhuiBMS_pagination', function(req, res) {
 
 // afficher l'historique de la meteo 
 meteoRouter.get('/historiqueMeteo', function(req, res) {
-    const sql = "SELECT DISTINCT CRC, TY, TI, DA FROM CRCData WHERE (TY LIKE '%PREV%') OR (TY LIKE '%BMS%') LIMIT 10;"
+    const sql = "SELECT DISTINCT ID, CRC, TY, TI, DA FROM CRCData WHERE (TY LIKE '%PREV%') OR (TY LIKE '%BMS%') ORDER BY ID DESC LIMIT 10;"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -131,7 +131,7 @@ meteoRouter.get('/historiqueMeteo', function(req, res) {
 // la fonction pagination de la page historique Meteo 
 meteoRouter.get('/historiqueMeteoPagination', function(req, res) {
     const pagination = req.query.pagination
-    const sql = "SELECT DISTINCT CRC, TY,DA  FROM  VMS.CRCData WHERE ( (TY LIKE '%BMS%') OR (TY LIKE '%PREV%') ) AND (DA<= (CURRENT_DATE()+0) AND DA > (CURRENT_DATE()+0) - " + pagination + ") ;"
+    const sql = "SELECT DISTINCT ID, CRC, TY,DA  FROM  VMS.CRCData WHERE ( (TY LIKE '%BMS%') OR (TY LIKE '%PREV%') ) AND (DA<= (CURRENT_DATE()+0) AND DA > (CURRENT_DATE()+0) - " + pagination + ") ;"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -174,7 +174,7 @@ meteoRouter.get('/historiqueMeteoRecherche', function(req, res) {
 meteoRouter.get('/historiqueAujourdhuiRecherche_PREV', function(req, res) {
     const recherche = req.query.search
 
-    const sql = "SELECT DISTINCT CRC, TY, TI, DA FROM CRCData WHERE ( (TY LIKE '%PREV%') ) AND ( (DA = CURDATE()+0) ) AND  ( (CRC = '" + recherche + "') OR (TY = '" + recherche + "') OR (TI = '" + recherche + "') ) LIMIT 100;"
+    const sql = "SELECT DISTINCT ID, CRC, TY, TI, DA FROM CRCData WHERE ( (TY LIKE '%PREV%') ) AND ( (DA = CURDATE()+0) ) AND  ( (CRC = '" + recherche + "') OR (TY = '" + recherche + "') OR (TI = '" + recherche + "') ) ORDER BY ID DESC LIMIT 100;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -188,7 +188,7 @@ meteoRouter.get('/historiqueAujourdhuiRecherche_PREV', function(req, res) {
 meteoRouter.get('/historiqueAujourdhuiRecherche_BMS', function(req, res) {
     const recherche = req.query.search
 
-    const sql = "SELECT DISTINCT CRC, TY, TI, DA FROM CRCData WHERE ( (TY LIKE '%BMS%') ) AND ( (DA = CURDATE()+0) ) AND  ( (CRC = '" + recherche + "') OR (TY = '" + recherche + "') OR (TI = '" + recherche + "') ) LIMIT 100;"
+    const sql = "SELECT DISTINCT ID ,CRC, TY, TI, DA FROM CRCData WHERE ( (TY LIKE '%BMS%') ) AND ( (DA = CURDATE()+0) ) AND  ( (CRC = '" + recherche + "') OR (TY = '" + recherche + "') OR (TI = '" + recherche + "') ) ORDER BY ID DESC LIMIT 100;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -204,7 +204,7 @@ meteoRouter.get('/historiqueAujourdhuiRecherche_BMS', function(req, res) {
 meteoRouter.get('/historiqueRecherche', function(req, res) {
     const recherche = req.query.search
 
-    const sql = "SELECT DISTINCT CRC, TY, TI, DA FROM CRCData WHERE ( (TY LIKE '%PREV%') OR (TY LIKE '%BMS%') ) AND  ( (CRC = '" + recherche + "') OR (TY = '" + recherche + "') OR (DA = '" + recherche + "') OR (TI = '" + recherche + "') )  LIMIT 100;"
+    const sql = "SELECT DISTINCT ID, CRC, TY, TI, DA FROM CRCData WHERE ( (TY LIKE '%PREV%') OR (TY LIKE '%BMS%') ) AND  ( (CRC = '" + recherche + "') OR (TY = '" + recherche + "') OR (DA = '" + recherche + "') OR (TI = '" + recherche + "') ) ORDER BY ID DESC  LIMIT 100;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err

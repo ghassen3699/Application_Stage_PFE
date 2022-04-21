@@ -32,16 +32,13 @@ db.connect((err) => {
 
 // les api des positions d'aujourd'hui
 mapRouter.get('/navireMapApi', function(req, res) {
-
-
-    const sql1 = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) order by TI DESC; "
-    const sql2 = " SELECT * FROM trackingData ORDER BY ID DESC LIMIT 20;"
+    const sql1 = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) order by ID_VMS DESC; "
+    const sql2 = " SELECT * FROM trackingData ORDER BY ID DESC LIMIT 200;"
     const sql3 = " SELECT * FROM tobInfo ORDER BY ID DESC; "
     db.query(sql1 + sql2 + sql3, (err, result) => {
         if (err) {
             throw err
         }
-
         res.json(result)
     })
 
@@ -76,7 +73,7 @@ mapRouter.get('/', function(req, res) {
 // la page tableau des derniers positions pour aujourd'hui
 // ------------------------------------------------------------------------------------------------------------------------------------------ //
 mapRouter.get('/navireAujourdhui', function(req, res) {
-    const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC LIMIT 10;"
+    const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC LIMIT 200;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -90,9 +87,9 @@ mapRouter.get('/navireAujourdhuiPagination', function(req, res) {
     const pagination = req.query.pagination
     var sql
     if (pagination === "TOUS") {
-        sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC;"
+        sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC;"
     } else {
-        sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC LIMIT " + pagination + " ;"
+        sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC LIMIT " + pagination + " ;"
     }
 
     db.query(sql, (err, result) => {
@@ -106,7 +103,7 @@ mapRouter.get('/navireAujourdhuiPagination', function(req, res) {
 // la fonction recherche du tableaux positions d'aujourd'hui
 mapRouter.get('/mapRecherchePositions', function(req, res) {
     const search = "'" + req.query.recherche + "'"
-    const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT('20210706','%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) AND (NA = " + search + " OR ID_VMS = " + search + " OR TI = " + search + " OR LT = " + search + " OR LG = " + search + " OR CO = " + search + " OR TM = " + search + ");"
+    const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) AND (NA = " + search + " OR ID_VMS = " + search + " OR TI = " + search + " OR LT = " + search + " OR LG = " + search + " OR CO = " + search + " OR TM = " + search + ");"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -125,7 +122,7 @@ mapRouter.get('/mapRecherchePositions', function(req, res) {
 // la page de tracking pour les navires 
 // ------------------------------------------------------------------------------------------------------------------------------------------ //
 mapRouter.get('/mapTracking', function(req, res) {
-    const sql = "SELECT * FROM trackingData ORDER BY ID DESC LIMIT 10 ;"
+    const sql = "SELECT * FROM trackingData ORDER BY ID DESC LIMIT 200 ;"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -139,7 +136,7 @@ mapRouter.get('/mapTracking', function(req, res) {
 // recherche par une date simple
 mapRouter.get('/mapSingleDate', function(req, res) {
     const date = testDate(req.query.date, 0)
-    const sql = "SELECT * FROM trackingData WHERE DA = " + date + " ORDER BY ID DESC LIMIT 50 ;"
+    const sql = "SELECT * FROM trackingData WHERE DA = " + date + " ORDER BY ID DESC LIMIT 200 ;"
 
     db.query(sql, (err, result) => {
         if (err) {
@@ -155,7 +152,7 @@ mapRouter.get('/mapBetweenDate', function(req, res) {
     const date1 = testDate(req.query.date1, 0)
     const date2 = testDate(req.query.date2, 0)
 
-    const sql = "SELECT * FROM trackingData WHERE DA BETWEEN " + date1 + " AND " + date2 + " ORDER BY ID DESC LIMIT 50 ;"
+    const sql = "SELECT * FROM trackingData WHERE DA BETWEEN " + date1 + " AND " + date2 + " ORDER BY ID DESC LIMIT 200 ;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err
@@ -171,7 +168,7 @@ mapRouter.get('/mapBetweenDate', function(req, res) {
 mapRouter.get('/mapRequete', function(req, res) {
     const search = req.query.recherche
 
-    const sql = "SELECT * FROM trackingData WHERE (NA = " + search + ") OR (ID_VMS = " + search + ") OR (DA = " + search + ") OR (TI = " + search + ") OR (LT = " + search + ") OR (LG = " + search + ") OR (TM = " + search + ") OR (CO = " + search + ") ORDER BY ID DESC LIMIT 50;"
+    const sql = "SELECT * FROM trackingData WHERE (NA Like '%" + search + "%') OR (ID_VMS = '" + search + "') OR (DA = '" + search + "') OR (TI = '" + search + "') OR (LT = '" + search + "') OR (LG = '" + search + "') OR (TM = '" + search + "') OR (CO = '" + search + "') ORDER BY ID DESC LIMIT 200;"
     db.query(sql, (err, result) => {
         if (err) {
             throw err

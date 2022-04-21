@@ -8,8 +8,10 @@
                 <div class="col-lg-13">
                     <div class="custom-box">
                         <% if (msg !== ""){%>
-                            <div class="alert alert-success"><b>Désole! &nbsp;</b>
-                                <%=msg%>.</div>
+                            <script>
+                                alert('<%= msg%>')
+                            </script>
+
                             <%}%>
 
                                 <h3 style="text-align: center;">

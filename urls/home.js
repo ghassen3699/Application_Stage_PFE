@@ -29,7 +29,6 @@ db.connect((err) => {
 
 
 
-
 homeRouter.get('/', function(req, res) {
 
     //const url = "https://api.openweathermap.org/data/2.5/weather?lat=36.8472&lon=10.2040&units=metric&appid=9d35eb879889e4a3c2bc559347144202"
@@ -48,12 +47,13 @@ homeRouter.get('/', function(req, res) {
 
     var week = firstLastDay()
 
+    console.log(week.firstday, week.lastday)
 
 
-    sql1 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%PREV%') AND (DA = CURDATE()+0) ;"
-    sql2 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%BMS%') AND (DA = CURDATE()+0) ;"
-    sql3 = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20210706') GROUP BY NA , ID_VMS; "
-    sql4 = "SELECT DA, COUNT(*) AS TOTAL FROM trackingData WHERE DA BETWEEN " + 20210705 + " AND " + 20210711 + " GROUP BY DA;"
+    sql1 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%PREV%') AND (DA = '20220418') ;"
+    sql2 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%BMS%') AND (DA = '20220418') ;"
+    sql3 = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20220418') GROUP BY NA , ID_VMS; "
+    sql4 = "SELECT DA, COUNT(*) AS TOTAL FROM trackingData WHERE DA BETWEEN " + week.firstday + " AND " + week.lastday + " GROUP BY DA;"
 
     db.query(sql1 + sql2 + sql3 + sql4, (err, result) => {
         if (err) {
@@ -63,11 +63,13 @@ homeRouter.get('/', function(req, res) {
         var listNombrePosition = []
         if (result[3].length > 0) {
             result[3].forEach(resultat => {
-                listNombrePosition.push(resultat.TOTAL)
+                var Date = resultat['DA']
+                var TotalPOS = resultat['TOTAL']
+                listNombrePosition.push({ Date, TotalPOS })
             });
         }
 
-
+        console.log(listNombrePosition)
         res.render("home", { temp: 13, pourcentageDesPREV: result[0].length, pourcentageDesBMS: result[1].length, naviresConnecter: result[2], data: listNombrePosition })
     })
 

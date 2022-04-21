@@ -5,17 +5,20 @@ function positionsAujourdhui(navireInformation, L) {
 
     navireInformation[0].forEach(navire => {
 
-        // Ajouter les informations de cheque navire
-        var navireName = document.querySelector('#navireName')
-        var ID_VMS = document.querySelector('#IDVMS_Navire')
-        navireName.innerHTML = navire['NA']
-        ID_VMS.innerHTML = navire['ID_VMS']
+        if (navire.TM === "POS") {
+            // Ajouter les informations de cheque navire
+            var navireName = document.querySelector('#navireName')
+            var ID_VMS = document.querySelector('#IDVMS_Navire')
+            navireName.innerHTML = navire['NA']
+            ID_VMS.innerHTML = navire['ID_VMS']
 
-        // afficher les positions d'ajourd'hui sur Map
-        document.querySelector('#bar').appendChild(document.querySelector('#navireInfo').cloneNode(true))
-        var markerLocation = new L.LatLng(navire['LT'], navire['LG'])
-        var marker = new L.Marker(markerLocation).bindPopup(navire['NA'] + " || Lat:" + navire['LT'] + " || Lng:" + navire['LG']).openPopup()
-        listePositionsToday.push(marker)
+            // afficher les positions d'ajourd'hui sur Map
+            document.querySelector('#bar').appendChild(document.querySelector('#navireInfo').cloneNode(true))
+            var markerLocation = new L.LatLng(navire['LT'], navire['LG'])
+            var marker = new L.Marker(markerLocation).bindPopup(navire['NA'] + " || Lat:" + navire['LT'] + " || Lng:" + navire['LG']).openPopup()
+            listePositionsToday.push(marker)
+        }
+
     });
 
     var navireInfoBar = document.querySelectorAll('#navireInfo')
@@ -68,14 +71,12 @@ function SOSAujourdhui(navireInformation, ID_VMS) {
 
     listeSOSToday = navireInformation.filter(function(navire) {
         var duration = durationDays(navire.DA)
-
-        return ((navire.ID_VMS === ID_VMS) && (navire.TM === "POS") && (duration <= 3));
+        return ((navire.ID_VMS === ID_VMS) && ((navire.TM === "DIS") || (navire.TM === "DIs")) && (duration <= 3));
     })
     return listeSOSToday
 
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 
@@ -92,7 +93,7 @@ function SOSFilterPicker(navireInformation, ID_VMS, DATE1, DATE2) {
 
     // enregistrer les positions 
     listeSOSFilter = navireInformation.filter(function(navire) {
-        return (((parseInt(DAte1) <= parseInt(navire.DA)) && (parseInt(navire.DA) <= parseInt(DAte2))) && (navire.ID_VMS === ID_VMS) && (navire.TM === 'POS'));
+        return (((parseInt(DAte1) <= parseInt(navire.DA)) && (parseInt(navire.DA) <= parseInt(DAte2))) && (navire.ID_VMS === ID_VMS) && (navire.TM === 'DIS'));
     })
     return listeSOSFilter
 
@@ -124,6 +125,12 @@ function InfractionNavire(navireInformation, ID_VMS) {
 function formatTIME(time) {
     var formatTIME = time[0] + time[1] + ":" + time[2] + time[3]
     return formatTIME
+}
+
+
+function formatDate(date) {
+    var formatDate = date[0] + date[1] + date[2] + date[3] + '/' + date[4] + date[5] + '/' + date[6] + date[7]
+    return formatDate
 }
 
 // duration des jours
@@ -203,7 +210,17 @@ function displayDiv(ID_Buttton, ID_Div, compteur) {
 }
 
 
+function affectNavireInformation(navireName, IDVMS) {
+    document.querySelector('#IDVMS_select').innerText = navireName
+    document.querySelector('#IDVMS_select').value = IDVMS
+    document.querySelector('#navireSelect').appendChild(document.querySelector('#IDVMS_select').cloneNode(true))
 
+    var IDVMS_select = document.querySelectorAll('#IDVMS_select')
+    if (IDVMS_select.length > 1) {
+        IDVMS_select[0].innerText = 'choisir navire'
+        IDVMS_select[0].value = 'IDVMS'
+    }
+}
 
 //---------------------------------------------la creation de la map---------------------------------------------------//
 const mapDiv = document.getElementById('map');
@@ -230,9 +247,15 @@ fetch(url)
         // lire les données sous forme Json
         var navireInformation = await data
 
-        // enregistrer les données d'ajourd'hui
+        // enregistrer les données d'aujourd'hui
         var listePositionsToday = positionsAujourdhui(navireInformation, L)
-        var listePositionsFilter
+        var listePositionsFilter = L.layerGroup(listePositionsFilter)
+
+        // affecter les informations de chaque navire pour la formulaire recherche spécifique
+        navireInformation[2].forEach(navireInfo => {
+            affectNavireInformation(navireInfo['NA'], navireInfo['ID_VMS'])
+        });
+
 
         // afficher les positions d'aujourd'hui
         map.addLayer(listePositionsToday)
@@ -241,11 +264,30 @@ fetch(url)
         // le fonctionnement de checkbox et navireButton
         var checkbox = document.querySelectorAll('.onoff')
 
+        var rechercheFormSpecifique = document.querySelector('#rechercheFormSpecifique')
+        rechercheFormSpecifique.addEventListener('click', function() {
+            map.removeLayer(listePositionsToday)
+            if (listePositionsFilter) {
+                map.removeLayer(listePositionsFilter)
+            }
+
+            var IDVMS_select = document.querySelector('#navireSelect').value
+            var date1 = document.querySelector('#rechercheDate1').value
+            var date2 = document.querySelector('#rechercheDate2').value
+            listePositionsFilter = positionsParFilter(navireInformation, L, date1, date2, IDVMS_select)
+            map.addLayer(listePositionsFilter)
+        })
+
 
         // ajouter eventListener pour afficher les DIV des navires d'une façon dynamique
         var iconBouttonNavire = document.querySelectorAll('#iconNavire')
         for (let i = 0; i < iconBouttonNavire.length; i++) {
             iconBouttonNavire[i].addEventListener('click', function() {
+                if (listePositionsFilter) {
+                    map.removeLayer(listePositionsFilter)
+                    map.addLayer(listePositionsToday)
+                }
+
                 displayDiv(iconBouttonNavire, '#affichage', i)
             })
         }
@@ -275,11 +317,9 @@ fetch(url)
         }
 
 
-
-
-
         // affecter les IDVMS pour chaque navire 
         for (let i = 0; i < checkbox.length; i++) {
+
             let IDVMS = navireInformation[0][i]['ID_VMS']
             checkbox[i].classList.add(IDVMS)
 
@@ -295,10 +335,10 @@ fetch(url)
             // lire et afficher les SOS d'aujourd'hui
             //--------------------------------------------------------------------------------------------------//
             var SOSData = document.querySelectorAll("#SOSData")
-            var sosToday = SOSAujourdhui(navireInformation[0], checkbox[i].classList[1])
+            var sosToday = SOSAujourdhui(navireInformation[1], checkbox[i].classList[1])
             sosToday.forEach(navireSOS => {
 
-                SOSData[i].innerHTML = 'SOS :    ' + formatTIME(navireSOS['TI']) + " <br> LT/LG :  " + navireSOS['LT'] + "/" + navireSOS['LG']
+                SOSData[i].innerHTML = 'Temps :    ' + formatTIME(navireSOS['TI']) + "<br> Date : " + formatDate(navireSOS['DA']) + " <br> LT/LG :  " + navireSOS['LT'] + "/" + navireSOS['LG']
 
             });
             //--------------------------------------------------------------------------------------------------//
@@ -325,6 +365,7 @@ fetch(url)
 
                 currentvalue = document.getElementById('onoff').value;
 
+
                 // si le mode filter est activee
                 if (currentvalue == "Off") {
 
@@ -345,9 +386,8 @@ fetch(url)
                         var date1Picker = document.querySelectorAll('#date1')
                         var date2Picker = document.querySelectorAll('#date2')
 
-                        listePositionsFilter = positionsParFilter(navireInformation, L, date1Picker[i].value, date2Picker[i].value, 'VMS2030')
-                        var SOSParPicker = SOSFilterPicker(navireInformation[1], 'VMS2030', date1Picker[i].value, date2Picker[i].value)
-                        console.log(SOSParPicker)
+                        listePositionsFilter = positionsParFilter(navireInformation, L, date1Picker[i].value, date2Picker[i].value, checkbox[i].classList[1])
+                        var SOSParPicker = SOSFilterPicker(navireInformation[1], checkbox[i].classList[1], date1Picker[i].value, date2Picker[i].value)
 
                         // afficher les SOS suivant le filtre de picker 
                         if (SOSParPicker.length > 0) {
