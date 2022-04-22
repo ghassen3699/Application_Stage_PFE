@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const https = require('https');
 const mysql = require('mysql');
 const homeRouter = express.Router();
@@ -45,33 +46,41 @@ homeRouter.get('/', function(req, res) {
     //sql = "SELECT * FROM trackingData WHERE (DA = "20210706") AND (ID_VMS = "VMS2005") ORDER BY TI DESC;" ------> recherche par ID_VMS
     //sql = ""
 
-    var week = firstLastDay()
+    var user = req.session.user
 
-    console.log(week.firstday, week.lastday)
+    if (user) {
+        var week = firstLastDay()
+
+        var user = req.session.user
+        console.log(user)
+            // console.log(week.firstday, week.lastday)
 
 
-    sql1 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%PREV%') AND (DA = '20220418') ;"
-    sql2 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%BMS%') AND (DA = '20220418') ;"
-    sql3 = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20220418') GROUP BY NA , ID_VMS; "
-    sql4 = "SELECT DA, COUNT(*) AS TOTAL FROM trackingData WHERE DA BETWEEN " + week.firstday + " AND " + week.lastday + " GROUP BY DA;"
+        sql1 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%PREV%') AND (DA = '20220418') ;"
+        sql2 = "SELECT DISTINCT CRC, TY, DA FROM CRCData WHERE (TY LIKE '%BMS%') AND (DA = '20220418') ;"
+        sql3 = "SELECT DISTINCT NA, MAX(TI), ID_VMS FROM trackingData WHERE (DA = '20220418') GROUP BY NA , ID_VMS; "
+        sql4 = "SELECT DA, COUNT(*) AS TOTAL FROM trackingData WHERE DA BETWEEN " + week.firstday + " AND " + week.lastday + " GROUP BY DA;"
 
-    db.query(sql1 + sql2 + sql3 + sql4, (err, result) => {
-        if (err) {
-            throw err
-        }
-        var x = [1, 2, 3, 4, 5, 6]
-        var listNombrePosition = []
-        if (result[3].length > 0) {
-            result[3].forEach(resultat => {
-                var Date = resultat['DA']
-                var TotalPOS = resultat['TOTAL']
-                listNombrePosition.push({ Date, TotalPOS })
-            });
-        }
+        db.query(sql1 + sql2 + sql3 + sql4, (err, result) => {
+            if (err) {
+                throw err
+            }
+            var x = [1, 2, 3, 4, 5, 6]
+            var listNombrePosition = []
+            if (result[3].length > 0) {
+                result[3].forEach(resultat => {
+                    var Date = resultat['DA']
+                    var TotalPOS = resultat['TOTAL']
+                    listNombrePosition.push({ Date, TotalPOS })
+                });
+            }
 
-        console.log(listNombrePosition)
-        res.render("home", { temp: 13, pourcentageDesPREV: result[0].length, pourcentageDesBMS: result[1].length, naviresConnecter: result[2], data: listNombrePosition })
-    })
+
+            res.render("home", { temp: 13, pourcentageDesPREV: result[0].length, pourcentageDesBMS: result[1].length, naviresConnecter: result[2], data: listNombrePosition, user: user })
+        })
+    } else {
+        return res.redirect('/')
+    }
 
 });
 

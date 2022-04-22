@@ -1,1 +1,124 @@
-register Page
+<%- include("../partials/header"); -%>
+
+
+
+    <section id="main-content">
+        <section class="wrapper">
+
+
+
+            <div class="row mt">
+                <div class="col-lg-13">
+                    <div class="custom-box">
+                        <% if (msg !== ""){%>
+                            <script>
+                                alert('<%= msg%>')
+                            </script>
+
+                            <%}%>
+
+                                <h3 style="text-align: center;">Ajouter un compte</h3>
+                    </div>
+                    <div class="form-panel">
+
+
+                        <div class=" form">
+                            <form id="form" class="cmxform form-horizontal style-form" method="post" action="/register">
+                                <br>
+
+
+                                <div class="form-group ">
+                                    <label for="cemail" class="control-label col-lg-2" style="font-size: medium;">Username :</label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control" id="USERNAME" placeholder="Le username de l'utilisateur ..." id="curl" type="text" name="USERNAME" required />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Nom :</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" id="NOM" placeholder="Le nom de l'utilisateur" id="Nom" type="text" name="NOM" required />
+                                    </div>
+                                </div>
+                                <br>
+
+
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Prenom :</label>
+                                    <div class="col-lg-5">
+                                        <input class="form-control" id="PRENOM" placeholder="Le prenom de l'utilisateur ...." id="curl" type="text" name="PRENOM" required />
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Adresse Mail :</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" id="EMAIL" placeholder="L'adresse mail ...." id="curl" type="EMAIL" name="EMAIL" required />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Mots de passe :</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" id="PASSWORD" placeholder="Password ..." id="Password" type="password" name="PASSWORD" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Confirmer Mots de passe :</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" id="PASSWORD2" placeholder="La confirmation de mots de passe ...." id="Password2" type="password" name="PASSWORD2" required />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <label for="curl" class="control-label col-lg-2" style="font-size: medium;">Admin :</label>
+                                    <div class="col-lg-10">
+                                        <input type="checkbox" value=false id="ADMIN" name="ADMIN">
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+                                <div class="custom-box">
+                                    <h3 style="text-align: center;">
+                                        <button class="btn btn-theme" type="submit" style="font-size: medium;">Enregistrer</button>
+                                        <a href="/home" class="btn btn-theme04" type="button" style="font-size: medium;">Annuler</a>
+                                    </h3>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <script>
+        var checkboxForm = document.querySelector('#ADMIN')
+        checkboxForm.addEventListener('change', function() {
+
+            if (checkboxForm.value === 'true') {
+                checkboxForm.value = "false"
+            } else if (checkboxForm.value === 'false' || !checkboxForm.value) {
+                checkboxForm.value = "true"
+            }
+        })
+    </script>
+
+
+
+
+
+    <%- include("../partials/footer"); -%>

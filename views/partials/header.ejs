@@ -61,7 +61,7 @@
 
             <div class="top-menu">
                 <ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="#">Logout <i class="fa fa-sign-out"></i></a></li>
+                    <li><a class="logout" href="/logout">Logout <i class="fa fa-sign-out"></i></a></li>
                 </ul>
             </div>
         </header>
@@ -75,74 +75,87 @@
                     <p class="centered">
                         <a href="#"><img src="/img/download.png" class="img-circle" width="80"></a>
                     </p>
-                    <h5 class="centered">Ghassen Khammessi</h5>
-                    <br><br>
+                    <% user.forEach(element => { %>
+                        <h5 class="centered">
+                            <%= element.NOM%>
+                                <%= element.PRENOM%>
+                        </h5>
+                        <% });%>
 
-                    <li>
-                        <a href="/home">
-                            <i class="fa fa-desktop"></i>
-                            <span>Aujourd'hui </span>
-                        </a>
-                    </li>
 
-                    <li class="sub-menu">
-                        <a href="#">
-                            <i class="fa fa-map-marker"></i>
-                            <span>Map</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="/map/">Map</a></li>
-                            <li><a href="/map/navireAujourdhui">Les positions d'aujourd'hui</a></li>
-                            <li><a href="/map/mapTracking">Historique des positions</a></li>
-                        </ul>
-                    </li>
+                            <br><br>
 
-                    <li class="sub-menu">
-                        <a href="#">
-                            <i class="fa fa-anchor"></i>
-                            <span>Navires</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="/navire/navires">Tous Les Navires</a></li>
-                            <li><a href="/navire/ajouter">Ajouter Navire</a></li>
-                            <li><a href="/navire/picker">Picker</a></li>
-                        </ul>
-                    </li>
+                            <li>
+                                <a href="/home">
+                                    <i class="fa fa-desktop"></i>
+                                    <span>Aujourd'hui </span>
+                                </a>
+                            </li>
 
-                    <li class="sub-menu">
-                        <a href="#">
-                            <i class="fa fa-cloud"></i>
-                            <span>Meteo</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="/meteo/meteo">Meteo d'aujourd'hui</a></li>
-                            <li><a href="/meteo/historiqueMeteo">Historique</a></li>
-                        </ul>
-                    </li>
+                            <li class="sub-menu">
+                                <a href="#">
+                                    <i class="fa fa-map-marker"></i>
+                                    <span>Map</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="/map/">Map</a></li>
+                                    <li><a href="/map/navireAujourdhui">Les positions d'aujourd'hui</a></li>
+                                    <li><a href="/map/mapTracking">Historique des positions</a></li>
+                                </ul>
+                            </li>
 
-                    <li class="sub-menu">
-                        <a href="#">
-                            <i class=" fa fa-bar-chart-o"></i>
-                            <span>Statistique</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="/statistique/totalSOS">Statistique des SOS</a></li>
-                            <li><a href="/statistique/totalBMS">Statistique des BMS</a></li>
-                            <li><a href="/statistique/totalPREV">Statistique des PREV</a></li>
-                        </ul>
-                    </li>
+                            <li class="sub-menu">
+                                <a href="#">
+                                    <i class="fa fa-anchor"></i>
+                                    <span>Navires</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="/navire/navires">Tous Les Navires</a></li>
+                                    <li><a href="/navire/ajouter">Ajouter Navire</a></li>
+                                    <li><a href="/navire/picker">Picker</a></li>
+                                </ul>
+                            </li>
 
-                    <li class="sub-menu">
-                        <a href="#">
-                            <i class="fa fa-gears"></i>
-                            <span>Paramétres</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="/configuration">Parametre du map</a></li>
-                            <li><a href="/register">Creation du compte</a></li>
-                            <li><a href="/configuration">Parametre 3</a></li>
-                        </ul>
-                    </li>
+                            <li class="sub-menu">
+                                <a href="#">
+                                    <i class="fa fa-cloud"></i>
+                                    <span>Meteo</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="/meteo/meteo">Meteo d'aujourd'hui</a></li>
+                                    <li><a href="/meteo/historiqueMeteo">Historique</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu">
+                                <a href="#">
+                                    <i class=" fa fa-bar-chart-o"></i>
+                                    <span>Statistique</span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="/statistique/totalSOS">Statistique des SOS</a></li>
+                                    <li><a href="/statistique/totalBMS">Statistique des BMS</a></li>
+                                    <li><a href="/statistique/totalPREV">Statistique des PREV</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu">
+                                <a href="#">
+                                    <i class="fa fa-gears"></i>
+                                    <span>Paramétres</span>
+                                </a>
+                                <ul class="sub">
+                                    <% user.forEach(element => { %>
+                                        <%if (element.ADMIN === 1){ %>
+                                            <li><a href="/register">Creer un autre compte</a></li>
+                                            <li><a href="/configuration">paramétre des utilisateurs</a></li>
+                                            <%}%>
+                                                <% });%>
+
+
+                                                    <li><a href="/configuration">Modifier mots de passe</a></li>
+                                </ul>
+                            </li>
 
                 </ul>
             </div>

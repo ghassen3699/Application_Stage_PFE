@@ -1,5 +1,6 @@
 const express = require('express');
 const ejs = require("ejs");
+const session = require('express-session');
 const mysql = require('mysql');
 const bodyParser = require("body-parser");
 
@@ -34,6 +35,15 @@ const meteoRouter = require('./urls/meteo');
 const navireRouter = require('./urls/navire');
 const statistiqueRouter = require('./urls/statistique');
 //------------------------------------------------------------------------//
+
+app.use(session({
+    secret: 'ghassen',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 1000 * 30
+    }
+}))
 
 
 

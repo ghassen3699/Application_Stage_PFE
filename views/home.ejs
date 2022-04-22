@@ -20,7 +20,14 @@
 
 
                     <div class="border-head">
-                        <h3>Bienvenue Ghassen</h3>
+                        <% user.forEach(element => { %>
+                            <h5 class="centered">
+                                <h3>Bienvenue
+                                    <%= element.PRENOM%>
+                                </h3>
+                            </h5>
+                            <% });%>
+
                     </div>
                     <div>
                         <canvas class="custom-bar-chart" id="myChart" height="300vw" width="800vw"></canvas>
@@ -115,6 +122,7 @@
                         </div>
                     </a>
                     <br>
+
                     <div class="notificationBarVisibility visibleText">
                         <div class='panel terques-chart'>
                             <div class='chart'>

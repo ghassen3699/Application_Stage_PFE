@@ -18,14 +18,14 @@
 <body>
     <div id="login-page">
         <div class="container">
-            <form class="form-login" action="index.html">
+            <form class="form-login" method="post" action="/">
                 <h2 class="form-login-heading">VMD Solutions</h2>
                 <div class="login-wrap">
-                    <input type="text" name="EMAIL" class="form-control" placeholder="Email ...." autofocus>
+                    <input type="text" id="USENAME" name="USERNAME" class="form-control" placeholder="Email ...." autofocus>
                     <br>
-                    <input type="password" name="PASSWORD" class="form-control" placeholder="Password ...">
+                    <input type="password" id="PASSWORD" name="PASSWORD" class="form-control" placeholder="Password ...">
                     <br>
-                    <a class="btn btn-theme btn-block" href="/home" type="submit"><i class="fa fa-lock"></i> SIGN IN</a>
+                    <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> SIGN IN</button>
                     <hr>
                     <div class="login-social-link centered">
                         <p>Seul l'administrateur a le droit de créer les comptes</p>
