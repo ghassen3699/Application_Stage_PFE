@@ -33,3 +33,5 @@ var recherche1 = document.getElementById('recherche1')
 pickerConfig(recherche1);
 var recherche2 = document.getElementById('recherche2')
 pickerConfig(recherche2);
+var recherche3 = document.getElementById('recherche3')
+pickerConfig(recherche3);

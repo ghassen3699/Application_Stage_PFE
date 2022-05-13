@@ -36,9 +36,10 @@ mapRouter.get('/navireMapApi', function(req, res) {
 
     if (user) {
         const sql1 = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) order by ID_VMS DESC; "
-        const sql2 = " SELECT * FROM trackingData ORDER BY ID DESC LIMIT 200;"
+        const sql2 = " SELECT * FROM trackingData ORDER BY ID DESC ;"
         const sql3 = " SELECT * FROM tobInfo ORDER BY ID DESC; "
-        db.query(sql1 + sql2 + sql3, (err, result) => {
+        const sql4 = "SELECT * FROM weatherCRCData WHERE DA = CURDATE()+0 ;"
+        db.query(sql1 + sql2 + sql3 + sql4, (err, result) => {
             if (err) {
                 throw err
             }
@@ -97,7 +98,7 @@ mapRouter.get('/navireAujourdhui', function(req, res) {
     var user = req.session.user
 
     if (user) {
-        const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC LIMIT 200;"
+        const sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) ORDER BY TI DESC;"
         db.query(sql, (err, result) => {
             if (err) {
                 throw err
@@ -173,7 +174,7 @@ mapRouter.get('/mapTracking', function(req, res) {
     var user = req.session.user
 
     if (user) {
-        const sql = "SELECT * FROM trackingData ORDER BY ID DESC LIMIT 200 ;"
+        const sql = "SELECT * FROM trackingData ORDER BY ID DESC LIMIT 200;"
 
         db.query(sql, (err, result) => {
             if (err) {
@@ -194,7 +195,7 @@ mapRouter.get('/mapSingleDate', function(req, res) {
 
     if (user) {
         const date = testDate(req.query.date, 0)
-        const sql = "SELECT * FROM trackingData WHERE DA = " + date + " ORDER BY ID DESC LIMIT 200 ;"
+        const sql = "SELECT * FROM trackingData WHERE DA = " + date + " ORDER BY ID DESC ;"
 
         db.query(sql, (err, result) => {
             if (err) {
@@ -218,7 +219,7 @@ mapRouter.get('/mapBetweenDate', function(req, res) {
         const date1 = testDate(req.query.date1, 0)
         const date2 = testDate(req.query.date2, 0)
 
-        const sql = "SELECT * FROM trackingData WHERE DA BETWEEN " + date1 + " AND " + date2 + " ORDER BY ID DESC LIMIT 200 ;"
+        const sql = "SELECT * FROM trackingData WHERE DA BETWEEN " + date1 + " AND " + date2 + " ORDER BY ID DESC  ;"
         db.query(sql, (err, result) => {
             if (err) {
                 throw err
@@ -228,9 +229,6 @@ mapRouter.get('/mapBetweenDate', function(req, res) {
     } else {
         res.redirect('/')
     }
-
-
-
 });
 
 
@@ -243,7 +241,7 @@ mapRouter.get('/mapRequete', function(req, res) {
     if (user) {
         const search = req.query.recherche
 
-        const sql = "SELECT * FROM trackingData WHERE (NA Like '%" + search + "%') OR (ID_VMS = '" + search + "') OR (DA = '" + search + "') OR (TI = '" + search + "') OR (LT = '" + search + "') OR (LG = '" + search + "') OR (TM = '" + search + "') OR (CO = '" + search + "') ORDER BY ID DESC LIMIT 200;"
+        const sql = "SELECT * FROM trackingData WHERE (NA Like '%" + search + "%') OR (ID_VMS = '" + search + "') OR (DA = '" + search + "') OR (TI = '" + search + "') OR (LT = '" + search + "') OR (LG = '" + search + "') OR (TM = '" + search + "') OR (CO = '" + search + "') ORDER BY ID DESC;"
         db.query(sql, (err, result) => {
             if (err) {
                 throw err
@@ -257,6 +255,8 @@ mapRouter.get('/mapRequete', function(req, res) {
 
 
 });
+
+
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 

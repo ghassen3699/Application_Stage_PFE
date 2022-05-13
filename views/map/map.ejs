@@ -4,7 +4,10 @@
             height: 850px;
         }
     </style>
+
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
 
     <link rel="stylesheet" href="../leaflet/leaflet.css">
     <link rel="stylesheet" href="../css/buttonOnOff.css">
@@ -16,7 +19,7 @@
                 <div class="col-lg-9 main-chart">
                     <div class="row mb">
                         <div class="content-panel">
-                            <div id="map"></div>
+                            <div id="map" style="position: fixed;"></div>
                         </div>
                     </div>
                 </div>
@@ -40,28 +43,32 @@
                         <input type="date" lang="fr-CA" value="" id="rechercheDate2" name="date2" size="16" class="form-control" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
                         <h5 class="centered mt"><button type="submit" id="rechercheFormSpecifique" class="btn btn-warning btn-lg btn-block">Recherche</button></h5>
                     </div>
+                    <br>
+                    <div class='centered'>
+                        <h4>Les navires d'aujourd'hui</h4>
+
+                    </div>
 
 
-                    <div class="notificationBarVisibility" id="navireInfo">
+                    <div class="notificationBarVisibility" id="navireInfo" style="background-color: bisque;">
 
                         <!-- formulaire pour la recherche par une seule date  -->
                         <hr>
                         <div class='centered'>
                             <span><h4 id="navireName">Aucune Navire</h4><h6 id="IDVMS_Navire">.....</h6></span>
-                            <i id="iconNavire" class="fa fa-angle-double-down"></i>
+                            <i id="iconNavire" class="fa fa-angle-double-down" style="font-size:25px;"></i>
                         </div>
-                        <hr>
 
 
                         <!-- formulaire pour recherche entre deux dates -->
                         <div id="affichage" class="displayDiv">
                             <div class='centered'>
+                                <hr>
                                 <h4 class="centered mt ">Filtrer</h4>
                                 <label class="switch">
                                     <input type="checkbox" class="onoff" value="Off" id="onoff">
                                     <span class="slider round"></span>
                                 </label>
-                                <hr>
 
                             </div>
                             <div class="centered displayDiv" id="filterDiv">
@@ -82,7 +89,7 @@
                             <div>
                                 <div class='centered'>
                                     <h4 class="centered mt">SOS</h4>
-                                    <i id="iconSOS" class="fa fa-angle-double-down"></i>
+                                    <i id="iconSOS" style="font-size:25px;" class="fa fa-angle-double-down"></i>
                                     <div class="displayDiv" id="affichageSOS">
                                         <h5 id="SOSData">Aucune SOS</h5>
                                     </div>
@@ -90,10 +97,11 @@
 
                             </div>
                             <hr>
+
                             <div>
                                 <div class='centered'>
                                     <h4 class="centered mt">Infractions</h4>
-                                    <i id="iconInfraction" class="fa fa-angle-double-down"></i>
+                                    <i style="font-size:25px;" id="iconInfraction" class="fa fa-angle-double-down"></i>
                                     <div class="displayDiv" id="affichageInfraction">
                                         <h5 id="Infraction">Aucune infraction</h5>
                                     </div>
@@ -104,7 +112,7 @@
                             <div>
                                 <div class='centered'>
                                     <h4 class="centered mt">ACKV</h4>
-                                    <i id="iconAckv" class="fa fa-angle-double-down"></i>
+                                    <i style="font-size:25px;" id="iconAckv" class="fa fa-angle-double-down"></i>
                                     <div class="displayDiv" id="affichageACKV">
                                         <h5 id="ACKv">Aucune ACKV</h5>
                                     </div>
@@ -121,7 +129,51 @@
 
     <script src="../js/mapConfig.js"></script>
 
+    <script>
+        function pickerConfig(recherche) {
+            var month, day
 
+            // la date d'aujourd'hui
+            var currentDate = new Date()
+
+            // tester la validation du mois
+            if (currentDate.getMonth().toString().length === 1) {
+                month = '0' + (currentDate.getMonth() + 1)
+            } else {
+                month = currentDate.getMonth() + 1
+            }
+
+
+            // tester la validation du journee
+            if (currentDate.getDate().toString().length === 1) {
+                day = '0' + currentDate.getDate()
+            } else {
+                day = currentDate.getDate()
+            }
+
+
+            // changer la format de la date 
+            currentDate = currentDate.getFullYear() + '-' + month + '-' + day
+
+
+
+            // initialisation de la premiere recherche par date 
+            recherche.value = currentDate
+        };
+
+        // les date de la recherche spécifique
+        var recherche1 = document.getElementById('rechercheDate1')
+        pickerConfig(recherche1);
+        var recherche2 = document.getElementById('rechercheDate2')
+        pickerConfig(recherche2);
+
+        // les dates de la recherche par filtre
+        var date1 = document.getElementById('date1')
+        pickerConfig(date1);
+        var date2 = document.getElementById('date2')
+        pickerConfig(date2);
+    </script>
+    <script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
 
 
 

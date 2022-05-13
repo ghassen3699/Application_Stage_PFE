@@ -9,11 +9,12 @@
     <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="/vmdicon.png" />
-
-
     <link href="/css/navbar.css" rel="stylesheet">
-
-
+    <style>
+        .divDisplay {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -25,12 +26,14 @@
             <a href="/home" class="logo"><img src="/vmd.png" style="height: 25px;"></a>
             <div class="nav notify-row" id="top_menu">
                 <ul class="nav top-menu">
+
                     <li id="header_notification_bar" class="dropdown">
                         <a class="dropdown-toggle" href="/meteo/meteo">
                             BMS 
                             <span id = "clignot" class="badge bg-warning"><i class="fa fa-warning"></i></span>
                         </a>
                     </li>
+
                     <li id="header_notification_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                             <i class="fa fa-bell-o"></i>
@@ -73,7 +76,7 @@
                 <ul class="sidebar-menu" id="nav-accordion">
                     <br><br>
                     <p class="centered">
-                        <a href="#"><img src="/img/download.png" class="img-circle" width="80"></a>
+                        <a href="/change-data"><img src="/user2.png" class="img-circle" width="80"></a>
                     </p>
                     <% user.forEach(element => { %>
                         <h5 class="centered">
@@ -148,12 +151,12 @@
                                     <% user.forEach(element => { %>
                                         <%if (element.ADMIN === 1){ %>
                                             <li><a href="/register">Creer un autre compte</a></li>
-                                            <li><a href="/configuration">paramétre des utilisateurs</a></li>
+                                            <li><a href="/manage-accounts">paramétre des utilisateurs</a></li>
                                             <%}%>
                                                 <% });%>
 
 
-                                                    <li><a href="/configuration">Modifier mots de passe</a></li>
+                                                    <li><a href="/change-data">Modifier informations</a></li>
                                 </ul>
                             </li>
 
@@ -163,8 +166,19 @@
     </section>
 
     <script>
-        var timer = setInterval(function() {
-            const clignotte = document.getElementById('clignot');
-            clignotte.classList.toggle('hidden')
-        }, 800)
+        var url = "http://127.0.0.1:3000/home/BMSApiNotification";
+        fetch(url)
+            .then(async(resp) => await resp.json())
+            .then(async function(data) {
+                var BMSNotif = await data
+                if (BMSNotif['BMS'] === 0) {
+                    var LI_Display = document.getElementById('header_notification_bar')
+                    LI_Display.setAttribute('style', 'display:none')
+                    var timer = setInterval(function() {
+                        const clignotte = document.getElementById('clignot');
+                        clignotte.classList.toggle('hidden')
+                    }, 800)
+                }
+
+            })
     </script>

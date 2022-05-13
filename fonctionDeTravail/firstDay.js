@@ -1,23 +1,8 @@
-// function getMonday(d) {
-//     d = new Date(d)
-//     var day = d.getDay()
-//     diff = d.getDate() - day + (day == 0 ? -6 : 1) // adjust when day is sunday
-//     var Lundi = new Date(d.setDate(diff))
-//     if (Lundi.getMonth().toString().length === 1) {
-//         Lundi = Lundi.getFullYear().toString() + '0' + (Lundi.getMonth() + 1).toString() + Lundi.getDate().toString()
-//     } else {
-//         Lundi = Lundi.getFullYear().toString() + (Lundi.getMonth() + 1).toString() + Lundi.getDate().toString()
-//     }
-//     return Lundi
-// }
-
-// module.exports = getMonday
+const moment = require('moment');
 
 
+function firstLastDay(choix) {
 
-
-
-function firstLastDay() {
     var curr = new Date; // get current date
     var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
     var last = first + 5; // last day is the first day + 6
@@ -25,21 +10,22 @@ function firstLastDay() {
     var firstday = new Date(curr.setDate(first))
     var lastday = new Date(curr.setDate(last))
 
+    if (choix === 1) {
 
-    if (firstday.getMonth().toString().length === 1) {
-        firstday = firstday.getFullYear().toString() + '0' + (firstday.getMonth() + 1).toString() + firstday.getDate().toString()
+        var firstday = moment(firstday).format('YYYYMMDD')
+        var lastday = moment(lastday).format('YYYYMMDD')
+
+
+        return { firstday, lastday }
     } else {
-        firstday = firstday.getFullYear().toString() + (firstday.getMonth() + 1).toString() + firstday.getDate().toString()
+        listeWeekDate = []
+        for (var i = 0; i <= 6; i++) {
+            var day = new Date(curr.setDate(first + i))
+            day = moment(day).format('YYYYMMDD')
+            listeWeekDate.push(day)
+        }
+        return listeWeekDate
     }
-
-    if (lastday.getMonth().toString().length === 1) {
-        lastday = lastday.getFullYear().toString() + '0' + (lastday.getMonth() + 1).toString() + lastday.getDate().toString()
-    } else {
-        lastday = lastday.getFullYear().toString() + (lastday.getMonth() + 1).toString() + lastday.getDate().toString()
-    }
-
-
-    return { firstday, lastday }
 }
 
 module.exports = firstLastDay;

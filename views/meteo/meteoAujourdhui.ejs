@@ -1,82 +1,688 @@
 <%- include("../partials/header"); -%>
+    <script type="text/javascript" src="/PrevFormatWeb.json"></script>
+    <script type="text/javascript" src="/deep-search-javascript-object.js"></script>
     <style>
-        .styles {
-            color: red;
+        .teste {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border: 10px solid red;
+            margin-top: 20px;
+        }
+        
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
         }
     </style>
 
+
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <div class="row">
-
+            <div class="row mt">
                 <div class="col-lg-12">
+                    <div class="row content-panel">
+                        <div class="col-md-4 profile-text mt mb centered">
 
-
-                    <div class="custom-box">
-                        <h3 style="text-align: center;">La Méteo d'aujourd'hui</h3>
-                    </div>
-
-
-                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12" id="clignot1">
-                        <div class="custom-box">
-                            <div class="servicetitle">
-                                <h3>Prévision</h3>
-                                <hr>
-                            </div>
+                        </div>
+                        <div class="col-md-4 profile-text">
                             <br>
-                            <p style="font-size: medium;">La prevision d'aujourd'hui</p>
-                            <ul class="pricing">
-                                <li style="font-size: medium;">information 1</li>
-                                <li style="font-size: medium;">information 2</li>
-                                <li style="font-size: medium;">information 3</li>
-                                <li style="font-size: medium;">information 4</li>
-                                <li style="font-size: medium;">information 5</li>
-                                <li style="font-size: medium;">information 6</li>
-                                <li style="font-size: medium;">information 7</li>
-                            </ul>
-                            <a href="/meteo/historiqueAujourdhuiPREV" class="btn btn-theme">Historique Prevision D'aujourd'hui</a>
+                            <h1>
+                                La Meteo d'aujourd'hui
+                            </h1>
+                            <h5 id="Today">
+                                La date d'ajourd'hui
+                            </h5>
+
+                            <br>
                         </div>
                     </div>
-
-                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12 styles" id="clignot2">
-                        <div class="custom-box">
-                            <div class="servicetitle">
-                                <h3>BMS</h3>
-                                <hr>
-                            </div>
-                            <br>
-                            <p style="font-size: medium;">La BMS d'aujourd'hui</p>
-                            <ul class="pricing">
-                                <li style="font-size: medium;">information 1</li>
-                                <li style="font-size: medium;">information 2</li>
-                                <li style="font-size: medium;">information 3</li>
-                                <li style="font-size: medium;">information 4</li>
-                                <li style="font-size: medium;">information 5</li>
-                                <li style="font-size: medium;">information 6</li>
-                                <li style="font-size: medium;">information 7</li>
-                            </ul>
-                            <a href="/meteo/historiqueAujourdhuiBMS" class="btn btn-theme">Attention !! BMS Pour Aujourd'hui</a>
-                        </div>
-                        <!-- end custombox -->
-                    </div>
-                    <!-- end col-4 -->
-
-                    <!-- end col-4 -->
                 </div>
-                <!--  /col-lg-12 -->
+                <br><br>
+                <div class="col-lg-12 mt">
+                    <div class="row content-panel">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#overview">
+                                        <h3>Prévision</h3>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div id="overview" class="tab-pane active">
+                                    <div class="row">
+                                        <div id="table1"> </div>
+
+                                        <!-- <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+
+                                            <thead>
+                                                <tr>
+                                                    <td></td>
+                                                    <th id="stud" scope="col">
+                                                        Zone 1
+                                                    </th>
+                                                    <th id="apt" scope="col">
+                                                        <abbr title="Apartment">Zone 2</abbr>
+                                                    </th>
+                                                    <th id="chal" scope="col">
+                                                        Zone 3
+                                                    </th>
+                                                    <th id="villa" scope="col">
+                                                        Zone 4
+                                                    </th>
+                                                    <th id="stud" scope="col">
+                                                        Zone 5
+                                                    </th>
+                                                    <th id="apt" scope="col">
+                                                        <abbr title="Apartment">Zone 6</abbr>
+                                                    </th>
+                                                    <th id="chal" scope="col">
+                                                        Zone 7
+                                                    </th>
+                                                    <th id="villa" scope="col">
+                                                        Zone 8
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th id="par" class="span" colspan="5" scope="colgroup">
+                                                        Cote
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th headers="par" id="pbed1">
+                                                        Date 1
+                                                    </th>
+                                                    <td headers="par pbed1 stud">
+                                                        11
+                                                    </td>
+                                                    <td headers="par pbed1 apt">
+                                                        20
+                                                    </td>
+                                                    <td headers="par pbed1 chal">
+                                                        25
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th headers="par" id="pbed1">
+                                                        Date 1
+                                                    </th>
+                                                    <td headers="par pbed1 stud">
+                                                        11
+                                                    </td>
+                                                    <td headers="par pbed1 apt">
+                                                        20
+                                                    </td>
+                                                    <td headers="par pbed1 chal">
+                                                        25
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th headers="par" id="pbed1">
+                                                        Date 1
+                                                    </th>
+                                                    <td headers="par pbed1 stud">
+                                                        11
+                                                    </td>
+                                                    <td headers="par pbed1 apt">
+                                                        20
+                                                    </td>
+                                                    <td headers="par pbed1 chal">
+                                                        25
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th id="rome" class="span" colspan="5" scope="colgroup">
+                                                        Large
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th headers="par" id="pbed1">
+                                                        Date 1
+                                                    </th>
+                                                    <td headers="par pbed1 stud">
+                                                        11
+                                                    </td>
+                                                    <td headers="par pbed1 apt">
+                                                        20
+                                                    </td>
+                                                    <td headers="par pbed1 chal">
+                                                        25
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th headers="par" id="pbed1">
+                                                        Date 1
+                                                    </th>
+                                                    <td headers="par pbed1 stud">
+                                                        11
+                                                    </td>
+                                                    <td headers="par pbed1 apt">
+                                                        20
+                                                    </td>
+                                                    <td headers="par pbed1 chal">
+                                                        25
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th headers="par" id="pbed1">
+                                                        Date 1
+                                                    </th>
+                                                    <td headers="par pbed1 stud">
+                                                        11
+                                                    </td>
+                                                    <td headers="par pbed1 apt">
+                                                        20
+                                                    </td>
+                                                    <td headers="par pbed1 chal">
+                                                        25
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                    <td headers="par pbed1 villa">
+                                                        23
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+
+
+                                        </table> -->
+
+
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!--  /row -->
+
+            <div class="row mt">
+
+                <div class="col-lg-12 mt">
+                    <div class="row content-panel">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#overview">
+                                        <h3>BMS</h3>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div id="overview" class="tab-pane active">
+                                    <div class="row">
+                                        <div id="table"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
         </section>
-        <!-- /wrapper -->
+
+
+
     </section>
 
-    <script>
-        var timer = setInterval(function() {
-            const clignotte2 = document.getElementById('clignot2');
+    <script type="text/javascript">
+        var mydata = JSON.parse(weatherINM);
 
-            clignotte2.classList.toggle('styles')
-        }, 1000)
+        //console.log(mydata);
+        //console.log(mydata[0]);
+        //console.log(mydata[0]["Zone231"]);
+        //console.log(mydata[1]["Zone231"].id);
+        //231 0 matin, 1 aprem, 16 nuit
+
+
+        var date = new Date(); // today
+        var Entete = ' ';
+        var Lang = 1;
+        var num = ' N° ';
+        var UTC = ' UTC ';
+        var DateTimeTran = ' ';
+        console.log(mydata[16]["Zone231"])
+
+        if (mydata[1]["Zone231"].echeance_id == "apres") {
+            // dataMeteorologie = mydata[0]["BMS"].meteorologie_Fr;
+            Entete = '<span > Bulletin Météorologique Spécial du </span>';
+            Lang = 0;
+            DateTimeTran = ' du ';
+
+        }
+        console.info(mydata[0]["Zone231"].echeance_id)
+        if (mydata[1]["Zone231"].echeance_id == "بعد الظهر" || mydata[1]["Zone231"].echeance_id == "بعد الظهر" || mydata[1]["Zone231"].echeance_id == "ليلا") {
+            document.getElementById("table").style.direction = "rtl";
+            // dataMeteorologie = mydata[0]["BMS"].meteorologie_Ar;
+            Entete = '<span > النشرة الجوية الخاصة ليوم </span>';
+            Lang = 1;
+            num = ' رقم ';
+            UTC = ' بالتوقيت العالمي ';
+            DateTimeTran = ' ليوم ';
+            // mydata[0]["BMS"].validite_transition = ' على الساعة  '
+            // mydata[0]["BMS"].validite_transition2 = ' على الساعة  '
+        }
+        if (mydata[1]["Zone231"].echeance_id == "after") {
+            // dataMeteorologie = mydata[1]["BMS"].meteorologie_An;
+            Entete = '<span > Special Weather Report of </span>';
+            Lang = 2;
+            DateTimeTran = ' of ';
+
+        }
+
+        var list = [
+            ['Avis de', 'Heure de référence', 'Heure de validité', 'Début de validité', 'Fin de validité', 'Zones menacées', 'Éléments météorologies', 'Phénomène générateur et évolution'],
+            ['إعلام برياح قوية', 'إتجاه الريح', 'قوة الريح (بالعقدة)', 'هبوب الريح (بالعقدة)', 'البحر', 'إرتفاع الموج (بالمتر)', 'إتجاه الموج', 'الرؤية', 'الطقس'],
+            ['Notice of', 'Reference time', 'Validity Hour', 'Beginning of validity', 'End of validity', 'Threatened Areas', 'Weather elements', 'Generative phenomenon and evolution']
+        ];
+
+
+        var html = '<p align="center"><b>' + mydata[0]["Zone231"].zone_marine + ' | ' + mydata[0]["Zone231"].date_prevision + '<b><br><p>';
+        //////////////////////////////////////////////////////////////////////
+        html += '<table id="timetable" style="width:60%;">';
+        html += '<tr><th colspan="2">' + mydata[0]["Zone231"].echeance_id.toUpperCase() + '</th></tr>';
+
+        html += '<tr><td>' + list[Lang][0] + '</td>';
+        html += '<td style="width:68%;">' + mydata[0]["Zone231"].status + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][1] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].vent_direction_de + ' ' + mydata[0]["Zone231"].vent_direction_a + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][2] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].vent_force1 + ' - ' + mydata[0]["Zone231"].vent_force2 + ' ' + mydata[0]["Zone231"].vent_force_libelle + ' ' + mydata[0]["Zone231"].vent_force3 + ' - ' + mydata[0]["Zone231"].vent_force4 + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][3] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].vent_rafale + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][4] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].mer_etat_1 + ' ' + mydata[0]["Zone231"].mer_etat_transition1 + ' ' + mydata[0]["Zone231"].mer_etat_2 + ' ' + mydata[0]["Zone231"].mer_etat_transition2 + ' ' + mydata[0]["Zone231"].mer_etat_3 + ' ' + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][5] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].vague_h_siginificatif_1 + ' - ' + mydata[0]["Zone231"].vague_h_siginificatif_2 + ' ' + mydata[0]["Zone231"].vague_h_siginificatif_3 + ' ' + mydata[0]["Zone231"].vague_h_siginificatif_4 + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][6] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].direction_houle_1 + ' ' + mydata[0]["Zone231"].direction_houle_2 + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][7] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].visibilite_de + ' ' + mydata[0]["Zone231"].visibilite_transition + ' ' + mydata[0]["Zone231"].visibilite_a + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][8] + '</td>';
+        html += '<td>' + mydata[0]["Zone231"].temps + '</td></tr>';
+
+        //////////////////////////////////////////////////////////////////////
+        html += '<tr><td> </td>';
+
+        html += '<tr><th colspan="2">' + mydata[1]["Zone231"].echeance_id.toUpperCase() + '</th></tr>';
+
+        html += '<tr><td>' + list[Lang][0] + '</td>';
+        html += '<td style="width:68%;">' + mydata[1]["Zone231"].status + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][1] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].vent_direction_de + ' ' + mydata[1]["Zone231"].vent_direction_a + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][2] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].vent_force1 + ' - ' + mydata[1]["Zone231"].vent_force2 + ' ' + mydata[1]["Zone231"].vent_force_libelle + ' ' + mydata[1]["Zone231"].vent_force3 + ' - ' + mydata[1]["Zone231"].vent_force4 + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][3] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].vent_rafale + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][4] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].mer_etat_1 + ' ' + mydata[1]["Zone231"].mer_etat_transition1 + ' ' + mydata[1]["Zone231"].mer_etat_2 + ' ' + mydata[1]["Zone231"].mer_etat_transition2 + ' ' + mydata[1]["Zone231"].mer_etat_3 + ' ' + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][5] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].vague_h_siginificatif_1 + ' - ' + mydata[1]["Zone231"].vague_h_siginificatif_2 + ' ' + mydata[1]["Zone231"].vague_h_siginificatif_3 + ' ' + mydata[1]["Zone231"].vague_h_siginificatif_4 + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][6] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].direction_houle_1 + ' ' + mydata[1]["Zone231"].direction_houle_2 + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][7] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].visibilite_de + ' ' + mydata[1]["Zone231"].visibilite_transition + ' ' + mydata[1]["Zone231"].visibilite_a + '</td></tr>';
+
+        html += '<tr><td>' + list[Lang][8] + '</td>';
+        html += '<td>' + mydata[1]["Zone231"].temps + '</td></tr>';
+
+        //////////////////////////////////////////////////////////////////////
+        // html += '<tr><td> </td>';
+        // html += '<tr><th colspan="2">' + mydata[16]["Zone231"].echeance_id.toUpperCase() + '</th></tr>';
+
+        // html += '<tr><td>' + list[Lang][0] + '</td>';
+        // html += '<td style="width:68%;">' + mydata[16]["Zone231"].status + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][1] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].vent_direction_de + ' ' + mydata[16]["Zone231"].vent_direction_a + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][2] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].vent_force1 + ' - ' + mydata[16]["Zone231"].vent_force2 + ' ' + mydata[16]["Zone231"].vent_force_libelle + ' ' + mydata[16]["Zone231"].vent_force3 + ' - ' + mydata[16]["Zone231"].vent_force4 + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][3] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].vent_rafale + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][4] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].mer_etat_1 + ' ' + mydata[16]["Zone231"].mer_etat_transition1 + ' ' + mydata[16]["Zone231"].mer_etat_2 + ' ' + mydata[16]["Zone231"].mer_etat_transition2 + ' ' + mydata[16]["Zone231"].mer_etat_3 + ' ' + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][5] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].vague_h_siginificatif_1 + ' - ' + mydata[16]["Zone231"].vague_h_siginificatif_2 + ' ' + mydata[16]["Zone231"].vague_h_siginificatif_3 + ' ' + mydata[16]["Zone231"].vague_h_siginificatif_4 + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][6] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].direction_houle_1 + ' ' + mydata[16]["Zone231"].direction_houle_2 + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][7] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].visibilite_de + ' ' + mydata[16]["Zone231"].visibilite_transition + ' ' + mydata[16]["Zone231"].visibilite_a + '</td></tr>';
+
+        // html += '<tr><td>' + list[Lang][8] + '</td>';
+        // html += '<td>' + mydata[16]["Zone231"].temps + '</td></tr>';
+
+        html += '</table>';
+        document.getElementById('table1').innerHTML = html;
+
+
+        // <!-- //example of grabbing objects that match some key and value in JSON -->
+        // <!-- console.log("get obj id 231", getObjects(mydata,'id','231')); -->
+        // <!-- //returns 1 object where a key names ID has the value SGML -->
+        // <!-- console.log("get obj zone_marine شمال تونس", getObjects(mydata,'zone_marine','شمال تونس')); -->
+        // <!-- //returns 1 object where a key names ID has the value SGML -->
+
+        // <!-- //example of grabbing objects that match some key in JSON -->
+        // <!-- console.log("all id Exist", getObjects(mydata,'id','')); -->
+        // //returns 2 objects since keys with name ID are found in 2 objects
+
+        // <!-- //example of grabbing obejcts that match some value in JSON -->
+        // <!-- console.log('صباحا', getObjects(mydata,'','صباحا')); -->
+        // <!-- console.log('بعد الظهر', getObjects(mydata,'','بعد الظهر')); -->
+        // <!-- console.log('ليلا', getObjects(mydata,'','ليلا')); -->
+        // <!-- //returns 2 object since 2 obects have keys with the value SGML -->
+        // <!-- console.info(getLength(getObjects(mydata,'','صباحا'))+getLength(getObjects(mydata,'','بعد الظهر'))+getLength(getObjects(mydata,'','ليلا'))); -->
+        // <!-- //example of grabbing objects that match some key in JSON -->
+        // <!-- console.log('\ncote obj',getObjects(mydata,'','cote')); -->
+        // <!-- console.log('large obj',getObjects(mydata,'','large')); -->
+        // <!-- //returns 2 objects since keys with name ID are found in 2 objects -->
+
+        // <!-- //example of grabbing values from any key passed in JSON -->
+        // <!-- console.log('get val id', getValues(mydata,'id')); -->
+        // <!-- //returns array ["SGML", "44"]  -->
+        // <!-- console.log('get val date_prevision', getValues(mydata,'date_prevision')); -->
+        // <!-- //returns array ["SGML", "44"]  -->
+
+
+        // <!-- //example of grabbing keys by searching via values in JSON -->
+        // <!-- console.log('\nkey 231', getKeys(mydata,'231')); -->
+
+        // <!-- console.log('cote key',getKeys(mydata,'cote')); -->
+        // <!-- //returns array ["ID", "SortAs", "Acronym", "str"]  -->
+
+        //////////////////////////////////////////////////
+
+        //var nuitbyId = getObjects(mydata,'','ليلا');
+        //var Idkey = getObjects(nuitbyId,'id','231');
+        //console.log('ليلا 231', Idkey);
+        //console.log(nuitbyId);
+
+
+        //var objo = getObjects(mydata,'','ليلا');
+        //console.log(getLength(objo));
+
+
+        //afficher les date disponible dans json
+        // var date_prevision = unique(getValues(mydata, 'date_prevision'));
+
+
+        // var dateLengt = getLength(date_prevision);
+        // // console.log('date len', dateLengt);
+
+        // for (var i = 0; i < getLength(date_prevision);) {
+        //     //console.log(date_prevision[i]);
+        //     console.log(getObjects(Idkey, 'date_prevision', date_prevision[i]));
+        //     i++;
+        // }
+
+        // var DatePrevhtml = '<label for="dateP" >Choose a Date </label>';
+        // DatePrevhtml += '<select name="dateP" id="dateP" onclick="run()" >';
+        // for (var i = 0; i < getLength(date_prevision); i++) {
+        //     //console.log(date_prevision[i]);
+        //     getObjects(Idkey, 'date_prevision', date_prevision[i]);
+        //     DatePrevhtml += '<option value="' + date_prevision[i] + '">' + date_prevision[i] + '</option>';
+
+        // }
+        // DatePrevhtml += '</select>';
+        // DatePrevhtml += '<br><br>';
+
+        // document.getElementById('DatePrev').innerHTML = DatePrevhtml;
+
+
+        /////////////////////////////////////////////////////////////////
+        // var echeance_id = unique(getValues(mydata, 'echeance_id'));
+        // //console.log(echeance_id);
+
+        // var PeriodePrevhtml = '<label for="periodeP" >Choose a Periode </label>';
+        // PeriodePrevhtml += '<select name="periodeP" id="periodeP" onclick="run()" >';
+        // for (var i = 0; i < getLength(echeance_id); i++) {
+        //     //console.log(datePrev[i]);
+        //     getObjects(Idkey, 'date_prevision', datePrev[i]);
+        //     PeriodePrevhtml += '<option value="' + echeance_id[i] + '">' + echeance_id[i] + '</option>';
+
+        // }
+        // PeriodePrevhtml += '</select>';
+        // PeriodePrevhtml += '<br><br>';
+
+        // document.getElementById('PeriodePrev').innerHTML = PeriodePrevhtml;
+
+
+        ////////////////////////////////////////////////////////////////////
+
+
+        // var type = unique(getValues(mydata, 'type'));
+        // //console.log(type);
+
+        // var TypePrevhtml = '<label for="typeP" >Choose a Type </label>';
+        // TypePrevhtml += '<select name="typeP" id="typeP" onclick="run()" >';
+        // for (var i = 0; i < getLength(type); i++) {
+        //     //console.log(datePrev[i]);
+        //     getObjects(Idkey, 'date_prevision', datePrev[i]);
+        //     TypePrevhtml += '<option value="' + type[i] + '">' + type[i] + '</option>';
+
+        // }
+        // TypePrevhtml += '</select>';
+        // TypePrevhtml += '<br><br>';
+
+        // document.getElementById('TypePrev').innerHTML = TypePrevhtml;
+
+        //////////////////////////////////////////////////////////////
+
+        // function zone(typePo) {
+        //     var zone_marine = unique(getValues(mydata, 'zone_marine'));
+        //     var zone_marine = unique(getObjects(mydata, 'zone_marine', ''));
+        //     //console.log(zone_marine);
+        //     var type_zone_marine = unique(getObjects(mydata, 'type', typePo));
+        //     //console.log(type_zone_marine);
+        //     var zone_marine1 = unique(getValues(type_zone_marine, 'zone_marine'));
+        //     var zone_marine1 = zone_marine;
+        //     //console.log(zone_marine1);
+        //     var ZonePrevhtml = '<label for="zoneP" >Choose a Zone </label>';
+        //     ZonePrevhtml += '<select name="zoneP" id="zoneP" onclick="run()" >';
+        //     for (var i = 0; i < getLength(zone_marine1); i++) {
+        //         //console.log(datePrev[i]);
+        //         getObjects(Idkey, 'date_prevision', datePrev[i]);
+        //         ZonePrevhtml += '<option value="' + zone_marine1[i] + '">' + zone_marine1[i] + '</option>';
+
+        //     }
+        //     //console.info(ZonePrevhtml);
+        //     ZonePrevhtml += '</select>';
+        //     ZonePrevhtml += '<br><br>';
+
+        //     return ZonePrevhtml;
+        // }
+
+        // //console.info(ZonePrevhtml);
+        // document.getElementById('ZonePrev').innerHTML = zone('cote');
+
+
+        // function run() {
+
+        //     //console.info(document.getElementById("dateP").value);
+        //     var dateP = document.getElementById("dateP").value;
+        //     var periodeP = document.getElementById("periodeP").value;
+        //     var zoneP = document.getElementById("zoneP").value;
+        //     var typeP = document.getElementById("typeP").value;
+        //     //console.info(dateP, periodeP, zoneP, typeP);
+        //     //zone(typeP);
+        //     //console.log(getObjects(mydata,'',dateP));
+        //     var periodeFiltre = getObjects(mydata, '', dateP)
+        //         //console.info(periodeFiltre);
+        //     var periodeDateFiltre = getObjects(periodeFiltre, '', periodeP)
+        //         //console.info(periodeDateFiltre);
+        //     var periodeDateZoneFiltre = getObjects(periodeDateFiltre, '', zoneP)
+        //         //console.info(periodeDateZoneFiltre);
+        //     var periodeDateZonetypeFiltre = getObjects(periodeDateZoneFiltre, '', typeP)
+        //     console.info(periodeDateZonetypeFiltre);
+        //     //document.getElementById('zoneP').innerHTML = zone(typeP);
+        //     //document.getElementById('all').innerHTML = dateP+' '+periodeP+' '+zoneP+' '+typeP;
+        //     try {
+        //         var intermhtml = '<table id="TablePrev" style="width:100%;"><td>';
+        //         intermhtml += JSON.stringify(periodeDateZonetypeFiltre).replaceAll(',', '</td></tr><td>').replaceAll(':', '<td>').replace('[{', '').replace('}]', '');
+        //         intermhtml += JSON.stringify(periodeDateZonetypeFiltre).replaceAll(',', '\n').replace('[{', '').replace('}]', '');
+        //         intermhtml += intermhtml.split('\n');
+        //         intermhtml += intermhtml.replaceAll('\r', '<br>');
+        //         intermhtml += '</td>' + intermhtml + '</table>';
+
+        //         intermhtml += '</table>';
+        //         document.getElementById('TablePrev').innerHTML = '<table id="TalePrev" style="width:60%;">' + intermhtml + '</table>'
+        //         document.getElementById('TablePrev').innerHTML = intermhtml;
+        //         console.info(intermhtml);
+
+        //         //console.info(JSON.stringify(periodeDateZonetypeFiltre).replaceAll(',','\n').replace('[{','').replace('}]',''));
+        //     } catch {
+        //         console.info()
+        //     }
+        // }
     </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script type="text/javascript" src="/BMSFormatWeb.json"></script>
+
+    <script type="text/javascript" src="/js/meteoConfig.js"></script>
+
+
+
+
 
 
 

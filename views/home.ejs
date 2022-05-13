@@ -1,4 +1,7 @@
 <%- include("partials/header"); -%>
+
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="/lib/chart-master/Chart.js"></script>
     <style>
         .sidebar {
             position: fixed;
@@ -45,7 +48,7 @@
                                 <div class="grey-header">
                                     <h5> Previsions reçu Pour Aujourd'hui</h5>
                                 </div>
-                                <canvas id="serverstatus01" height="120" width="120"></canvas>
+                                <canvas id="serverstatus01" height="300vw" width="800vw"></canvas>
 
                                 <div class="row">
                                     <div class="col-sm-6 col-xs-6 goleft">
@@ -67,9 +70,10 @@
                                 <div class="darkblue-header">
                                     <h5>BMS reçu pour aujourd'hui</h5>
                                 </div>
-                                <p id="dateAujourdhui"></p>
+                                <canvas id="serverstatus03" height="300vw" width="800vw"></canvas>
 
-                                <canvas id="serverstatus02" height="120" width="120"></canvas>
+
+                                <p id="dateAujourdhui"></p>
 
                                 <footer>
 
@@ -87,8 +91,7 @@
                         <div class="col-md-4 col-sm-4 mb">
                             <div class="weather pn">
                                 <i class="fa fa-cloud fa-4x"></i>
-                                <h2>
-                                    <%= temp%>º C</h2>
+                                <h2 id="weather"></h2>
                                 <h4><a href="#" style="text-decoration:none; color: white;">Tunis</a></h4>
                             </div>
                         </div>
@@ -97,13 +100,17 @@
                         <br>
                         <h3 style="text-align: center;">Les navires connecter pour aujourdhui</h3>
                     </div>
-
-                    <% naviresConnecter.forEach(navire => { %>
-                        &nbsp; &nbsp;
-                        <a href="/navire/navire/<%= navire.ID_VMS%>" class="btn btn-round btn-warning">
-                            <%= navire.NA%>
-                        </a>
-                        <%});%>
+                    <div style="text-align: center;">
+                        <% naviresConnecter.forEach(navire => { %>
+                            &nbsp; &nbsp;
+                            <a href="/navire/navire/<%= navire.ID_VMS%>" class="btn btn-round btn-warning">
+                                <%= navire.NA%>
+                            </a>
+                            <%});%>
+                                <a href="/map/navireAujourdhui" class="btn btn-round btn-warning">
+                                Tous ...
+                            </a>
+                    </div>
                 </div>
 
 
@@ -153,84 +160,13 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
 
 
-
-
-
-
-    <script>
-        //------------------------------------ Le boutton des notifications--------------------------------------------------//
-        var buttonNotification = document.querySelector('#buttonNotification');
-        buttonNotification.addEventListener('click', () => {
-            var icon = document.getElementById('icon');
-            if (icon.classList.value === 'fa fa-angle-double-up') {
-                icon.classList.value = 'fa fa-angle-double-down'
-            } else {
-                icon.classList.value = 'fa fa-angle-double-up'
-            }
-            var bar = document.querySelector('.notificationbar');
-            var barVisibility = document.querySelector('.notificationBarVisibility');
-            bar.classList.toggle('sidebar');
-            barVisibility.classList.toggle('visibleText')
-        });
-        //--------------------------------------------------------------------------------------------------------------------//
-
-
-
-        // ---------------------------------- Afficher la date ---------------------------------//
-        const monthNames = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-
-        const d = new Date();
-        document.getElementById('dateAujourdhui').innerHTML = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
-        //---------------------------------------------------------------------------------------//
-
-
-
-        //----------------------------------- l'affichage de la courbe --------------------------//
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const xlabels = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: xlabels,
-                datasets: [{
-                    label: 'Nombre des positions reçue pour cette semaine',
-                    data: [12, 19, 3, 5, 2, 3, 25],
-                    backgroundColor: [
-                        'rgba(255, 100, 150, 0.5)',
-                        'rgba(255, 100, 150, 0.5)',
-                        'rgba(255, 100, 150, 0.5)',
-                        'rgba(255, 100, 150, 0.5)',
-                        'rgba(255, 100, 150, 0.5)',
-                        'rgba(255, 100, 150, 0.5)',
-                        'rgba(255, 100, 150, 0.5)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 99, 132, 1)',
-
-                    ],
-                    borderWidth: 0.5
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        
-    </script>
-
-
-
+    <!--common script for all pages-->
+    <!--script for this page-->
+    
+    
+    <script src="../js/homeConfig.js"></script>
+    
+    
 
 
 

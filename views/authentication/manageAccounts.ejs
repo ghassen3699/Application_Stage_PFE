@@ -1,5 +1,4 @@
 <%- include("../partials/header"); -%>
-    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
     <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="/lib/advanced-datatable/css/DT_bootstrap.css" />
@@ -11,64 +10,64 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3> Historique des Bulletins</h3>
+            <h3> Tous Les utilisateurs</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
                     <div class="adv-table">
 
-                        <br>
 
 
 
                         <table cellpadding="0" cellspacing="0" border="0" id="example" class="display table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="hidden-phone" style="text-align: center;">DA</th>
-                                    <th class="hidden-phone" style="text-align: center;">TI</th>
-                                    <th class="hidden-phone" style="text-align: center;">TM</th>
-                                    <th class="hidden-phone" style="text-align: center;">CRC</th>
-                                    <th class="hidden-phone" style="text-align: center;">IPADDRESS</th>
-                                    <th class="hidden-phone" style="text-align: center;">Supprimer</th>
+                                    <th style="text-align: center;">USER_ID</th>
+                                    <th style="text-align: center;">USERNAME</th>
+                                    <th class="hidden-phone" style="text-align: center;">NOM</th>
+                                    <th class="hidden-phone" style="text-align: center;">PRENOM</th>
+                                    <th class="hidden-phone" style="text-align: center;">ADRESSE MAIL</th>
+                                    <th class="hidden-phone" style="text-align: center;">Mots de passe</th>
+                                    <th class="hidden-phone" style="text-align: center;">Admin</th>
+                                    <th class="hidden-phone" style="text-align: center;">Modifier</th>
+                                    <th class="hidden-phone" style="text-align: center;">Supprmer</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% navireBulletins.forEach(function(navire) { %>
+                                <% accounts.forEach(function(Account) { %>
 
                                     <tr class="gradeX">
 
-
+                                        <td style="text-align: center;font-size: medium;">
+                                            <a href="#" style="color:gray;">
+                                                <%= Account.ID_USER %>
+                                            </a>
+                                        </td>
+                                        <td class="hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= Account.USERNAME %>
+                                        </td>
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-
-                                            <%= navire.DA[6]%>
-                                                <%= navire.DA[7]%> /
-                                                    <%= navire.DA[4]%>
-                                                        <%= navire.DA[5]%> /
-                                                            <%= navire.DA[0]%>
-                                                                <%= navire.DA[1]%>
-                                                                    <%= navire.DA[2]%>
-                                                                        <%= navire.DA[3]%>
-
+                                            <%= Account.NOM %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= Account.PRENOM %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= Account.EMAIL %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= Account.PASSWORD %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= Account.ADMIN %>
                                         </td>
 
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.TI %>
+                                            <a href="/modifier-account/<%= Account.ID_USER%>" style="color: goldenrod;" class="fa fa-refresh" aria-hidden="true"></a>
                                         </td>
-
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.TM %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.CRC %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.IPADDRESS %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <a href="/navire/supprimerSOS/<%= navire.ID%>" style="color: red;" class="fa fa-trash-o"></a>
+                                            <a href="/supprimer-account/<%= Account.ID_USER%>" style="color: red;" class="icon-remove"></a>
+                                            <img data="/xmaks-solid.svg"></img>
                                         </td>
                                     </tr>
 
@@ -83,18 +82,19 @@
             <!-- /row -->
             <!-- /wrapper -->
         </section>
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js" defer></script>
 
         <script>
-            // document.querySelector('#paginationForm').click(function() {
-            //     document.querySelector('#myForm').submit();
-            // });
-
             $(document).ready(function() {
                 $('#example').DataTable();
             });
         </script>
+
+
+
+
 
         <%- include("../partials/footer"); -%>

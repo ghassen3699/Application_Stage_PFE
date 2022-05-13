@@ -56,6 +56,34 @@ app.use('/meteo', meteoRouter); // le route des meteo
 app.use('/navire', navireRouter); //le route des navires
 app.use('/statistique', statistiqueRouter); //le route des navires
 
+
+// 404 ERROR
+app.use(function(req, res, next) {
+    res.status(404);
+
+    // respond with html page
+    if (req.accepts('html')) {
+        res.render("404")
+        return;
+    }
+
+    // respond with json
+    if (req.accepts('json')) {
+        res.send({ error: 'Not found' });
+        return;
+    }
+
+    // default to plain-text. send()
+    res.type('txt').send('Not found');
+});
+
+
+// 500 ERROR
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.send(err);
+});
+
 var port = 3000
 app.listen(port, function() {
     console.log('server run ...')
