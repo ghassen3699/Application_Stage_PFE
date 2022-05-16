@@ -36,6 +36,7 @@
                                     <th class="hidden-phone" style="text-align: center;">IPADDRESS</th>
                                     <% user.forEach(element => { %>
                                         <%if (element.ADMIN === 1){ %>
+                                            <th class="hidden-phone" style="text-align: center;">Modifier</th>
                                             <th class="hidden-phone" style="text-align: center;">Supprimer</th>
 
                                             <%}%>
@@ -96,10 +97,16 @@
                                         <% user.forEach(element => { %>
                                             <%if (element.ADMIN === 1){ %>
                                                 <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                                    <a href="/navire/modifierPosition/<%= navire.ID%>" style="color: goldenrod;" class="fa fa-refresh" aria-hidden="true"></a>
+                                                </td>
+
+                                                <td class="center hidden-phone" style="text-align: center; font-size: medium;">
                                                     <a href="/navire/supprimerPosition/<%= navire.ID%>" style="color: red;" class="fa fa-trash-o"></a>
                                                 </td>
                                                 <%}%>
                                                     <%})%>
+
+
 
 
 

@@ -9,8 +9,8 @@ function positionsAujourdhui(navireInformation, L) {
 
     });
 
-    var TargetIcon = new LeafIcon({ iconUrl: '/js/boat.svg' });
-    var TargetIconRed = new LeafIcon({ iconUrl: '/js/boatRed.svg' });
+    var TargetIcon = new LeafIcon({ iconUrl: '/img/map_image/boat.svg' });
+    var TargetIconRed = new LeafIcon({ iconUrl: '/img/map_image/boatRed.svg' });
 
 
     var listePositionsToday = []
@@ -124,12 +124,21 @@ function positionsParFilter(navireInformation, L, Date1, Date2, ID_VMS) {
             iconSize: [25]
         }
     });
+    var LeafIcon2 = L.Icon.extend({
+        options: {
+            iconSize: [35]
+        }
+    });
 
-    var TargetIcon = new LeafIcon({ iconUrl: '/js/boat.svg' });
+    var TargetIcon = new LeafIcon({ iconUrl: '/img/map_image/boat.svg' });
+    var TargetIconGreen = new LeafIcon2({ iconUrl: '/img/map_image/boatGreen.svg' });
+
 
 
     var listePositionsFilter = []
     var navirePositionMarker = []
+    var markerLocation
+    var marker
     const DATE1 = Date1.substring(0, 4) + Date1.substring(5, 7) + Date1.substring(8, 10)
     const DATE2 = Date2.substring(0, 4) + Date2.substring(5, 7) + Date2.substring(8, 10)
 
@@ -139,13 +148,32 @@ function positionsParFilter(navireInformation, L, Date1, Date2, ID_VMS) {
         return (((parseInt(DATE1) <= parseInt(navire.DA)) && (parseInt(navire.DA) <= parseInt(DATE2))) && (navire.ID_VMS === ID_VMS));
     })
 
+    var navirePosition
+    for (let i = 0; i <= navireInformation[0].length - 1; i++) {
+        if (navireInformation[0][i]['ID_VMS'] === ID_VMS) {
+            navirePosition = navireInformation[0][i]
+        }
+    }
 
 
     // afficher les positions sur la map
     listePositionsFilter.forEach(navire => {
-        var markerLocation = new L.LatLng(navire['LT'], navire['LG'])
-        var marker = new L.Marker(markerLocation, { icon: TargetIcon, rotationAngle: trackAngle, rotationOrigin: "center" }).bindPopup('<center>' + navire['NA'] + " <br> Lat:" + navire['LT'] + " || Lng:" + navire['LG'] + ' <center>').openPopup()
-        navirePositionMarker.push(marker)
+        if (navirePosition !== undefined) {
+            if (navire['ID'] === navirePosition['ID']) {
+                markerLocation = new L.LatLng(navire['LT'], navire['LG'])
+                marker = new L.Marker(markerLocation, { icon: TargetIconGreen, rotationAngle: trackAngle, rotationOrigin: "center" }).bindPopup("<center> La position d'aujourd'hui <br> " + navire['NA'] + " <br> Lat:" + navire['LT'] + " || Lng:" + navire['LG'] + ' <br> ' + navire['TM'] + '<br> <center>').openPopup()
+                navirePositionMarker.push(marker)
+            } else {
+                markerLocation = new L.LatLng(navire['LT'], navire['LG'])
+                marker = new L.Marker(markerLocation, { icon: TargetIcon, rotationAngle: trackAngle, rotationOrigin: "center" }).bindPopup('<center>' + navire['NA'] + " <br> Lat:" + navire['LT'] + " || Lng:" + navire['LG'] + ' <br> ' + navire['TM'] + ' <br> <center>').openPopup()
+                navirePositionMarker.push(marker)
+            }
+        } else {
+            markerLocation = new L.LatLng(navire['LT'], navire['LG'])
+            marker = new L.Marker(markerLocation, { icon: TargetIcon, rotationAngle: trackAngle, rotationOrigin: "center" }).bindPopup('<center>' + navire['NA'] + " <br> Lat:" + navire['LT'] + " || Lng:" + navire['LG'] + ' <br> ' + navire['TM'] + ' <br> <center>').openPopup()
+            navirePositionMarker.push(marker)
+        }
+
     });
 
     navirePositionMarker = L.layerGroup(navirePositionMarker)
@@ -189,15 +217,10 @@ function SOSFilterPicker(navireInformation, ID_VMS, DATE1, DATE2) {
     const DAte1 = DATE1.substring(0, 4) + DATE1.substring(5, 7) + DATE1.substring(8, 10)
     const DAte2 = DATE2.substring(0, 4) + DATE2.substring(5, 7) + DATE2.substring(8, 10)
 
-    console.log(DAte1)
-    console.log(DAte2)
-        // enregistrer les positions 
+    // enregistrer les positions 
     listeSOSFilter = navireInformation.filter(function(navire) {
-        console.log(navire.DA)
-        console.log(navire.TM)
         return (((parseInt(DAte1) <= parseInt(navire.DA)) && (parseInt(navire.DA) <= parseInt(DAte2))) && (navire.ID_VMS === ID_VMS) && (navire.TM === 'DIs'));
     })
-    console.log(listeSOSFilter)
     return listeSOSFilter
 
 }
@@ -225,7 +248,6 @@ function InfractionNavire(navireInformation, ID_VMS) {
 function PREV(navireInformation, ID_VMS) {
     var listePREV = []
     listePREV = navireInformation.filter(function(navire) {
-        console.log(navire)
         return ((navire.ID_VMS === ID_VMS) && (navire.TM === 'ACKp'))
     })
     return listePREV
@@ -382,7 +404,7 @@ var LeafPortIcon = L.Icon.extend({
         iconAnchor: [15, 10]
     }
 });
-var PortIcon = new LeafPortIcon({ iconUrl: '/js/port-icon-png-19.jpg' }); //anchor1
+var PortIcon = new LeafPortIcon({ iconUrl: '/img/map_image/port-icon-png-19.jpg' }); //anchor1
 
 
 
@@ -469,7 +491,7 @@ var LeafLightHouseIcon = L.Icon.extend({
     }
 });
 
-var LightHouseIcon = new LeafLightHouseIcon({ iconUrl: '/js/port-icon-png-19.jpg' }); //anchor1
+var LightHouseIcon = new LeafLightHouseIcon({ iconUrl: '/img/map_image/port-icon-png-19.jpg' }); //anchor1
 
 ///var LesCani = L.marker([37.35474,10.12327],
 //{ icon: LightHouseIcon, draggable:true,title : 'title popup' }).bindPopup('<center>Île Cani <br>WR | 2 flashes (/10s) | 39m<br>37.35474,10.12327</center>'),
@@ -1110,6 +1132,8 @@ fetch(url)
                 }
             })
         }
+
+
 
     });
 
