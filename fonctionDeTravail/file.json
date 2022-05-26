@@ -1,0 +1,12 @@
+notificationData = [
+    {'type': 'POS','vue': 'false','temps': '1341'},
+    {'type': 'POS','vue': 'false','temps': '1158'},
+    {'type': 'POS','vue': 'false','temps': '1339'},
+    {'type': 'POS','vue': 'false','temps': '1342'},
+    {'type': 'DIs','vue': 'false','temps': '1342'},
+    {'type': 'POS','vue': 'false','temps': '1337'},
+    {'type': 'POS','vue': 'false','temps': '1152'},
+    {'type': 'POS','vue': 'false','temps': '1244'},
+    {'type': 'POS','vue': 'false','temps': '1250'},
+    
+]

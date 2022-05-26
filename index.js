@@ -30,7 +30,6 @@ app.use(express.static('public')); // le dossier static
 const mapRouter = require('./urls/map');
 const authRouter = require('./urls/authentification');
 const homeRouter = require('./urls/home');
-const parametreRouter = require('./urls/parametre');
 const meteoRouter = require('./urls/meteo');
 const navireRouter = require('./urls/navire');
 const statistiqueRouter = require('./urls/statistique');
@@ -51,7 +50,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', authRouter);
 app.use('/map', mapRouter); // le route map
 app.use('/home', homeRouter); // le route home
-app.use('/parametre', parametreRouter); // le route des parametres
 app.use('/meteo', meteoRouter); // le route des meteo
 app.use('/navire', navireRouter); //le route des navires
 app.use('/statistique', statistiqueRouter); //le route des navires
@@ -81,7 +79,8 @@ app.use(function(req, res, next) {
 // 500 ERROR
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.send(err);
+    res.render("500")
+    return;
 });
 
 var port = 3000

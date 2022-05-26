@@ -1,25 +1,38 @@
 <%- include("../partials/header"); -%>
     <style>
         #map {
-            height: 850px;
+            height: 867px;
+        }
+        
+        .map {
+            position: fixed;
+            width: 67%!important;
+        }
+        
+        .mapBigStyle {
+            position: fixed;
+            width: 75%!important;
         }
     </style>
 
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 
     <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
+    <link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.css">
 
     <link rel="stylesheet" href="../leaflet/leaflet.css">
     <link rel="stylesheet" href="../css/buttonOnOff.css">
     <script src="../leaflet/leaflet.js"></script>
+    <script src="../js_Style/L.Control.MousePosition.js"></script>
+    <script src="../js_Style/L.Control.ZoomBar.js"></script>
 
     <section id="main-content">
         <section class="wrapper">
             <div class="row">
-                <div class="col-lg-9 main-chart">
+                <div class="col-lg-9 main-chart" style="padding-top: 0px;">
                     <div class="row mb">
                         <div class="content-panel">
-                            <div id="map" style="position: fixed;"></div>
+                            <div id="map" class="map"></div>
                         </div>
                     </div>
                 </div>
@@ -172,6 +185,15 @@
         pickerConfig(date1);
         var date2 = document.getElementById('date2')
         pickerConfig(date2);
+
+
+        document.getElementById('buttonBar').addEventListener('click', function() {
+            if (document.getElementById('container').classList.length === 0) {
+                document.getElementById('map').classList.add('mapBigStyle')
+            } else {
+                document.getElementById('map').classList.remove('mapBigStyle')
+            }
+        })
     </script>
     <script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
 

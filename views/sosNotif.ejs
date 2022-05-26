@@ -1,5 +1,7 @@
-<%- include("../partials/header"); -%>
+<%- include("partials/header"); -%>
+
     <!--external css-->
+    <link href="/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="/lib/advanced-datatable/css/DT_bootstrap.css" />
     <!-- Custom styles for this template -->
     <link href="/css/style.css" rel="stylesheet">
@@ -8,7 +10,7 @@
 
     <section id="main-content">
         <section class="wrapper">
-            <h3>Map > Les positions d'aujourd'hui</h3>
+            <h3>Notification > Les notifications des SOS</h3>
             <div class="row mb">
                 <!-- page start-->
                 <div class="content-panel">
@@ -19,65 +21,68 @@
                                 <tr>
                                     <th style="text-align: center;">NA</th>
                                     <th style="text-align: center;">ID_VMS</th>
+                                    <th class="hidden-phone" style="text-align: center;">RC</th>
                                     <th class="hidden-phone" style="text-align: center;">DA</th>
                                     <th class="hidden-phone" style="text-align: center;">TI</th>
                                     <th class="hidden-phone" style="text-align: center;">LT</th>
                                     <th class="hidden-phone" style="text-align: center;">LG</th>
                                     <th class="hidden-phone" style="text-align: center;">CO</th>
+                                    <th class="hidden-phone" style="text-align: center;">SP</th>
+                                    <th class="hidden-phone" style="text-align: center;">COM</th>
                                     <th class="hidden-phone" style="text-align: center;">TM</th>
-                                    <th class="hidden-phone" style="text-align: center;">IP_ADDRESS</th>
+
                                 </tr>
                             </thead>
+
                             <tbody>
-                                <% navires.forEach(function(navire) { %>
+                                <% SOSnotifications.forEach(function(sos) { %>
 
                                     <tr class="gradeX">
 
                                         <td style="text-align: center;font-size: medium;">
-                                            <a href="/navire/navire/<%= navire.ID_VMS%>" style="color:gray;">
-                                                <%= navire.NA %>
+                                            <a href="/navire/navire/<%= sos.ID_VMS%>" style="color:gray;">
+                                                <%= sos.NA %>
                                             </a>
                                         </td>
-
                                         <td class="hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.ID_VMS %>
+                                            <%= sos.ID_VMS %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= sos.RC %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+
+                                            <%= sos.DA[6]%>
+                                                <%= sos.DA[7]%> -
+                                                    <%= sos.DA[4]%>
+                                                        <%= sos.DA[5]%> -
+                                                            <%= sos.DA[0]%>
+                                                                <%= sos.DA[1]%>
+                                                                    <%= sos.DA[2]%>
+                                                                        <%= sos.DA[3]%>
+
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= sos.TI %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= sos.LT %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= sos.LG %>
+                                        </td>
+                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
+                                            <%= sos.CO %>
                                         </td>
 
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-
-                                            <%= navire.DA[6]%>
-                                                <%= navire.DA[7]%> -
-                                                    <%= navire.DA[4]%>
-                                                        <%= navire.DA[5]%> -
-                                                            <%= navire.DA[0]%>
-                                                                <%= navire.DA[1]%>
-                                                                    <%= navire.DA[2]%>
-                                                                        <%= navire.DA[3]%>
-
+                                            <%= sos.SP %>
                                         </td>
-
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.TI %>
+                                            <%= sos.COM %>
                                         </td>
-
                                         <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.LT %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.LG %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.CO %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.TM %>
-                                        </td>
-
-                                        <td class="center hidden-phone" style="text-align: center; font-size: medium;">
-                                            <%= navire.IPADDRESS %>
+                                            <%= sos.TM %>
                                         </td>
 
                                     </tr>
@@ -86,6 +91,7 @@
 
                             </tbody>
                         </table>
+
                     </div>
                 </div>
                 <!-- page end-->
@@ -93,9 +99,6 @@
             <!-- /row -->
             <!-- /wrapper -->
         </section>
-
-
-
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js" defer></script>
@@ -107,6 +110,4 @@
         </script>
 
 
-
-
-        <%- include("../partials/footer"); -%>
+        <%- include("partials/footer"); -%>

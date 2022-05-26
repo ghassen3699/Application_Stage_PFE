@@ -4,7 +4,7 @@ const https = require('https');
 const mysql = require('mysql');
 const homeRouter = express.Router();
 const firstLastDay = require('../fonctionDeTravail/firstDay');
-
+const generatNotification = require('../fonctionDeTravail/generateNotif')
 
 //------------------------------- La connexion entre NodeJs et Mysql -------------------------------------//
 
@@ -133,7 +133,6 @@ homeRouter.get('/', function(req, res) {
             } else {
                 navires = result[2]
             }
-
             res.render("home", { pourcentageDesPREV: result[0].length, pourcentageDesBMS: result[1].length, naviresConnecter: navires, user: user })
         })
     } else {
@@ -157,6 +156,57 @@ homeRouter.get('/BMSApiNotification', function(req, res) {
     } else {
         return res.redirect('/')
     }
+})
+
+// retourner les Notifications d'aujourd'hui
+homeRouter.get('/notificationAPI', function(req, res) {
+    var user = req.session.user
+    if (user) {
+        var sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) order by ID_VMS DESC; "
+        db.query(sql, (err, result) => {
+            if (err) {
+                throw err
+            }
+            return res.json(result)
+        })
+    } else {
+        return res.redirect('/')
+    }
+})
+
+
+// afficher les derniers positions
+homeRouter.get('/PositionNotif', function(req, res) {
+    var user = req.session.user
+    if (user) {
+        var sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) AND TM='POS' order by ID_VMS DESC;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                throw err
+            }
+            return res.render('positionNotif', { user: user, positionNotification: result })
+        })
+    } else {
+        return res.redirect('/')
+    }
+
+})
+
+// afficher les derniers SOS
+homeRouter.get('/SOSNotif', function(req, res) {
+    var user = req.session.user
+    if (user) {
+        var sql = "SELECT * FROM VMS.trackingData T1 WHERE DATE_FORMAT(DA,'%Y%m%d')=DATE_FORMAT(20220418,'%Y%m%d') AND TI=(SELECT MAX(TI) FROM VMS.trackingData T2 WHERE (T1.NA=T2.NA AND T1.DA=T2.DA)) AND TM='DIs' order by ID_VMS DESC;"
+        db.query(sql, (err, result) => {
+            if (err) {
+                throw err
+            }
+            return res.render('sosNotif', { user: user, SOSnotifications: result })
+        })
+    } else {
+        return res.redirect('/')
+    }
+
 })
 
 

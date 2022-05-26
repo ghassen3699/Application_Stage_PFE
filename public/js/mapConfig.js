@@ -384,7 +384,7 @@ const map = L.map('map', {
     //maxZoom: 21,//5m
     maxZoom: 17, //50m
     minZoom: 6.7,
-    zoomControl: true, // pour supprimer les bouton zoom par defaut, on ajouter dans le menu home
+    zoomControl: false, // pour supprimer les bouton zoom par defaut, on ajouter dans le menu home
     //layers: [ports, lighthouse]
 });
 const atribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -404,7 +404,7 @@ var LeafPortIcon = L.Icon.extend({
         iconAnchor: [15, 10]
     }
 });
-var PortIcon = new LeafPortIcon({ iconUrl: '/img/map_image/port-icon-png-19.jpg' }); //anchor1
+var PortIcon = new LeafPortIcon({ iconUrl: '/img/map_image/boatPort.png' }); //anchor1
 
 
 
@@ -491,7 +491,7 @@ var LeafLightHouseIcon = L.Icon.extend({
     }
 });
 
-var LightHouseIcon = new LeafLightHouseIcon({ iconUrl: '/img/map_image/port-icon-png-19.jpg' }); //anchor1
+var LightHouseIcon = new LeafLightHouseIcon({ iconUrl: '/img/map_image/lightHouse1.png' }); //anchor1
 
 ///var LesCani = L.marker([37.35474,10.12327],
 //{ icon: LightHouseIcon, draggable:true,title : 'title popup' }).bindPopup('<center>Île Cani <br>WR | 2 flashes (/10s) | 39m<br>37.35474,10.12327</center>'),
@@ -683,6 +683,7 @@ map.on('zoomend', function(e) {
 var trackAngle = '77';
 var Speedo = '0';
 // var TargetMaker = L.marker(['36.11', '12.11'], { icon: TargetIcon, rotationAngle: trackAngle, rotationOrigin: "center" });
+
 
 
 
@@ -882,9 +883,30 @@ var options = {
     },
 };
 
+
+
+//bar scale ZOOM zoom Zoom mouse Mouse MOUSE
+L.control.mousePosition({
+    prefix: "",
+    position: 'bottomleft',
+    separator: '&nbsp; &nbsp;|&nbsp; &nbsp;',
+    emptyString: '0º N&nbsp; &nbsp;|&nbsp; &nbsp;0º E',
+    numDigits: 3,
+    lngFormatter: function(num) {
+        var direction = (num < 0) ? 'W' : 'E';
+        var formatted = Math.abs(L.Util.formatNum(num, 3)) + 'º ' + direction;
+        return formatted;
+    },
+    latFormatter: function(num) {
+        var direction = (num < 0) ? 'S' : 'N';
+        var formatted = Math.abs(L.Util.formatNum(num, 3)) + 'º ' + direction;
+        return formatted;
+    }
+}).addTo(map);
+
 L.control.scale().addTo(map);
 
-
+var zoom_bar = new L.Control.ZoomBar({ position: 'bottomright' }).addTo(map);
 
 // let polylineMeasure = L.control.polylineMeasure({
 //     position: "topleft",
