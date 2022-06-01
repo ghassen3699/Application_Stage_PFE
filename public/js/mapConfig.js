@@ -377,7 +377,7 @@ function affectNavireInformation(navireName, IDVMS) {
 //---------------------------------------------la creation de la map---------------------------------------------------//
 const mapDiv = document.getElementById('map');
 const map = L.map('map', {
-    center: [35.04, 12.6],
+    center: [35.143, 13.156],
     zoomSnap: 0.15,
     zoomDelta: 0.25,
     zoom: 6.7,

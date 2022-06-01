@@ -10,6 +10,9 @@
     <link href="/css/style.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="/vmdicon.png" />
     <link href="/css/navbar.css" rel="stylesheet">
+    <link type="text/css" rel='stylesheet' href="/css/jquery.notify.css" />
+    <script type="text/javascript" src="/js_Style/jquery.min.js"></script>
+    <script type="text/javascript" src="/js_Style/jquery.notify.min.js" defer></script>
     <style>
         .divDisplay {
             display: none;
@@ -73,7 +76,7 @@
                 <ul class="sidebar-menu" id="nav-accordion">
                     <br><br>
                     <p class="centered">
-                        <a href="/change-data"><img src="/user2.png" class="img-circle" width="80"></a>
+                        <a href="/change-data"><img src="/user.png" class="img-circle" width="80"></a>
                     </p>
                     <% user.forEach(element => { %>
                         <h5 class="centered">
@@ -130,12 +133,12 @@
                             <li class="sub-menu">
                                 <a href="#">
                                     <i class=" fa fa-bar-chart-o"></i>
-                                    <span>Statistique</span>
+                                    <span>Statistiques</span>
                                 </a>
                                 <ul class="sub">
-                                    <li><a href="/statistique/totalSOS">Statistique des SOS</a></li>
-                                    <li><a href="/statistique/totalBMS">Statistique des BMS</a></li>
-                                    <li><a href="/statistique/totalPREV">Statistique des PREV</a></li>
+                                    <li><a href="/statistique/totalSOS">SOS</a></li>
+                                    <li><a href="/statistique/totalBMS">BMS</a></li>
+                                    <li><a href="/statistique/totalPREV">PREV</a></li>
                                 </ul>
                             </li>
 
@@ -178,4 +181,91 @@
                 }
 
             })
+
+        // function notifAll(messago, titlo, img = 'n1.png', typo = 'info', delayo, autoHido = false, closeBtno = false, overlayo = false, posH = "left", posV = "bottom") {
+        //     notify({
+        //         type: typo, //alert | success | error | warning | info
+        //         title: titlo,
+        //         message: '',
+        //         position: {
+        //             x: posH, //right | left | center
+        //             y: posV //top | bottom | center
+        //         },
+        //         icon: '<img src="../img/' + img + '.png" />', //<i>
+        //         size: "normal", //normal | full | small
+        //         overlay: overlayo, //true | false
+        //         closeBtn: closeBtno, //true | false
+        //         overflowHide: false, //true | false
+        //         spacing: 20, //number px
+        //         theme: "default", //default | dark-theme
+        //         autoHide: autoHido, //true | false
+        //         delay: delayo, //number ms
+        //         onShow: null, //function
+        //         onClick: null, //function
+        //         onHide: null, //function
+        //         template: '<div class="notify"><div class="notify-text"></div></div>'
+        //     });
+        // }
+        function notifAll(messago, titlo, ico = '<i class="fa-solid fa-paper-plane"></i>', typo = 'info', delayo, autoHido = false, closeBtno = false, overlayo = false, posH = "left", posV = "bottom") {
+            notify({
+                type: typo, //alert | success | error | warning | info
+                title: titlo,
+                message: messago,
+                position: {
+                    x: posH, //right | left | center
+                    y: posV //top | bottom | center
+                },
+                //icon: '<i class="'+ico+'"></i>',//<i>
+                icon: ico, //<i>
+                size: "normal", //normal | full | small
+                overlay: overlayo, //true | false
+                closeBtn: closeBtno, //true | false
+                overflowHide: false, //true | false
+                spacing: 20, //number px
+                theme: "default", //default | dark-theme
+                autoHide: autoHido, //true | false
+                delay: delayo, //number ms
+                onShow: null, //function
+                onClick: null, //function
+                onHide: null, //function
+                template: '<div class="notify" style="right: 15px"><div class="notify-text"></div></div>'
+            });
+        }
+
+
+        function notifAPI() {
+            var notifDIV = document.querySelectorAll('.notify')
+            if (notifDIV.length > 0) {
+                for (var i = 0; i <= notifDIV.length - 1; i++) {
+                    notifDIV[i].remove()
+                }
+            }
+            var date = new Date();
+
+            var url = 'http://127.0.0.1:3000/home/notificationAPI'
+
+            fetch(url)
+                .then((resp) => resp.json())
+                .then(async function(data) {
+                    var dataAPI = await data
+
+                    dataAPI.forEach(notif => {
+
+                        if ((notif['TM'] === 'DIs') || (notif['TM'] === 'DIS')) {
+                            notifAll('', notif['NA'] + ' a envoyer une SOS ' + notif['TI'][0] + notif['TI'][1] + ':' + notif['TI'][2] + notif['TI'][3], '<i class="fa fa-warning"></i>', 'error', 5000, false, true, false, "right", "bottom");
+                        }
+                        if (notif['TM'] === 'POS') {
+                            notifAll('', notif['NA'] + ' a envoyer une Position ' + notif['TI'][0] + notif['TI'][1] + ':' + notif['TI'][2] + notif['TI'][3], '<i class="fa fa-location-arrow">', 'success', 5000, false, true, false, "right", "bottom");
+                        }
+
+                    });
+
+                });
+
+        }
+
+        var notVar = notifAPI();
+        //a fair >> clear all befor app interval
+
+        var intervalnotVar = setInterval(notifAPI, 180000); // Will alert every X second.
     </script>

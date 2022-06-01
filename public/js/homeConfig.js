@@ -152,53 +152,33 @@ fetch(url)
         });
     });
 
-function notifAll(messago, titlo, img = 'n1.png', typo = 'info', delayo, autoHido = false, closeBtno = false, overlayo = false, posH = "left", posV = "bottom") {
-    notify({
-        type: typo, //alert | success | error | warning | info
-        title: titlo,
-        message: '',
-        position: {
-            x: posH, //right | left | center
-            y: posV //top | bottom | center
-        },
-        icon: '<img src="../img/' + img + '.png" />', //<i>
-        size: "normal", //normal | full | small
-        overlay: overlayo, //true | false
-        closeBtn: closeBtno, //true | false
-        overflowHide: false, //true | false
-        spacing: 20, //number px
-        theme: "default", //default | dark-theme
-        autoHide: autoHido, //true | false
-        delay: delayo, //number ms
-        onShow: null, //function
-        onClick: null, //function
-        onHide: null, //function
-        template: '<div class="notify"><div class="notify-text"></div></div>'
-    });
-}
 
 
-var date = new Date();
-if (date.getMinutes() === 00) {
-    var url = 'http://127.0.0.1:3000/home/notificationAPI'
-
-    fetch(url)
-        .then((resp) => resp.json())
-        .then(async function(data) {
-            var dataAPI = await data
-            console.log(dataAPI)
-
-            dataAPI.forEach(notif => {
-                if (notif['TM'] === 'DIs') {
-                    var notif = notifAll('', notif['NA'] + ' a envoyer une SOS ' + notif['TI'][0] + notif['TI'][1] + ':' + notif['TI'][2] + notif['TI'][3], 'n4', 'error', 5000, false, true, false, "right", "bottom");
-                }
-                if (notif['TM'] === 'POS') {
-                    var notif = notifAll('', notif['NA'] + ' a envoyer une Position ' + notif['TI'][0] + notif['TI'][1] + ':' + notif['TI'][2] + notif['TI'][3], 'n1', 'success', 5000, false, true, false, "right", "bottom");
-                }
-
-            });
-
-        });
 
 
-}
+
+
+// var date = new Date();
+// if (date.getMinutes() === 00) {
+//     var url = 'http://127.0.0.1:3000/home/notificationAPI'
+
+//     fetch(url)
+//         .then((resp) => resp.json())
+//         .then(async function(data) {
+//             var dataAPI = await data
+//             console.log(dataAPI)
+
+//             dataAPI.forEach(notif => {
+//                 if ((notif['TM'] === 'DIs') || (notif['TM'] === 'DIS')) {
+//                     var notif = notifAll('', notif['NA'] + ' a envoyer une SOS ' + notif['TI'][0] + notif['TI'][1] + ':' + notif['TI'][2] + notif['TI'][3], 'n4', 'error', 5000, false, true, false, "right", "bottom");
+//                 }
+//                 if (notif['TM'] === 'POS') {
+//                     var notif = notifAll('', notif['NA'] + ' a envoyer une Position ' + notif['TI'][0] + notif['TI'][1] + ':' + notif['TI'][2] + notif['TI'][3], 'n1', 'success', 5000, false, true, false, "right", "bottom");
+//                 }
+
+//             });
+
+//         });
+
+
+// }
