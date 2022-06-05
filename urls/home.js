@@ -5,6 +5,7 @@ const mysql = require('mysql');
 const homeRouter = express.Router();
 const firstLastDay = require('../fonctionDeTravail/firstDay');
 const generatNotification = require('../fonctionDeTravail/generateNotif')
+const homePositionToday = require('../fonctionDeTravail/homeTodayPosition')
 
 //------------------------------- La connexion entre NodeJs et Mysql -------------------------------------//
 
@@ -45,15 +46,20 @@ homeRouter.get('/homePositionsAPI', function(req, res) {
             var listeDates = firstLastDay(2)
             listeResult = []
 
-            for (var j = 0; j <= result.length - 1; j++) {
-                for (var i = 0; i <= listeDates.length - 1; i++) {
-                    if (result[j]['DA'] === listeDates[i]) {
+            for (var i = 0; i <= listeDates.length - 1; i++) {
+                var valider = false
+                for (var j = 0; j <= result.length - 1; j++) {
+                    if (listeDates[i] === result[j]['DA']) {
                         listeResult.push({ 'weekDate': listeDates[i], 'result': result[j]['TOTAL'] })
-                    } else {
-                        listeResult.push({ 'weekDate': listeDates[i], 'result': 0 })
+                        valider = true
                     }
                 }
+                if (valider === false) {
+                    listeResult.push({ 'weekDate': listeDates[i], 'result': 0 })
+                }
             }
+
+
             return res.json(listeResult)
         })
 

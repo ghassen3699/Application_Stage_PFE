@@ -1,17 +1,17 @@
 //------------------------------------ Le boutton des notifications--------------------------------------------------//
-var buttonNotification = document.querySelector('#buttonNotification');
-buttonNotification.addEventListener('click', () => {
-    var icon = document.getElementById('icon');
-    if (icon.classList.value === 'fa fa-angle-double-up') {
-        icon.classList.value = 'fa fa-angle-double-down'
-    } else {
-        icon.classList.value = 'fa fa-angle-double-up'
-    }
-    var bar = document.querySelector('.notificationbar');
-    var barVisibility = document.querySelector('.notificationBarVisibility');
-    bar.classList.toggle('sidebar');
-    barVisibility.classList.toggle('visibleText')
-});
+// var buttonNotification = document.querySelector('#buttonNotification');
+// buttonNotification.addEventListener('click', () => {
+//     var icon = document.getElementById('icon');
+//     if (icon.classList.value === 'fa fa-angle-double-up') {
+//         icon.classList.value = 'fa fa-angle-double-down'
+//     } else {
+//         icon.classList.value = 'fa fa-angle-double-up'
+//     }
+//     var bar = document.querySelector('.notificationbar');
+//     var barVisibility = document.querySelector('.notificationBarVisibility');
+//     bar.classList.toggle('sidebar');
+//     barVisibility.classList.toggle('visibleText')
+// });
 //--------------------------------------------------------------------------------------------------------------------//
 
 
@@ -72,6 +72,9 @@ fetch(url)
             options: {
                 scales: {
                     y: {
+                        beginAtZero: true
+                    },
+                    x: {
                         beginAtZero: true
                     }
                 }
