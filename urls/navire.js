@@ -128,7 +128,7 @@ navireRouter.get('/navires', function(req, res) {
     if (user) {
         db.query("SELECT * FROM tobInfo ORDER BY ID DESC ;", (err, result) => {
             if (err) {
-                throw err; // remplacer par 404 NOT FOUND
+                throw err;
             }
             return res.render('navire/touslesnavires', { navires: result, user: user });
         });
@@ -262,7 +262,7 @@ navireRouter.post('/supprimer/:id', function(req, res) {
             const sqlDelete = "DELETE FROM tobInfo where id = ?"
             db.query(sqlDelete, (req.params.id), (err, result) => {
                 if (err) {
-                    throw err // remplacer par 404 NOT FOUND
+                    throw err
                 }
             })
         })
